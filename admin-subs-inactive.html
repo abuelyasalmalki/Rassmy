@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غير مفعل</title>
+
+<style>
+body{font-family:Tahoma;background:#f7f7f7;margin:0}
+
+.container{max-width:900px;margin:auto;padding:20px}
+
+.nav{display:flex;gap:10px;margin-bottom:15px}
+
+.nav a{
+flex:1;
+text-align:center;
+padding:10px;
+background:#eee;
+border-radius:8px;
+text-decoration:none;
+color:#111;
+}
+
+.nav a.active{
+background:#111;
+color:#fff;
+}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+border:1px solid #eee;
+}
+
+.logout{
+background:#dc3545;
+padding:8px 14px;
+color:#fff;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+input,select{
+width:100%;
+margin:6px 0;
+padding:8px;
+border-radius:6px;
+border:1px solid #ddd;
+font-size:13px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+width:100%;
+}
+
+.load-more{
+padding:10px;
+background:#111;
+color:#fff;
+border:none;
+border-radius:8px;
+cursor:pointer;
+width:100%;
+margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>غير مفعل</h2>
+
+<div style="display:flex;gap:5px;margin-bottom:15px;">
+<input id="searchInput" class="search" placeholder="بحث برقم الجوال..." style="flex:1">
+<button id="searchBtn" style="padding:10px;border:none;border-radius:8px;background:#111;color:#fff;cursor:pointer;">
+بحث
+</button>
+</div>
+
+<div id="count">📦 الاشتراكات: 0</div>
+
+<button class="logout" id="logoutBtn">تسجيل خروج</button>
+
+<div class="nav">
+<a href="admin-subscriptions.html">الاشتراكات</a>
+<a href="admin-subs-active.html">مفعل</a>
+<a href="admin-subs-inactive.html" class="active">غير مفعل</a>
+<a href="admin.html">الطلبات</a>
+</div>
+
+<div id="subs"></div>
+
+<button id="loadMoreBtn" class="load-more">تحميل المزيد</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+authDomain:"site-orders-415e4.firebaseapp.com",
+projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let allSubs = [];
+let visibleCount = 10;
+
+document.getElementById("logoutBtn").onclick = ()=>{
+signOut(auth).then(()=>location.href="admin-login.html");
+};
+
+onAuthStateChanged(auth, async (user)=>{
+
+if(!user){
+location.href="admin-login.html";
+return;
+}
+
+if(user.email !== "abuelyasalmalki@gmail.com"){
+document.body.innerHTML = "غير مصرح ❌";
+return;
+}
+
+const q = query(collection(db,"subscriptions"), orderBy("createdAt","desc"));
+const snapshot = await getDocs(q);
+
+allSubs = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+
+render();
+
+});
+
+function render(){
+
+const search = document.getElementById("searchInput").value.trim();
+
+const filtered = allSubs.filter(o=>{
+return !search || (o.phone && o.phone.includes(search));
+});
+
+const inactive = filtered.filter(o=>o.status==="غير مفعل");
+
+const slice = search ? inactive : inactive.slice(0, visibleCount);
+
+let html = "";
+
+slice.forEach((d)=>{
+
+const id = d.id;
+
+html += `
+<div class="card">
+
+<b>${d.name || ""}</b><br>
+📱 ${d.phone || ""}<br><br>
+
+نوع الاشتراك:
+<select id="plan-${id}">
+<option value="باقة البداية" ${d.plan==="باقة البداية"?"selected":""}>باقة البداية</option>
+<option value="باقة التقدم" ${d.plan==="باقة التقدم"?"selected":""}>باقة التقدم</option>
+<option value="باقة النمو" ${d.plan==="باقة النمو"?"selected":""}>باقة النمو</option>
+</select>
+
+رابط الموقع:
+<input id="site-${id}" value="${d.siteUrl || ""}">
+
+تاريخ الاستضافة:
+<input type="date" id="host-${id}" value="${d.hostingDate || ""}">
+
+تاريخ الدومين:
+<input type="date" id="domain-${id}" value="${d.domainDate || ""}">
+
+الحالة:
+<select id="status-${id}">
+<option ${d.status==="جاري التفعيل"?"selected":""}>جاري التفعيل</option>
+<option ${d.status==="مفعل"?"selected":""}>مفعل</option>
+<option ${d.status==="غير مفعل"?"selected":""}>غير مفعل</option>
+</select>
+
+<button onclick="save('${id}')">حفظ</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("subs").innerHTML = html || "لا يوجد";
+
+document.getElementById("count").innerText =
+"📦 الاشتراكات: " + inactive.length;
+
+}
+
+document.getElementById("searchBtn").onclick = ()=>{
+visibleCount = 10;
+render();
+};
+
+document.getElementById("searchInput").addEventListener("keypress",(e)=>{
+if(e.key === "Enter"){
+visibleCount = 10;
+render();
+}
+});
+
+document.getElementById("loadMoreBtn").onclick = ()=>{
+visibleCount += 10;
+render();
+};
+
+window.save = async (id)=>{
+await updateDoc(doc(db,"subscriptions",id),{
+plan: document.getElementById("plan-"+id).value,
+siteUrl: document.getElementById("site-"+id).value,
+hostingDate: document.getElementById("host-"+id).value,
+domainDate: document.getElementById("domain-"+id).value,
+status: document.getElementById("status-"+id).value
+});
+
+location.reload();
+};
+
+</script>
+
+</body>
+</html>

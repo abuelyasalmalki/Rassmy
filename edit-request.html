@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طلب تعديلات</title>
+
+<style>
+body{
+font-family:Tahoma;
+background:#f4f6f8;
+margin:0;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#fff;
+padding:22px;
+border-radius:14px;
+border:1px solid #e5e7eb;
+box-shadow:0 6px 18px rgba(0,0,0,0.04);
+}
+
+h2{
+text-align:center;
+margin-bottom:8px;
+color:#111827;
+}
+
+.desc{
+text-align:center;
+font-size:13px;
+color:#6b7280;
+margin-bottom:18px;
+line-height:1.7;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:1px solid #e5e7eb;
+font-size:14px;
+background:#fafafa;
+}
+
+textarea{
+min-height:120px;
+resize:none;
+}
+
+.file-box{
+margin-top:6px;
+font-size:13px;
+color:#6b7280;
+line-height:1.6;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:#fff;
+cursor:pointer;
+margin-top:12px;
+font-size:15px;
+}
+
+/* واتساب */
+.whatsapp-note{
+margin-top:20px;
+font-size:13px;
+text-align:center;
+color:#6b7280;
+}
+
+.whatsapp-btn{
+display:block;
+text-align:center;
+margin-top:10px;
+padding:12px;
+background:#22c55e;
+color:#fff;
+border-radius:10px;
+text-decoration:none;
+font-weight:500;
+}
+
+/* رسالة النجاح */
+.success{
+display:none;
+text-align:center;
+padding:20px;
+}
+
+.success-box{
+background:#ecfdf5;
+color:#065f46;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<!-- النموذج -->
+<div id="formBox">
+
+<h2>طلب تعديلات</h2>
+
+<div class="desc">
+اشرح كل تعديلاتك ليسهل علينا فهم احتياجك،
+وسنتواصل معك أثناء التنفيذ للتأكد من أن العمل يسير بالشكل المطلوب
+</div>
+
+<input id="orderId" placeholder="رقم الطلب">
+
+<textarea id="details" placeholder="اكتب التعديلات المطلوبة"></textarea>
+
+<input id="driveLink" placeholder="رابط مجلد Google Drive (اختياري)">
+
+<div class="file-box">
+لديك صور؟ ارفعها في مجلد على Google Drive مع تفعيل المشاركة ثم أضف الرابط هنا  
+<br>مثال: https://drive.google.com/
+</div>
+
+<button id="send">إرسال الطلب</button>
+
+<div class="whatsapp-note">
+للتعديلات البسيطة يمكنك التواصل عبر واتساب مباشرة
+</div>
+
+<a id="whatsappLink" class="whatsapp-btn" target="_blank">
+التواصل عبر واتساب
+</a>
+
+</div>
+
+<!-- رسالة النجاح -->
+<div id="successBox" class="success">
+
+<h2>تم إرسال الطلب</h2>
+
+<div class="success-box">
+تم استلام طلبك بنجاح، وسيتم التواصل معك قريبًا بإذن الله
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+emailjs.init("TA0F19P1NzHJpXcrV");
+
+const phone = "966533848224";
+
+const params = new URLSearchParams(window.location.search);
+const orderIdFromUrl = params.get("orderId");
+
+if(orderIdFromUrl){
+document.getElementById("orderId").value = orderIdFromUrl;
+}
+
+function updateWhatsApp(){
+const orderId = document.getElementById("orderId").value || "";
+const msg = `السلام عليكم، بخصوص طلبي رقم ${orderId}`;
+document.getElementById("whatsappLink").href =
+`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
+
+updateWhatsApp();
+document.getElementById("orderId").oninput = updateWhatsApp;
+
+document.getElementById("send").onclick = ()=>{
+
+const orderId = document.getElementById("orderId").value.trim();
+const details = document.getElementById("details").value.trim();
+const driveLink = document.getElementById("driveLink").value.trim();
+
+if(!orderId || !details){
+alert("يرجى إكمال البيانات");
+return;
+}
+
+const btn = document.getElementById("send");
+btn.disabled = true;
+btn.innerText = "جاري الإرسال...";
+
+emailjs.send("service_9bx4pk4","template_wukiobj",{
+order_id: orderId,
+details: details,
+drive_link: driveLink || "لا يوجد"
+})
+.then(()=>{
+
+// إخفاء النموذج
+document.getElementById("formBox").style.display = "none";
+
+// إظهار النجاح
+document.getElementById("successBox").style.display = "block";
+
+})
+.catch(()=>{
+alert("حدث خطأ أثناء الإرسال");
+btn.disabled = false;
+btn.innerText = "إرسال الطلب";
+});
+
+};
+
+</script>
+
+</body>
+</html>

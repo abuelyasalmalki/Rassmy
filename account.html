@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة العميل</title>
+<link rel="stylesheet" href="assets/account.css">
+</head>
+
+<body>
+
+<header class="account-topbar">
+  <div class="account-topbar-inner">
+    <div class="account-brand">
+      <div class="account-logo-box">
+        <img src="logo-full.png" alt="رسمي">
+      </div>
+    </div>
+
+    <div class="account-user-box">
+      <div class="account-user-box">
+        <div class="account-avatar" id="avatar">؟</div>
+        <div>
+          <strong>حسابك</strong>
+          <div id="userName" class="account-username"></div>
+        </div>
+      </div>
+
+      <button onclick="logout()" class="account-logout-btn">خروج</button>
+    </div>
+  </div>
+</header>
+
+<div class="account-container">
+  <div id="orders"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+  authDomain:"site-orders-415e4.firebaseapp.com",
+  projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentOrderId = null;
+let currentStatusText = "";
+
+window.logout = ()=> signOut(auth).then(()=>location.href="login.html");
+
+window.showSoon = (message = "الميزة متاحة بعد اكتمال موقعك")=>{
+  const msg = document.createElement("div");
+  msg.className = "account-toast";
+  msg.innerText = message;
+  document.body.appendChild(msg);
+  setTimeout(()=>msg.remove(),2000);
+};
+
+window.dismissAccountAlert = async ()=>{
+  const alertBox = document.getElementById("accountAlertCard");
+  if(alertBox){
+    alertBox.remove();
+  }
+
+  if(currentOrderId && currentStatusText){
+    try{
+      await updateDoc(doc(db,"orders",currentOrderId),{
+        alertDismissedForStatus: currentStatusText
+      });
+    }catch(e){
+      console.error("Failed to dismiss alert:", e);
+    }
+  }
+};
+
+function getAlertContent(statusText, customerName, planText){
+  if(statusText === "قيد التنفيذ"){
+    return {
+      title: `مرحبًا ${customerName}، جاري العمل على موقعك`,
+      text: `العمل جارٍ الآن على تجهيز الموقع وتخصيصه حسب نشاطك. الباقة الحالية: ${planText}. وسيتم التواصل معك لإكمال التخصيص.`
+    };
+  }
+
+  if(statusText === "مكتمل"){
+    return {
+      title: `مرحبًا ${customerName}، موقعك أصبح جاهزًا`,
+      text: `تم اكتمال الموقع بنجاح. يمكنك الآن متابعة رابط الموقع ومعلومات الاشتراك من نفس الصفحة.`
+    };
+  }
+
+  return {
+    title: `مرحبًا ${customerName}، تم استلام طلبك`,
+    text: `تم تسجيل طلبك بنجاح. الباقة الحالية: ${planText}. وسيتم التواصل معك لإكمال التخصيص.`
+  };
+}
+
+function autoHideAlertAfterFiveMinutes(){
+  setTimeout(()=>{
+    const alertBox = document.getElementById("accountAlertCard");
+    if(alertBox){
+      alertBox.remove();
+    }
+  }, 300000);
+}
+
+function hasCompletedAlertExpired(statusText, statusUpdatedAt){
+  if(statusText !== "مكتمل" || !statusUpdatedAt?.seconds){
+    return false;
+  }
+
+  const updatedMs = statusUpdatedAt.seconds * 1000;
+  const nowMs = Date.now();
+  const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+
+  return (nowMs - updatedMs) >= threeDaysMs;
+}
+
+onAuthStateChanged(auth, async (user)=>{
+
+  if(!user){
+    location.href="login.html";
+    return;
+  }
+
+  try{
+    const ordersBox = document.getElementById("orders");
+    const orderRef = doc(db,"orders",user.uid);
+    const orderSnap = await getDoc(orderRef);
+    const subSnap = await getDoc(doc(db,"subscriptions",user.uid));
+
+    if(!orderSnap.exists()){
+      ordersBox.innerHTML = `
+        <div class="account-empty">
+          لا يوجد طلب بعد
+        </div>
+      `;
+      return;
+    }
+
+    currentOrderId = user.uid;
+
+    const d = orderSnap.data();
+    const sub = subSnap.exists() ? subSnap.data() : {};
+
+    const userNameEl = document.getElementById("userName");
+    const avatarEl = document.getElementById("avatar");
+
+    userNameEl.innerText = d.name ? "العميل: " + d.name : "العميل";
+    avatarEl.innerText = d.name ? d.name.charAt(0) : "?";
+
+    let step = 1;
+    let percent = 33;
+    let statusText = "تم تقديم الطلب";
+    let cls = "s1";
+    let msg = "تم استلام طلبك بنجاح، وسيتم التواصل معك لإكمال التخصيص.";
+
+    if(d.status === "قيد التنفيذ"){
+      step = 2;
+      percent = 66;
+      statusText = "قيد التنفيذ";
+      cls = "s2";
+      msg = "العمل جارٍ على تجهيز موقعك وتخصيصه حسب نشاطك.";
+    }
+
+    if(d.status === "مكتمل"){
+      step = 3;
+      percent = 100;
+      statusText = "مكتمل";
+      cls = "s3";
+      msg = "موقعك جاهز، ويمكنك الآن متابعة رابط الموقع ومعلومات الاشتراك.";
+    }
+
+    currentStatusText = statusText;
+
+    if(d.alertLastStatus !== statusText){
+      try{
+        await updateDoc(orderRef,{
+          alertDismissedForStatus: "",
+          alertLastStatus: statusText,
+          statusUpdatedAt: serverTimestamp()
+        });
+
+        d.alertDismissedForStatus = "";
+        d.alertLastStatus = statusText;
+      }catch(e){
+        console.error("Failed to sync alert status:", e);
+      }
+    }
+
+    let orderDate = "—";
+    if(d.createdAt?.seconds){
+      orderDate = new Date(d.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
+    }
+
+    const hostingStatusText = sub.status === "مفعل" ? "مفعلة" : "سيتم تفعيلها فور إنجاز الموقع";
+    const domainStatusText = sub.domainDate ? "مربوط" : "لم يتم الربط";
+
+    const planText = sub.plan || d.package || "—";
+    const customerName = d.name || "عميلنا";
+    const alertContent = getAlertContent(statusText, customerName, planText);
+
+    const dismissedForCurrentStatus = d.alertDismissedForStatus === statusText;
+    const completedAlertExpired = hasCompletedAlertExpired(statusText, d.statusUpdatedAt);
+    const shouldShowAlert = !dismissedForCurrentStatus && !completedAlertExpired;
+
+    const siteLinkHtml = sub.siteUrl
+      ? `<a class="account-link" href="${sub.siteUrl}" target="_blank">زيارة الموقع</a>`
+      : `<a href="javascript:void(0)" class="account-link" onclick="showSoon('لم يكتمل بعد')">رابط الموقع</a>`;
+
+    const invoiceHtml = d.invoiceUrl
+      ? `<a class="account-link" href="${d.invoiceUrl}" target="_blank">عرض الفاتورة</a>`
+      : `لم تصدر بعد`;
+
+    ordersBox.innerHTML = `
+      ${shouldShowAlert ? `
+      <section class="account-alert-card" id="accountAlertCard">
+        <span class="account-badge">لوحة متابعة الطلب</span>
+
+        <div class="account-alert-head">
+          <div>
+            <h1>${alertContent.title}</h1>
+            <p>${alertContent.text}</p>
+          </div>
+          <span class="account-status ${cls}">${statusText}</span>
+        </div>
+
+        <div class="account-alert-actions">
+          <button class="account-alert-btn" onclick="dismissAccountAlert()">حسنًا</button>
+        </div>
+      </section>
+      ` : ""}
+
+      <section class="account-grid">
+        <div class="account-card">
+          <div class="account-card-title">
+            <div>
+              <h2>الاشتراك والموقع</h2>
+            </div>
+          </div>
+
+          <div class="account-sub-box">
+            <div class="account-sub-row">
+              <strong>رقم الاشتراك:</strong> ${sub.subId || "-"}
+            </div>
+
+            <div class="account-sub-row">
+              <strong>رابط الموقع:</strong> ${siteLinkHtml}
+            </div>
+
+            <div class="account-sub-row">
+              <strong>الباقة الحالية:</strong> ${planText}
+              <div class="account-actions">
+                <button class="account-btn" onclick="showSoon()">ترقية</button>
+              </div>
+            </div>
+
+            <div class="account-sub-row">
+              <strong>الاستضافة:</strong><br>
+              الحالة: ${hostingStatusText}<br>
+              تاريخ انتهاء الاستضافة: ${sub.hostingDate || "—"}
+              <div class="account-actions">
+                <button class="account-btn" onclick="showSoon()">تجديد</button>
+              </div>
+            </div>
+
+            <div class="account-sub-row">
+              <strong>الدومين:</strong><br>
+              الحالة: ${domainStatusText}<br>
+              تاريخ انتهاء الدومين: ${sub.domainDate || "—"}
+              <div class="account-actions">
+                <button class="account-btn" onclick="showSoon()">ربط</button>
+                <button class="account-btn" onclick="showSoon()">تجديد</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-card">
+          <div class="account-card-title">
+            <div>
+              <h2>معلومات الطلب</h2>
+              <div class="account-card-sub">تفاصيل الطلب وحالته الحالية</div>
+            </div>
+            <span class="account-status ${cls}">${statusText}</span>
+          </div>
+
+          <div class="account-progress-bar">
+            <div class="account-progress-fill" style="width:${percent}%"></div>
+          </div>
+
+          <div class="account-steps">
+            <div class="account-step ${step>=1?"active":""} ${step===1?"current":""}">تم الطلب</div>
+            <div class="account-step ${step>=2?"active":""} ${step===2?"current":""}">قيد التنفيذ</div>
+            <div class="account-step ${step>=3?"active":""} ${step===3?"current":""}">مكتمل</div>
+          </div>
+
+          <div class="account-note">${msg}</div>
+
+          <div class="account-info-list">
+            <div class="account-info-row"><strong>رقم الطلب:</strong> ${d.orderId || "-"}</div>
+            <div class="account-info-row"><strong>تاريخ الطلب:</strong> ${orderDate}</div>
+            <div class="account-info-row"><strong>اسم العميل:</strong> ${d.name || "-"}</div>
+            <div class="account-info-row"><strong>رقم الجوال:</strong> ${d.phone || "-"}</div>
+            <div class="account-info-row"><strong>اسم النشاط:</strong> ${d.activityName || "-"}</div>
+            <div class="account-info-row"><strong>نوع النشاط:</strong> ${d.activityType || "-"}</div>
+            <div class="account-info-row"><strong>الباقة:</strong> ${d.package || "-"}</div>
+            <div class="account-info-row"><strong>النموذج:</strong> ${d.template || "-"}</div>
+            ${
+              d.paymentStatus
+                ? `<div class="account-info-row"><strong>حالة الدفع:</strong> ${d.paymentStatus}</div>`
+                : ``
+            }
+            <div class="account-info-row"><strong>الفاتورة:</strong> ${invoiceHtml}</div>
+          </div>
+        </div>
+      </section>
+    `;
+
+    if(shouldShowAlert){
+      autoHideAlertAfterFiveMinutes();
+    }
+
+  }catch(e){
+    console.error(e);
+    document.getElementById("orders").innerHTML = `
+      <div class="account-empty">
+        حدث خطأ أثناء تحميل البيانات
+      </div>
+    `;
+  }
+});
+</script>
+
+</body>
+</html>

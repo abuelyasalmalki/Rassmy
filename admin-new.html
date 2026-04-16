@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قيد التنفيذ</title>
+
+<style>
+body{font-family:Tahoma;background:#f7f7f7;margin:0}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.nav{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.nav a{
+flex:1;
+text-align:center;
+padding:10px;
+background:#eee;
+border-radius:8px;
+text-decoration:none;
+color:#111;
+}
+
+.nav a.active{
+background:#111;
+color:#fff;
+}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+border:1px solid #eee;
+}
+
+.logout{
+background:#dc3545;
+padding:8px 14px;
+color:#fff;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>قيد التنفيذ</h2>
+
+<div id="count" style="margin-bottom:10px;color:#555;font-size:14px">
+📦 عدد الطلبات: 0
+</div>
+
+<button class="logout" id="logoutBtn">تسجيل خروج</button>
+
+<div class="nav">
+<a href="admin.html">تم تقديم الطلب</a>
+<a href="admin-new.html" class="active">قيد التنفيذ</a>
+<a href="admin-done.html">مكتمل</a>
+</div>
+
+<div id="orders">جاري التحميل...</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+authDomain:"site-orders-415e4.firebaseapp.com",
+projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+document.getElementById("logoutBtn").onclick = ()=>{
+signOut(auth).then(()=>location.href="admin-login.html");
+};
+
+onAuthStateChanged(auth, async (user)=>{
+
+if(!user){
+location.href="admin-login.html";
+return;
+}
+
+if(user.email !== "abuelyasalmalki@gmail.com"){
+document.body.innerHTML = "غير مصرح ❌";
+return;
+}
+
+const snapshot = await getDocs(collection(db,"orders"));
+const ordersDiv = document.getElementById("orders");
+
+let html = "";
+let count = 0;
+
+snapshot.forEach((docSnap)=>{
+const data = docSnap.data();
+const id = docSnap.id;
+
+if(data.status !== "قيد التنفيذ") return;
+
+count++;
+
+let orderDate = "-";
+if(data.createdAt?.seconds){
+orderDate = new Date(data.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
+}
+
+html += `
+<div class="card">
+
+<b>${data.name || ""}</b><br>
+
+🧾 ${data.orderId || "-"}<br>
+📅 ${orderDate}<br>
+
+📱 ${data.phone || ""}<br>
+🏷️ ${data.activityName || ""}<br>
+🧩 ${data.activityType || ""}<br>
+
+<select id="s-${id}">
+<option ${data.status==="تم تقديم الطلب"?"selected":""}>تم تقديم الطلب</option>
+<option ${data.status==="قيد التنفيذ"?"selected":""}>قيد التنفيذ</option>
+<option ${data.status==="مكتمل"?"selected":""}>مكتمل</option>
+</select>
+
+<button onclick="updateStatus('${id}')">حفظ</button>
+
+</div>
+`;
+
+});
+
+ordersDiv.innerHTML = html || "لا يوجد طلبات";
+document.getElementById("count").innerText = "📦 عدد الطلبات: " + count;
+
+});
+
+window.updateStatus = async (id)=>{
+const val = document.getElementById("s-"+id).value;
+await updateDoc(doc(db,"orders",id),{status:val});
+location.reload();
+};
+
+</script>
+
+</body>
+</html>

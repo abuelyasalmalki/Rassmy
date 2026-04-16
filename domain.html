@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدومين</title>
+
+<style>
+body{font-family:Tahoma;background:#f7f7f7;margin:0}
+
+.container{max-width:600px;margin:auto;padding:20px}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+border:1px solid #eee;
+}
+
+h2{text-align:center;margin-bottom:15px}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+input[readonly]{background:#f1f1f1}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#111;
+color:#fff;
+cursor:pointer;
+}
+
+.note{
+font-size:12px;
+color:#777;
+margin-top:-5px;
+margin-bottom:10px;
+}
+
+.hidden{display:none}
+
+.radio{
+margin:10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h2>إدارة الدومين</h2>
+
+<!-- رقم الاشتراك -->
+<input id="subId" readonly placeholder="رقم الاشتراك">
+
+<!-- اختيار -->
+<div class="radio">
+<label><input type="radio" name="type" value="new"> أحتاج دومين جديد</label><br>
+<label><input type="radio" name="type" value="existing"> لدي دومين</label>
+</div>
+
+<!-- جديد -->
+<div id="newBox" class="hidden">
+<input id="newDomain" placeholder="example.com">
+<div class="note">يرجى التأكد أن الدومين غير محجوز</div>
+<button onclick="submitNew()">طلب الدومين</button>
+</div>
+
+<!-- موجود -->
+<div id="existBox" class="hidden">
+<input id="domain" placeholder="example.com">
+<input id="ns1" placeholder="NameServer 1">
+<input id="ns2" placeholder="NameServer 2">
+<button onclick="submitExisting()">ربط الآن</button>
+</div>
+
+<div id="msg"></div>
+
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+authDomain:"site-orders-415e4.firebaseapp.com",
+projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let uid = null;
+
+// اختيار النوع
+document.querySelectorAll("input[name='type']").forEach(el=>{
+el.onchange = ()=>{
+newBox.classList.add("hidden");
+existBox.classList.add("hidden");
+
+if(el.value==="new") newBox.classList.remove("hidden");
+if(el.value==="existing") existBox.classList.remove("hidden");
+};
+});
+
+// تحميل البيانات
+onAuthStateChanged(auth, async(user)=>{
+
+if(!user){
+location.href="login.html";
+return;
+}
+
+uid = user.uid;
+
+const subSnap = await getDoc(doc(db,"subscriptions",uid));
+
+if(subSnap.exists()){
+const sub = subSnap.data();
+subId.value = sub.subId || "-";
+}
+
+});
+
+// طلب دومين جديد
+window.submitNew = async ()=>{
+
+const domain = document.getElementById("newDomain").value.trim();
+if(!domain) return alert("اكتب الدومين");
+
+await updateDoc(doc(db,"subscriptions",uid),{
+domainRequest:{
+type:"new",
+domain,
+createdAt: serverTimestamp()
+},
+domainStatus:"بانتظار الربط"
+});
+
+showMsg();
+
+};
+
+// ربط دومين
+window.submitExisting = async ()=>{
+
+const domain = document.getElementById("domain").value.trim();
+const ns1 = document.getElementById("ns1").value.trim();
+const ns2 = document.getElementById("ns2").value.trim();
+
+if(!domain || !ns1 || !ns2) return alert("كمل البيانات");
+
+await updateDoc(doc(db,"subscriptions",uid),{
+domainRequest:{
+type:"existing",
+domain,
+ns1,
+ns2,
+createdAt: serverTimestamp()
+},
+domainStatus:"بانتظار الربط"
+});
+
+showMsg();
+
+};
+
+// رسالة
+function showMsg(){
+document.querySelector(".card").innerHTML = `
+<h2>✅ تم استلام الطلب</h2>
+<p style="text-align:center;color:#666">سيتم تنفيذ الطلب قريبًا</p>
+`;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل الطلب</title>
+
+<style>
+body{font-family:Tahoma;background:#f7f7f7;margin:0}
+
+.container{max-width:700px;margin:auto;padding:20px}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+border:1px solid #eee;
+margin-bottom:15px;
+}
+
+h2{text-align:center;margin-bottom:10px}
+
+.row{margin:8px 0;color:#444}
+
+label{font-size:13px;color:#666}
+
+input,select{
+width:100%;
+margin-top:5px;
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+background:#111;
+color:#fff;
+cursor:pointer;
+}
+
+.back{
+margin-bottom:15px;
+display:inline-block;
+text-decoration:none;
+color:#111;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="admin.html" class="back">← رجوع</a>
+
+<h2>تفاصيل الطلب</h2>
+
+<div id="content">جاري التحميل...</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+authDomain:"site-orders-415e4.firebaseapp.com",
+projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// 🔥 جلب ID من الرابط
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+onAuthStateChanged(auth, async (user)=>{
+
+if(!user){
+location.href="admin-login.html";
+return;
+}
+
+if(user.email !== "abuelyasalmalki@gmail.com"){
+document.body.innerHTML = "غير مصرح ❌";
+return;
+}
+
+if(!id){
+content.innerHTML = "رقم الطلب غير موجود";
+return;
+}
+
+const snap = await getDoc(doc(db,"orders", id));
+
+if(!snap.exists()){
+content.innerHTML = "الطلب غير موجود";
+return;
+}
+
+const d = snap.data();
+
+let orderDate = "-";
+if(d.createdAt?.seconds){
+orderDate = new Date(d.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
+}
+
+content.innerHTML = `
+
+<div class="card">
+
+<div class="row"><b>👤 الاسم:</b> ${d.name || "-"}</div>
+<div class="row"><b>🧾 رقم الطلب:</b> ${d.orderId || "-"}</div>
+<div class="row"><b>📅 التاريخ:</b> ${orderDate}</div>
+
+<div class="row"><b>📱 الجوال:</b> ${d.phone || "-"}</div>
+<div class="row"><b>🏷 النشاط:</b> ${d.activityName || "-"}</div>
+<div class="row"><b>🧩 النوع:</b> ${d.activityType || "-"}</div>
+
+<label>حالة الطلب</label>
+<select id="status">
+<option ${d.status==="تم تقديم الطلب"?"selected":""}>تم تقديم الطلب</option>
+<option ${d.status==="قيد التنفيذ"?"selected":""}>قيد التنفيذ</option>
+<option ${d.status==="مكتمل"?"selected":""}>مكتمل</option>
+</select>
+
+<label>حالة الدفع</label>
+<select id="payment">
+<option value="غير مدفوع" ${d.paymentStatus==="غير مدفوع"?"selected":""}>غير مدفوع</option>
+<option value="تم الدفع" ${d.paymentStatus==="تم الدفع"?"selected":""}>تم الدفع</option>
+<option value="دفع جزئي" ${d.paymentStatus==="دفع جزئي"?"selected":""}>دفع جزئي</option>
+</select>
+
+<label>رابط الفاتورة</label>
+<input id="invoice" value="${d.invoiceUrl || ""}" placeholder="رابط الفاتورة">
+
+<button onclick="save()">حفظ التعديلات</button>
+
+</div>
+
+`;
+
+});
+
+// 🔥 حفظ
+window.save = async ()=>{
+
+await updateDoc(doc(db,"orders", id),{
+status: document.getElementById("status").value,
+paymentStatus: document.getElementById("payment").value,
+invoiceUrl: document.getElementById("invoice").value
+});
+
+alert("تم الحفظ ✅");
+
+};
+
+</script>
+
+</body>
+</html>
