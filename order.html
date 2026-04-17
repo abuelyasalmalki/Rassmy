@@ -80,6 +80,14 @@ projectId:"site-orders-415e4"
 const db = getFirestore(app);
 const auth = getAuth(app);
 const contentBox = document.getElementById("content");
+const escapeHtml = (value)=>{
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+};
 
 // 🔥 جلب ID من الرابط
 const params = new URLSearchParams(window.location.search);
@@ -93,7 +101,7 @@ return;
 }
 
 if(user.email !== "abuelyasalmalki@gmail.com"){
-document.body.innerHTML = "غير مصرح ❌";
+document.body.textContent = "غير مصرح ❌";
 return;
 }
 
@@ -110,23 +118,30 @@ return;
 }
 
 const d = snap.data();
+const safeName = escapeHtml(d.name || "-");
+const safeOrderId = escapeHtml(d.orderId || "-");
+const safePhone = escapeHtml(d.phone || "-");
+const safeActivityName = escapeHtml(d.activityName || "-");
+const safeActivityType = escapeHtml(d.activityType || "-");
+const safeInvoiceUrl = escapeHtml(d.invoiceUrl || "");
 
 let orderDate = "-";
 if(d.createdAt?.seconds){
 orderDate = new Date(d.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
 }
+const safeOrderDate = escapeHtml(orderDate);
 
 contentBox.innerHTML = `
 
 <div class="card">
 
-<div class="row"><b>👤 الاسم:</b> ${d.name || "-"}</div>
-<div class="row"><b>🧾 رقم الطلب:</b> ${d.orderId || "-"}</div>
-<div class="row"><b>📅 التاريخ:</b> ${orderDate}</div>
+<div class="row"><b>👤 الاسم:</b> ${safeName}</div>
+<div class="row"><b>🧾 رقم الطلب:</b> ${safeOrderId}</div>
+<div class="row"><b>📅 التاريخ:</b> ${safeOrderDate}</div>
 
-<div class="row"><b>📱 الجوال:</b> ${d.phone || "-"}</div>
-<div class="row"><b>🏷 النشاط:</b> ${d.activityName || "-"}</div>
-<div class="row"><b>🧩 النوع:</b> ${d.activityType || "-"}</div>
+<div class="row"><b>📱 الجوال:</b> ${safePhone}</div>
+<div class="row"><b>🏷 النشاط:</b> ${safeActivityName}</div>
+<div class="row"><b>🧩 النوع:</b> ${safeActivityType}</div>
 
 <label>حالة الطلب</label>
 <select id="status">
@@ -143,7 +158,7 @@ contentBox.innerHTML = `
 </select>
 
 <label>رابط الفاتورة</label>
-<input id="invoice" value="${d.invoiceUrl || ""}" placeholder="رابط الفاتورة">
+<input id="invoice" value="${safeInvoiceUrl}" placeholder="رابط الفاتورة">
 
 <button onclick="save()">حفظ التعديلات</button>
 

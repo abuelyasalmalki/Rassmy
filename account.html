@@ -52,6 +52,22 @@ const auth = getAuth(app);
 let currentOrderId = null;
 let currentStatusText = "";
 
+const escapeHtml = (value)=>{
+  return String(value ?? "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#39;");
+};
+
+const sanitizeUrl = (value)=>{
+  if(!value) return "";
+  const trimmed = String(value).trim();
+  if(!/^https?:\/\//i.test(trimmed)) return "";
+  return trimmed;
+};
+
 window.logout = ()=> signOut(auth).then(()=>location.href="login.html");
 
 window.showSoon = (message = "الميزة متاحة بعد اكتمال موقعك")=>{
@@ -209,12 +225,33 @@ onAuthStateChanged(auth, async (user)=>{
     const completedAlertExpired = hasCompletedAlertExpired(statusText, d.statusUpdatedAt);
     const shouldShowAlert = !dismissedForCurrentStatus && !completedAlertExpired;
 
-    const siteLinkHtml = sub.siteUrl
-      ? `<a class="account-link" href="${sub.siteUrl}" target="_blank">زيارة الموقع</a>`
+    const safeSiteUrl = sanitizeUrl(sub.siteUrl);
+    const safeInvoiceUrl = sanitizeUrl(d.invoiceUrl);
+    const safeSubId = escapeHtml(sub.subId || "-");
+    const safePlanText = escapeHtml(planText);
+    const safeHostingStatusText = escapeHtml(hostingStatusText);
+    const safeHostingDate = escapeHtml(sub.hostingDate || "—");
+    const safeDomainStatusText = escapeHtml(domainStatusText);
+    const safeDomainDate = escapeHtml(sub.domainDate || "—");
+    const safeMsg = escapeHtml(msg);
+    const safeOrderId = escapeHtml(d.orderId || "-");
+    const safeOrderDate = escapeHtml(orderDate);
+    const safeName = escapeHtml(d.name || "-");
+    const safePhone = escapeHtml(d.phone || "-");
+    const safeActivityName = escapeHtml(d.activityName || "-");
+    const safeActivityType = escapeHtml(d.activityType || "-");
+    const safePackage = escapeHtml(d.package || "-");
+    const safeTemplate = escapeHtml(d.template || "-");
+    const safePaymentStatus = escapeHtml(d.paymentStatus || "");
+    const safeAlertTitle = escapeHtml(alertContent.title);
+    const safeAlertText = escapeHtml(alertContent.text);
+
+    const siteLinkHtml = safeSiteUrl
+      ? `<a class="account-link" href="${safeSiteUrl}" target="_blank" rel="noopener noreferrer">زيارة الموقع</a>`
       : `<a href="javascript:void(0)" class="account-link" onclick="showSoon('لم يكتمل بعد')">رابط الموقع</a>`;
 
-    const invoiceHtml = d.invoiceUrl
-      ? `<a class="account-link" href="${d.invoiceUrl}" target="_blank">عرض الفاتورة</a>`
+    const invoiceHtml = safeInvoiceUrl
+      ? `<a class="account-link" href="${safeInvoiceUrl}" target="_blank" rel="noopener noreferrer">عرض الفاتورة</a>`
       : `لم تصدر بعد`;
 
     ordersBox.innerHTML = `
@@ -224,8 +261,8 @@ onAuthStateChanged(auth, async (user)=>{
 
         <div class="account-alert-head">
           <div>
-            <h1>${alertContent.title}</h1>
-            <p>${alertContent.text}</p>
+            <h1>${safeAlertTitle}</h1>
+            <p>${safeAlertText}</p>
           </div>
           <span class="account-status ${cls}">${statusText}</span>
         </div>
@@ -246,7 +283,7 @@ onAuthStateChanged(auth, async (user)=>{
 
           <div class="account-sub-box">
             <div class="account-sub-row">
-              <strong>رقم الاشتراك:</strong> ${sub.subId || "-"}
+              <strong>رقم الاشتراك:</strong> ${safeSubId}
             </div>
 
             <div class="account-sub-row">
@@ -254,7 +291,7 @@ onAuthStateChanged(auth, async (user)=>{
             </div>
 
             <div class="account-sub-row">
-              <strong>الباقة الحالية:</strong> ${planText}
+              <strong>الباقة الحالية:</strong> ${safePlanText}
               <div class="account-actions">
                 <button class="account-btn" onclick="showSoon()">ترقية</button>
               </div>
@@ -262,8 +299,8 @@ onAuthStateChanged(auth, async (user)=>{
 
             <div class="account-sub-row">
               <strong>الاستضافة:</strong><br>
-              الحالة: ${hostingStatusText}<br>
-              تاريخ انتهاء الاستضافة: ${sub.hostingDate || "—"}
+              الحالة: ${safeHostingStatusText}<br>
+              تاريخ انتهاء الاستضافة: ${safeHostingDate}
               <div class="account-actions">
                 <button class="account-btn" onclick="showSoon()">تجديد</button>
               </div>
@@ -271,8 +308,8 @@ onAuthStateChanged(auth, async (user)=>{
 
             <div class="account-sub-row">
               <strong>الدومين:</strong><br>
-              الحالة: ${domainStatusText}<br>
-              تاريخ انتهاء الدومين: ${sub.domainDate || "—"}
+              الحالة: ${safeDomainStatusText}<br>
+              تاريخ انتهاء الدومين: ${safeDomainDate}
               <div class="account-actions">
                 <button class="account-btn" onclick="showSoon()">ربط</button>
                 <button class="account-btn" onclick="showSoon()">تجديد</button>
@@ -300,20 +337,20 @@ onAuthStateChanged(auth, async (user)=>{
             <div class="account-step ${step>=3?"active":""} ${step===3?"current":""}">مكتمل</div>
           </div>
 
-          <div class="account-note">${msg}</div>
+          <div class="account-note">${safeMsg}</div>
 
           <div class="account-info-list">
-            <div class="account-info-row"><strong>رقم الطلب:</strong> ${d.orderId || "-"}</div>
-            <div class="account-info-row"><strong>تاريخ الطلب:</strong> ${orderDate}</div>
-            <div class="account-info-row"><strong>اسم العميل:</strong> ${d.name || "-"}</div>
-            <div class="account-info-row"><strong>رقم الجوال:</strong> ${d.phone || "-"}</div>
-            <div class="account-info-row"><strong>اسم النشاط:</strong> ${d.activityName || "-"}</div>
-            <div class="account-info-row"><strong>نوع النشاط:</strong> ${d.activityType || "-"}</div>
-            <div class="account-info-row"><strong>الباقة:</strong> ${d.package || "-"}</div>
-            <div class="account-info-row"><strong>النموذج:</strong> ${d.template || "-"}</div>
+            <div class="account-info-row"><strong>رقم الطلب:</strong> ${safeOrderId}</div>
+            <div class="account-info-row"><strong>تاريخ الطلب:</strong> ${safeOrderDate}</div>
+            <div class="account-info-row"><strong>اسم العميل:</strong> ${safeName}</div>
+            <div class="account-info-row"><strong>رقم الجوال:</strong> ${safePhone}</div>
+            <div class="account-info-row"><strong>اسم النشاط:</strong> ${safeActivityName}</div>
+            <div class="account-info-row"><strong>نوع النشاط:</strong> ${safeActivityType}</div>
+            <div class="account-info-row"><strong>الباقة:</strong> ${safePackage}</div>
+            <div class="account-info-row"><strong>النموذج:</strong> ${safeTemplate}</div>
             ${
               d.paymentStatus
-                ? `<div class="account-info-row"><strong>حالة الدفع:</strong> ${d.paymentStatus}</div>`
+                ? `<div class="account-info-row"><strong>حالة الدفع:</strong> ${safePaymentStatus}</div>`
                 : ``
             }
             <div class="account-info-row"><strong>الفاتورة:</strong> ${invoiceHtml}</div>

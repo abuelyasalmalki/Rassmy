@@ -122,6 +122,15 @@ const auth = getAuth(app);
 let allSubs = [];
 let visibleCount = 10;
 
+const escapeHtml = (value)=>{
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+};
+
 document.getElementById("logoutBtn").onclick = ()=>{
 signOut(auth).then(()=>location.href="admin-login.html");
 };
@@ -134,7 +143,7 @@ return;
 }
 
 if(user.email !== "abuelyasalmalki@gmail.com"){
-document.body.innerHTML = "غير مصرح ❌";
+document.body.textContent = "غير مصرح ❌";
 return;
 }
 
@@ -164,37 +173,43 @@ let html = "";
 slice.forEach((d)=>{
 
 const id = d.id;
+const domId = encodeURIComponent(id);
+const safeName = escapeHtml(d.name || "");
+const safePhone = escapeHtml(d.phone || "");
+const safeSiteUrl = escapeHtml(d.siteUrl || "");
+const safeHostingDate = escapeHtml(d.hostingDate || "");
+const safeDomainDate = escapeHtml(d.domainDate || "");
 
 html += `
 <div class="card">
 
-<b>${d.name || ""}</b><br>
-📱 ${d.phone || ""}<br><br>
+<b>${safeName}</b><br>
+📱 ${safePhone}<br><br>
 
 نوع الاشتراك:
-<select id="plan-${id}">
+<select id="plan-${domId}">
 <option value="باقة البداية" ${d.plan==="باقة البداية"?"selected":""}>باقة البداية</option>
 <option value="باقة التقدم" ${d.plan==="باقة التقدم"?"selected":""}>باقة التقدم</option>
 <option value="باقة النمو" ${d.plan==="باقة النمو"?"selected":""}>باقة النمو</option>
 </select>
 
 رابط الموقع:
-<input id="site-${id}" value="${d.siteUrl || ""}">
+<input id="site-${domId}" value="${safeSiteUrl}">
 
 تاريخ الاستضافة:
-<input type="date" id="host-${id}" value="${d.hostingDate || ""}">
+<input type="date" id="host-${domId}" value="${safeHostingDate}">
 
 تاريخ الدومين:
-<input type="date" id="domain-${id}" value="${d.domainDate || ""}">
+<input type="date" id="domain-${domId}" value="${safeDomainDate}">
 
 الحالة:
-<select id="status-${id}">
+<select id="status-${domId}">
 <option ${d.status==="جاري التفعيل"?"selected":""}>جاري التفعيل</option>
 <option ${d.status==="مفعل"?"selected":""}>مفعل</option>
 <option ${d.status==="غير مفعل"?"selected":""}>غير مفعل</option>
 </select>
 
-<button onclick="save('${id}')">حفظ</button>
+<button onclick="save('${domId}')">حفظ</button>
 
 </div>
 `;
@@ -225,13 +240,14 @@ visibleCount += 10;
 render();
 };
 
-window.save = async (id)=>{
+window.save = async (domId)=>{
+const id = decodeURIComponent(domId);
 await updateDoc(doc(db,"subscriptions",id),{
-plan: document.getElementById("plan-"+id).value,
-siteUrl: document.getElementById("site-"+id).value,
-hostingDate: document.getElementById("host-"+id).value,
-domainDate: document.getElementById("domain-"+id).value,
-status: document.getElementById("status-"+id).value
+plan: document.getElementById("plan-"+domId).value,
+siteUrl: document.getElementById("site-"+domId).value,
+hostingDate: document.getElementById("host-"+domId).value,
+domainDate: document.getElementById("domain-"+domId).value,
+status: document.getElementById("status-"+domId).value
 });
 
 location.reload();

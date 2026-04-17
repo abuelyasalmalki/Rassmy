@@ -92,6 +92,15 @@ projectId:"site-orders-415e4"
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+const escapeHtml = (value)=>{
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+};
+
 document.getElementById("logoutBtn").onclick = ()=>{
 signOut(auth).then(()=>location.href="admin-login.html");
 };
@@ -104,7 +113,7 @@ return;
 }
 
 if(user.email !== "abuelyasalmalki@gmail.com"){
-document.body.innerHTML = "غير مصرح ❌";
+document.body.textContent = "غير مصرح ❌";
 return;
 }
 
@@ -117,6 +126,7 @@ let count = 0;
 snapshot.forEach((docSnap)=>{
 const data = docSnap.data();
 const id = docSnap.id;
+const domId = encodeURIComponent(id);
 
 if(data.status !== "قيد التنفيذ") return;
 
@@ -126,26 +136,32 @@ let orderDate = "-";
 if(data.createdAt?.seconds){
 orderDate = new Date(data.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
 }
+const safeName = escapeHtml(data.name || "");
+const safeOrderId = escapeHtml(data.orderId || "-");
+const safeOrderDate = escapeHtml(orderDate);
+const safePhone = escapeHtml(data.phone || "");
+const safeActivityName = escapeHtml(data.activityName || "");
+const safeActivityType = escapeHtml(data.activityType || "");
 
 html += `
 <div class="card">
 
-<b>${data.name || ""}</b><br>
+<b>${safeName}</b><br>
 
-🧾 ${data.orderId || "-"}<br>
-📅 ${orderDate}<br>
+🧾 ${safeOrderId}<br>
+📅 ${safeOrderDate}<br>
 
-📱 ${data.phone || ""}<br>
-🏷️ ${data.activityName || ""}<br>
-🧩 ${data.activityType || ""}<br>
+📱 ${safePhone}<br>
+🏷️ ${safeActivityName}<br>
+🧩 ${safeActivityType}<br>
 
-<select id="s-${id}">
+<select id="s-${domId}">
 <option ${data.status==="تم تقديم الطلب"?"selected":""}>تم تقديم الطلب</option>
 <option ${data.status==="قيد التنفيذ"?"selected":""}>قيد التنفيذ</option>
 <option ${data.status==="مكتمل"?"selected":""}>مكتمل</option>
 </select>
 
-<button onclick="updateStatus('${id}')">حفظ</button>
+<button onclick="updateStatus('${domId}')">حفظ</button>
 
 </div>
 `;
@@ -157,8 +173,9 @@ document.getElementById("count").innerText = "📦 عدد الطلبات: " + co
 
 });
 
-window.updateStatus = async (id)=>{
-const val = document.getElementById("s-"+id).value;
+window.updateStatus = async (domId)=>{
+const id = decodeURIComponent(domId);
+const val = document.getElementById("s-"+domId).value;
 await updateDoc(doc(db,"orders",id),{status:val});
 location.reload();
 };
