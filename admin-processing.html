@@ -122,6 +122,15 @@ const auth = getAuth(app);
 let allOrders = [];
 let visibleCount = 10;
 
+const escapeHtml = (value)=>{
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
+};
+
 document.getElementById("logoutBtn").onclick = ()=>{
 signOut(auth).then(()=>location.href="admin-login.html");
 };
@@ -134,7 +143,7 @@ return;
 }
 
 if(user.email !== "abuelyasalmalki@gmail.com"){
-document.body.innerHTML = "غير مصرح ❌";
+document.body.textContent = "غير مصرح ❌";
 return;
 }
 
@@ -164,39 +173,47 @@ let html = "";
 slice.forEach((data)=>{
 
 const id = data.id;
+const domId = encodeURIComponent(id);
+const safeName = escapeHtml(data.name || "");
+const safeOrderId = escapeHtml(data.orderId || "-");
+const safePhone = escapeHtml(data.phone || "");
+const safeActivityName = escapeHtml(data.activityName || "");
+const safeActivityType = escapeHtml(data.activityType || "");
+const safeInvoiceUrl = escapeHtml(data.invoiceUrl || "");
 
 let orderDate = "-";
 if(data.createdAt?.seconds){
 orderDate = new Date(data.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
 }
+const safeOrderDate = escapeHtml(orderDate);
 
 html += `
 <div class="card">
 
-<b>${data.name || ""}</b><br>
+<b>${safeName}</b><br>
 
-🧾 ${data.orderId || "-"}<br>
-📅 ${orderDate}<br>
+🧾 ${safeOrderId}<br>
+📅 ${safeOrderDate}<br>
 
-📱 ${data.phone || ""}<br>
-🏷️ ${data.activityName || ""}<br>
-🧩 ${data.activityType || ""}<br>
+📱 ${safePhone}<br>
+🏷️ ${safeActivityName}<br>
+🧩 ${safeActivityType}<br>
 
-<select id="s-${id}">
+<select id="s-${domId}">
 <option ${data.status==="تم تقديم الطلب"?"selected":""}>تم تقديم الطلب</option>
 <option ${data.status==="قيد التنفيذ"?"selected":""}>قيد التنفيذ</option>
 <option ${data.status==="مكتمل"?"selected":""}>مكتمل</option>
 </select>
 
-<select id="pay-${id}">
+<select id="pay-${domId}">
 <option value="غير مدفوع" ${data.paymentStatus==="غير مدفوع"?"selected":""}>غير مدفوع</option>
 <option value="تم الدفع" ${data.paymentStatus==="تم الدفع"?"selected":""}>تم الدفع</option>
 <option value="دفع جزئي" ${data.paymentStatus==="دفع جزئي"?"selected":""}>دفع جزئي</option>
 </select>
 
-<input id="inv-${id}" placeholder="رابط الفاتورة" value="${data.invoiceUrl || ""}">
+<input id="inv-${domId}" placeholder="رابط الفاتورة" value="${safeInvoiceUrl}">
 
-<button onclick="updateStatus('${id}')">حفظ</button>
+<button onclick="updateStatus('${domId}')">حفظ</button>
 
 </div>
 `;
@@ -227,11 +244,12 @@ visibleCount += 10;
 render();
 };
 
-window.updateStatus = async (id)=>{
+window.updateStatus = async (domId)=>{
+const id = decodeURIComponent(domId);
 await updateDoc(doc(db,"orders",id),{
-status: document.getElementById("s-"+id).value,
-paymentStatus: document.getElementById("pay-"+id).value,
-invoiceUrl: document.getElementById("inv-"+id).value
+status: document.getElementById("s-"+domId).value,
+paymentStatus: document.getElementById("pay-"+domId).value,
+invoiceUrl: document.getElementById("inv-"+domId).value
 });
 
 location.reload(); // 🔥 التعديل هنا
