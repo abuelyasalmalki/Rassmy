@@ -1,5 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طلب موقع جديد</title>
+<link rel="stylesheet" href="./assets/request.css">
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap");
 *{
   box-sizing:border-box;
 }
@@ -330,49 +337,412 @@ body{
     width:160px;
   }
 }
-.request-card{
-  border-radius:16px !important;
-  border-color:#d7d7d7 !important;
-  box-shadow:0 8px 18px rgba(0,0,0,.03) !important;
-}
-.request-logo img{ width:168px !important; }
-.request-badge,
-.request-info-item,
-.request-preview-box,
-.request-preview-tags span,
-.request-plan-note{
-  background:#efefef !important;
-  border-color:#d8d8d8 !important;
-  color:#111111 !important;
-}
-.request-field input,
-.request-field select{
-  border-radius:14px !important;
-  border-color:#d1d1d1 !important;
-  color:#111111 !important;
-  font-family:"IBM Plex Sans Arabic", Tahoma, Arial, sans-serif !important;
-}
-.request-field input:focus,
-.request-field select:focus{
-  border-color:#bdbdbd !important;
-  box-shadow:none !important;
-}
-.request-submit-btn{
-  background:#dcdcdc !important;
-  color:#111111 !important;
-  border:1px solid #c4c4c4 !important;
-  border-radius:14px !important;
-}
-.request-submit-btn:hover{ background:#d3d3d3 !important; }
 
-/* ===== Phase 1 official theme ===== */
-html, body{
-  font-family:"IBM Plex Sans Arabic", Tahoma, Arial, sans-serif !important;
-  color:#111111 !important;
+/* ===== v48 Cairo request page ===== */
+html, body, button, input, select, textarea, label, p, h1, h2, h3, a, span{
+  font-family:"Cairo", Tahoma, Arial, sans-serif !important;
 }
-body{
-  background:#f5f5f5 !important;
+
+</style>
+</head>
+
+<body>
+
+<div class="request-container">
+  <div class="request-page-head">
+    <div class="request-logo">
+      <a href="./index.html">
+        <img src="./logo-full.png" alt="رسمي">
+      </a>
+    </div>
+
+    <span class="request-badge">اختر الباقة + اختر النموذج + أرسل الطلب</span>
+    <h1>ابدأ موقعك الآن</h1>
+    <p>
+      اختر الباقة والنموذج المناسبين لنشاطك، ثم أرسل البيانات الأساسية،
+      وسنقوم بتجهيز طلبك وربطه بحسابك بشكل منظم.
+    </p>
+  </div>
+
+  <div class="request-layout">
+    <div class="request-card request-form-card">
+      <form class="request-form" id="requestForm">
+        <div class="request-form-row">
+          <div class="request-field">
+            <label for="name">اسم التاجر</label>
+            <input id="name" placeholder="اكتب اسم التاجر">
+          </div>
+
+          <div class="request-field">
+            <label for="activityName">اسم النشاط</label>
+            <input id="activityName" placeholder="اكتب اسم النشاط">
+          </div>
+        </div>
+
+        <div class="request-form-row">
+          <div class="request-field">
+            <label for="activityType">نوع النشاط</label>
+            <select id="activityType">
+              <option value="">اختر نوع النشاط</option>
+              <option value="خدمات">خدمات</option>
+              <option value="بيع منتجات">بيع منتجات</option>
+              <option value="مطعم / كوفي">مطعم / كوفي</option>
+              <option value="عيادة">عيادة</option>
+              <option value="شركة">شركة</option>
+              <option value="مؤسسة">مؤسسة</option>
+              <option value="شخصي">شخصي</option>
+              <option value="أخرى">أخرى</option>
+            </select>
+          </div>
+
+          <div class="request-field">
+            <label for="customType">نوع النشاط المخصص</label>
+            <input id="customType" placeholder="اكتب نوع النشاط" style="display:none;">
+          </div>
+        </div>
+
+        <div class="request-form-row">
+          <div class="request-field">
+            <label for="package">الباقة</label>
+            <select id="package">
+              <option value="">اختر الباقة</option>
+              <option value="باقة بلس">باقة بلس</option>
+              <option value="باقة برو">باقة برو</option>
+            </select>
+          </div>
+
+          <div class="request-field">
+            <label for="cycle">نوع الاشتراك</label>
+            <select id="cycle">
+              <option value="">اختر نوع الاشتراك</option>
+              <option value="شهري">شهري</option>
+              <option value="سنوي">سنوي</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="request-form-row">
+          <div class="request-field">
+            <label for="template">النموذج المختار</label>
+            <select id="template">
+              <option value="">اختر النموذج</option>
+              <option value="نموذج موقع خدمات">نموذج موقع خدمات</option>
+              <option value="نموذج مطاعم وكوفيهات">نموذج مطاعم وكوفيهات</option>
+              <option value="قالب بيع منتجات">قالب بيع منتجات</option>
+              <option value="نموذج عيادات">نموذج عيادات</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="request-form-row">
+          <div class="request-field">
+            <label for="phone">رقم الجوال</label>
+            <input id="phone" placeholder="05xxxxxxxx">
+            <div class="request-small-text">سيتم استخدامه لتسجيل الدخول</div>
+          </div>
+
+          <div class="request-field">
+            <label for="password">كلمة المرور</label>
+            <div class="request-password-wrap">
+              <input id="password" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
+              <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
+                <svg id="eyeSvg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="request-plan-note" id="planNote">
+          اختر الباقة ليظهر ملخص سريع عنها هنا.
+        </div>
+
+        <div class="request-submit-row">
+          <button id="submitBtn" class="request-submit-btn" type="button">ابدأ طلبك</button>
+        </div>
+      </form>
+
+      <div class="request-link">
+        لديك حساب؟ <a href="./login.html">تسجيل الدخول</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+  authDomain:"site-orders-415e4.firebaseapp.com",
+  projectId:"site-orders-415e4"
+});
+
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const activityTypeEl = document.getElementById("activityType");
+const customTypeEl = document.getElementById("customType");
+const packageEl = document.getElementById("package");
+const templateEl = document.getElementById("template");
+const cycleEl = document.getElementById("cycle");
+const passwordEl = document.getElementById("password");
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const submitBtn = document.getElementById("submitBtn");
+const planNoteEl = document.getElementById("planNote");
+
+activityTypeEl.onchange = () => {
+  customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
+};
+
+togglePasswordBtn.addEventListener("click", () => {
+  passwordEl.type = passwordEl.type === "password" ? "text" : "password";
+});
+
+function normalizeTemplateParam(value){
+  const map = {
+    services: "نموذج موقع خدمات",
+    service: "نموذج موقع خدمات",
+    restaurant: "نموذج مطاعم وكوفيهات",
+    cafe: "نموذج مطاعم وكوفيهات",
+    products: "قالب بيع منتجات",
+    product: "قالب بيع منتجات",
+    clinic: "نموذج عيادات",
+    medical: "نموذج عيادات"
+  };
+  return map[value] || value || "";
 }
-h1,h2,h3,h4,h5,h6,p,span,label,a,strong,small,li,div,button,input,select{
-  color:#111111;
+
+function normalizePlanParam(value){
+  const map = {
+    plus: "باقة بلس",
+    basic: "باقة بلس",
+    pro: "باقة برو",
+    premium: "باقة برو"
+  };
+  return map[value] || value || "";
 }
+
+function normalizeCycleParam(value){
+  const map = {
+    monthly: "شهري",
+    month: "شهري",
+    yearly: "سنوي",
+    annual: "سنوي",
+    year: "سنوي"
+  };
+  return map[value] || value || "";
+}
+
+function updatePlanNote(){
+  const selectedPlan = packageEl.value;
+  const selectedCycle = cycleEl.value;
+
+  if(!selectedPlan){
+    planNoteEl.textContent = "اختر الباقة ونوع الاشتراك ليظهر الملخص هنا.";
+    return;
+  }
+
+  if(!selectedCycle){
+    planNoteEl.textContent = "اختر نوع الاشتراك ليظهر الملخص هنا.";
+    return;
+  }
+
+  if(selectedPlan === "باقة بلس" && selectedCycle === "شهري"){
+    planNoteEl.textContent = "79 ريال شهريًا + رسوم تخصيص أولية.";
+    return;
+  }
+
+  if(selectedPlan === "باقة بلس" && selectedCycle === "سنوي"){
+    planNoteEl.textContent = "750 ريال سنويًا — التخصيص مجاني.";
+    return;
+  }
+
+  if(selectedPlan === "باقة برو" && selectedCycle === "شهري"){
+    planNoteEl.textContent = "159 ريال شهريًا + رسوم تخصيص أولية.";
+    return;
+  }
+
+  if(selectedPlan === "باقة برو" && selectedCycle === "سنوي"){
+    planNoteEl.textContent = "1299 ريال سنويًا — التخصيص مجاني.";
+  }
+}
+
+packageEl.addEventListener("change", updatePlanNote);
+cycleEl.addEventListener("change", updatePlanNote);
+
+(function applyQueryParams(){
+  const params = new URLSearchParams(window.location.search);
+  const templateParam = normalizeTemplateParam((params.get("template") || "").trim().toLowerCase());
+  const planParam = normalizePlanParam((params.get("plan") || "").trim().toLowerCase());
+  const cycleParam = normalizeCycleParam((params.get("cycle") || "").trim().toLowerCase());
+
+  if(templateParam){
+    for(const option of templateEl.options){
+      if(option.value === templateParam){
+        templateEl.value = templateParam;
+        break;
+      }
+    }
+  }
+
+  if(planParam){
+    for(const option of packageEl.options){
+      if(option.value === planParam){
+        packageEl.value = planParam;
+        break;
+      }
+    }
+  }
+
+  if(cycleParam){
+    for(const option of cycleEl.options){
+      if(option.value === cycleParam){
+        cycleEl.value = cycleParam;
+        break;
+      }
+    }
+  }
+
+  updatePlanNote();
+})();
+
+submitBtn.onclick = async () => {
+  submitBtn.innerText = "جاري الإرسال...";
+  submitBtn.disabled = true;
+
+  try{
+    const name = document.getElementById("name").value.trim();
+    const activityName = document.getElementById("activityName").value.trim();
+    let activityType = activityTypeEl.value;
+    const customTypeVal = customTypeEl.value.trim();
+    const selectedPackage = packageEl.value;
+    const cycle = cycleEl.value;
+    const template = templateEl.value;
+    const phone = document.getElementById("phone").value.trim();
+    const password = passwordEl.value;
+
+    if(activityType === "أخرى"){
+      activityType = customTypeVal;
+    }
+
+    if(name.length < 3) throw "اكتب اسم التاجر";
+    if(activityName.length < 2) throw "اكتب اسم النشاط";
+    if(!activityType) throw "اختر نوع النشاط";
+    if(!selectedPackage) throw "اختر الباقة";
+    if(!cycle) throw "اختر نوع الاشتراك";
+    if(!template) throw "اختر النموذج";
+    if(!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
+    if(password.length < 6) throw "كلمة المرور ضعيفة";
+
+    const email = phone + "@user.com";
+
+    let user;
+
+    try{
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      user = cred.user;
+    }catch(err){
+      if(err.code === "auth/email-already-in-use"){
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        user = cred.user;
+      }else{
+        throw err;
+      }
+    }
+
+    const orderRef = doc(db,"orders", user.uid);
+    const orderSnap = await getDoc(orderRef);
+
+    const orderData = {
+      name,
+      activityName,
+      activityType,
+      package: selectedPackage,
+      billingCycle: cycle,
+      template,
+      phone,
+      status:"تم تقديم الطلب",
+      userId:user.uid,
+      orderId:"ORD-"+Date.now(),
+      createdAt: serverTimestamp()
+    };
+
+    if(!orderSnap.exists()){
+      await setDoc(orderRef, orderData);
+    }else{
+      await setDoc(orderRef, {
+        ...orderData,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    }
+
+    const userRef = doc(db,"users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if(!userSnap.exists()){
+      await setDoc(userRef,{
+        name,
+        phone,
+        role:"client",
+        createdAt: serverTimestamp()
+      });
+    }else{
+      await setDoc(userRef,{
+        name,
+        phone,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    }
+
+    const subRef = doc(db,"subscriptions", user.uid);
+    const subSnap = await getDoc(subRef);
+
+    const subscriptionData = {
+      userId: user.uid,
+      name,
+      phone,
+      status: "جاري التفعيل",
+      plan: selectedPackage,
+      billingCycle: cycle,
+      template,
+      siteUrl: "",
+      hostingDate: "",
+      domainDate: "",
+      updatedAt: serverTimestamp()
+    };
+
+    if(!subSnap.exists()){
+      await setDoc(subRef,{
+        subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
+        ...subscriptionData,
+        createdAt: serverTimestamp()
+      });
+    }else{
+      await setDoc(subRef, subscriptionData, { merge: true });
+    }
+
+    const msg = document.createElement("div");
+    msg.className = "request-success-toast";
+    msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
+    document.body.appendChild(msg);
+
+    setTimeout(() => {
+      window.location.href = "./account.html";
+    }, 1200);
+
+  }catch(e){
+    alert(e.message || e);
+  }finally{
+    submitBtn.innerText = "ابدأ طلبك";
+    submitBtn.disabled = false;
+  }
+};
+</script>
+
+</body>
+</html>
