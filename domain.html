@@ -107,6 +107,10 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let uid = null;
+const subIdInput = document.getElementById("subId");
+const newBox = document.getElementById("newBox");
+const existBox = document.getElementById("existBox");
+const msgBox = document.getElementById("msg");
 
 // اختيار النوع
 document.querySelectorAll("input[name='type']").forEach(el=>{
@@ -133,13 +137,15 @@ const subSnap = await getDoc(doc(db,"subscriptions",uid));
 
 if(subSnap.exists()){
 const sub = subSnap.data();
-subId.value = sub.subId || "-";
+subIdInput.value = sub.subId || "-";
 }
 
 });
 
 // طلب دومين جديد
 window.submitNew = async ()=>{
+
+if(!uid) return alert("يرجى تسجيل الدخول أولًا");
 
 const domain = document.getElementById("newDomain").value.trim();
 if(!domain) return alert("اكتب الدومين");
@@ -159,6 +165,8 @@ showMsg();
 
 // ربط دومين
 window.submitExisting = async ()=>{
+
+if(!uid) return alert("يرجى تسجيل الدخول أولًا");
 
 const domain = document.getElementById("domain").value.trim();
 const ns1 = document.getElementById("ns1").value.trim();
@@ -183,7 +191,7 @@ showMsg();
 
 // رسالة
 function showMsg(){
-document.querySelector(".card").innerHTML = `
+msgBox.innerHTML = `
 <h2>✅ تم استلام الطلب</h2>
 <p style="text-align:center;color:#666">سيتم تنفيذ الطلب قريبًا</p>
 `;

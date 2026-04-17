@@ -79,6 +79,7 @@ projectId:"site-orders-415e4"
 
 const db = getFirestore(app);
 const auth = getAuth(app);
+const contentBox = document.getElementById("content");
 
 // 🔥 جلب ID من الرابط
 const params = new URLSearchParams(window.location.search);
@@ -97,14 +98,14 @@ return;
 }
 
 if(!id){
-content.innerHTML = "رقم الطلب غير موجود";
+contentBox.innerHTML = "رقم الطلب غير موجود";
 return;
 }
 
 const snap = await getDoc(doc(db,"orders", id));
 
 if(!snap.exists()){
-content.innerHTML = "الطلب غير موجود";
+contentBox.innerHTML = "الطلب غير موجود";
 return;
 }
 
@@ -115,7 +116,7 @@ if(d.createdAt?.seconds){
 orderDate = new Date(d.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
 }
 
-content.innerHTML = `
+contentBox.innerHTML = `
 
 <div class="card">
 
