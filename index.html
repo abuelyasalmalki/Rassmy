@@ -465,33 +465,64 @@
       </p>
     </div>
 
-    <div class="testimonials-grid">
-      <article class="testimonial-card placeholder">
-        <div class="testimonial-rating" aria-hidden="true">★★★★★</div>
-        <p>سيتم وضع رأي عميل حقيقي هنا لاحقًا بعد تنفيذ المشاريع واستلام التقييمات الفعلية.</p>
-        <div class="testimonial-meta">
-          <strong>رأي عميل لاحقًا</strong>
-          <span>بيان توضيحي مؤقت</span>
-        </div>
-      </article>
+    <div class="testimonials-slider" data-testimonials-slider>
+      <div class="testimonials-stage">
+        <button class="testimonials-nav testimonials-nav-next" type="button" data-testimonials-next aria-label="التقييم التالي">‹</button>
 
-      <article class="testimonial-card placeholder featured">
-        <div class="testimonial-rating" aria-hidden="true">★★★★★</div>
-        <p>هذا النص مؤقت فقط للحفاظ على شكل الصفحة، وسيتم استبداله لاحقًا بتجربة عميل حقيقية وموثقة.</p>
-        <div class="testimonial-meta">
-          <strong>رأي عميل لاحقًا</strong>
-          <span>بيان توضيحي مؤقت</span>
-        </div>
-      </article>
+        <div class="testimonials-viewport">
+          <div class="testimonials-track" data-testimonials-track>
+            <article class="testimonial-slide" data-store-url="">
+              <div class="testimonial-card placeholder">
+                <div class="testimonial-rating" aria-label="تقييم 5 من 5">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>سيتم وضع رأي عميل حقيقي هنا لاحقًا بعد تنفيذ المشاريع واستلام التقييمات الفعلية.</p>
+                <div class="testimonial-meta">
+                  <strong>رأي عميل لاحقًا</strong>
+                  <span>متجر لاحقًا</span>
+                </div>
+                <a class="btn btn-secondary testimonial-store-btn" href="#" target="_blank" rel="noopener" data-store-link hidden>شاهد المتجر</a>
+              </div>
+            </article>
 
-      <article class="testimonial-card placeholder">
-        <div class="testimonial-rating" aria-hidden="true">★★★★★</div>
-        <p>عند توفر آراء العملاء الحقيقية، سيتم عرضها هنا بصياغة واضحة وشفافة دون أي محتوى غير موثق.</p>
-        <div class="testimonial-meta">
-          <strong>رأي عميل لاحقًا</strong>
-          <span>بيان توضيحي مؤقت</span>
+            <article class="testimonial-slide" data-store-url="">
+              <div class="testimonial-card placeholder">
+                <div class="testimonial-rating" aria-label="تقييم 5 من 5">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>هذا النص مؤقت فقط للحفاظ على شكل الصفحة، وسيتم استبداله لاحقًا بتجربة عميل حقيقية وموثقة.</p>
+                <div class="testimonial-meta">
+                  <strong>رأي عميل لاحقًا</strong>
+                  <span>متجر لاحقًا</span>
+                </div>
+                <a class="btn btn-secondary testimonial-store-btn" href="#" target="_blank" rel="noopener" data-store-link hidden>شاهد المتجر</a>
+              </div>
+            </article>
+
+            <article class="testimonial-slide" data-store-url="">
+              <div class="testimonial-card placeholder">
+                <div class="testimonial-rating" aria-label="تقييم 5 من 5">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>عند توفر آراء العملاء الحقيقية، سيتم عرضها هنا بصياغة واضحة وشفافة دون أي محتوى غير موثق.</p>
+                <div class="testimonial-meta">
+                  <strong>رأي عميل لاحقًا</strong>
+                  <span>متجر لاحقًا</span>
+                </div>
+                <a class="btn btn-secondary testimonial-store-btn" href="#" target="_blank" rel="noopener" data-store-link hidden>شاهد المتجر</a>
+              </div>
+            </article>
+          </div>
         </div>
-      </article>
+
+        <button class="testimonials-nav testimonials-nav-prev" type="button" data-testimonials-prev aria-label="التقييم السابق">›</button>
+      </div>
+
+      <div class="testimonials-dots" role="tablist" aria-label="شرائح آراء العملاء">
+        <button class="is-active" type="button" data-testimonials-dot="0" aria-label="الانتقال للتقييم 1"></button>
+        <button type="button" data-testimonials-dot="1" aria-label="الانتقال للتقييم 2"></button>
+        <button type="button" data-testimonials-dot="2" aria-label="الانتقال للتقييم 3"></button>
+      </div>
     </div>
   </div>
 </section>
