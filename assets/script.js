@@ -66,6 +66,113 @@ if (portfolioSlider) {
   updateSlider();
 }
 
+
+const testimonialsSlider = document.querySelector("[data-testimonials-slider]");
+if (testimonialsSlider) {
+  const track = testimonialsSlider.querySelector("[data-testimonials-track]");
+  const viewport = testimonialsSlider.querySelector(".testimonials-viewport");
+  const slides = Array.from(testimonialsSlider.querySelectorAll(".testimonial-slide"));
+  const prevBtn = testimonialsSlider.querySelector("[data-testimonials-prev]");
+  const nextBtn = testimonialsSlider.querySelector("[data-testimonials-next]");
+  const dots = Array.from(testimonialsSlider.querySelectorAll("[data-testimonials-dot]"));
+  let currentIndex = 0;
+  let autoPlayTimer;
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let slideWidth = 0;
+
+  slides.forEach((slide) => {
+    const storeLink = slide.querySelector("[data-store-link]");
+    const storeUrl = (slide.dataset.storeUrl || "").trim();
+
+    if (!storeLink) return;
+
+    if (storeUrl) {
+      storeLink.href = storeUrl;
+      storeLink.hidden = false;
+    } else {
+      storeLink.hidden = true;
+    }
+  });
+
+  const updateSlider = () => {
+    if (!track || !slides.length) return;
+    track.style.transform = `translate3d(${-currentIndex * slideWidth}px, 0, 0)`;
+    dots.forEach((dot, index) => {
+      const isActive = index === currentIndex;
+      dot.classList.toggle("is-active", isActive);
+      dot.setAttribute("aria-selected", isActive ? "true" : "false");
+      dot.setAttribute("tabindex", isActive ? "0" : "-1");
+    });
+  };
+
+  const setSlideMetrics = () => {
+    const baseWidth = viewport?.clientWidth || testimonialsSlider.clientWidth;
+    if (!baseWidth || !track || !slides.length) return;
+    slideWidth = baseWidth;
+    track.style.width = `${slideWidth * slides.length}px`;
+    slides.forEach((slide) => {
+      slide.style.width = `${slideWidth}px`;
+      slide.style.minWidth = `${slideWidth}px`;
+    });
+    updateSlider();
+  };
+
+  const goToSlide = (index) => {
+    if (!slides.length) return;
+    if (index < 0) currentIndex = slides.length - 1;
+    else if (index >= slides.length) currentIndex = 0;
+    else currentIndex = index;
+    updateSlider();
+  };
+
+  const startAutoPlay = () => {
+    clearInterval(autoPlayTimer);
+    autoPlayTimer = setInterval(() => goToSlide(currentIndex + 1), 5500);
+  };
+
+  const stopAutoPlay = () => clearInterval(autoPlayTimer);
+  const resumeAutoPlay = () => startAutoPlay();
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const swipeDistance = touchEndX - touchStartX;
+    if (Math.abs(swipeDistance) < 35) return;
+    if (swipeDistance > 0) goToSlide(currentIndex - 1);
+    else goToSlide(currentIndex + 1);
+  };
+
+  prevBtn?.addEventListener("click", () => goToSlide(currentIndex - 1));
+  nextBtn?.addEventListener("click", () => goToSlide(currentIndex + 1));
+  dots.forEach((dot, index) => dot.addEventListener("click", () => goToSlide(index)));
+  dots.forEach((dot, index) => {
+    dot.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        goToSlide(index);
+      }
+    });
+  });
+
+  testimonialsSlider.addEventListener("mouseenter", stopAutoPlay);
+  testimonialsSlider.addEventListener("mouseleave", startAutoPlay);
+  testimonialsSlider.addEventListener("focusin", stopAutoPlay);
+  testimonialsSlider.addEventListener("focusout", resumeAutoPlay);
+  testimonialsSlider.addEventListener("touchstart", (event) => {
+    touchStartX = event.changedTouches[0].clientX;
+    touchEndX = 0;
+    stopAutoPlay();
+  }, { passive: true });
+  testimonialsSlider.addEventListener("touchend", (event) => {
+    touchEndX = event.changedTouches[0].clientX;
+    handleTouchEnd();
+    resumeAutoPlay();
+  }, { passive: true });
+
+  window.addEventListener("resize", setSlideMetrics);
+  setSlideMetrics();
+  startAutoPlay();
+}
+
 const arrangeDemo = document.querySelector("[data-arrange-demo]");
 const arrangeToggle = document.querySelector("[data-impression-toggle]");
 const impressionGrid = document.querySelector(".impression-grid--interactive");
