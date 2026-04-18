@@ -4958,3 +4958,131 @@ body{
     padding-top:18px !important;
   }
 }
+
+/* ===== testimonials slider ===== */
+.testimonials-slider{
+  position:relative;
+  margin-top:24px;
+  overflow:hidden;
+}
+
+.testimonials-track{
+  display:flex;
+  transition:transform .65s cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
+}
+
+.testimonial-slide{
+  flex:0 0 100%;
+  min-width:100%;
+  padding:2px;
+}
+
+.testimonial-card{
+  background:var(--surface, #fff);
+  border:1px solid var(--line, #e6e9ef);
+  border-radius:20px;
+  padding:26px;
+  box-shadow:0 14px 30px rgba(15,23,42,.05);
+  display:grid;
+  gap:14px;
+}
+
+.testimonial-rating{
+  color:#f59e0b;
+  letter-spacing:2px;
+  font-size:17px;
+}
+
+.testimonial-card p{
+  margin:0;
+  color:var(--text, #1f2937);
+  line-height:1.95;
+  font-size:16px;
+}
+
+.testimonial-meta{
+  display:grid;
+  gap:2px;
+}
+
+.testimonial-meta strong{
+  font-size:16px;
+  color:var(--title, #0f172a);
+}
+
+.testimonial-meta span{
+  color:var(--muted, #667085);
+  font-size:14px;
+}
+
+.testimonial-store-btn{
+  justify-self:start;
+  min-height:36px;
+  padding:0 14px;
+  font-size:13px;
+}
+
+.testimonials-controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  margin-top:16px;
+}
+
+.testimonials-nav{
+  width:34px;
+  height:34px;
+  border:1px solid var(--line, #e6e9ef);
+  border-radius:50%;
+  background:#fff;
+  color:var(--title, #0f172a);
+  font-size:24px;
+  line-height:1;
+  cursor:pointer;
+  transition:background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.testimonials-nav:hover{
+  background:#f8fafc;
+  border-color:#cbd5e1;
+}
+
+.testimonials-dots{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.testimonials-dots button{
+  width:9px;
+  height:9px;
+  border:0;
+  border-radius:999px;
+  background:#cbd5e1;
+  padding:0;
+  cursor:pointer;
+  transition:width .3s ease, background-color .3s ease;
+}
+
+.testimonials-dots button.is-active{
+  width:22px;
+  background:#334155;
+}
+
+@media (max-width:760px){
+  .testimonial-card{
+    padding:20px;
+    gap:12px;
+  }
+
+  .testimonial-card p{
+    font-size:15px;
+    line-height:1.85;
+  }
+
+  .testimonials-controls{
+    gap:10px;
+  }
+}
