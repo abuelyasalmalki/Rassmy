@@ -6167,3 +6167,318 @@ body{
     padding:22px;
   }
 }
+/* =========================================================
+   RASSMY HOME - STEP 1
+   أضف هذا البلوك في آخر assets/styles.css
+========================================================= */
+
+.home-header-minimal{
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(215,221,229,.72);
+  box-shadow:0 10px 24px rgba(15,23,42,.04);
+}
+
+.home-header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.login-mini-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:74px;
+  height:38px;
+  padding:0 14px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+  transition:.2s ease;
+  box-shadow:var(--shadow-soft);
+}
+
+.login-mini-btn:hover{
+  background:var(--text);
+  color:#fff;
+  border-color:var(--text);
+}
+
+.home-hero-simple{
+  min-height:calc(92vh - 72px);
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(209,221,245,.30), transparent 18%),
+    radial-gradient(circle at 82% 26%, rgba(223,231,255,.38), transparent 22%),
+    radial-gradient(circle at 50% 85%, rgba(238,242,247,.92), transparent 18%),
+    linear-gradient(180deg,#fbfcfe 0%, #f6f8fb 100%);
+}
+
+.home-hero-simple::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 78% 74%, rgba(255,255,255,.74), transparent 24%),
+    radial-gradient(circle at 12% 76%, rgba(255,255,255,.65), transparent 18%);
+}
+
+.home-hero-shell{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.home-hero-content{
+  width:min(860px,100%);
+  display:grid;
+  justify-items:center;
+}
+
+.home-hero-content h1{
+  margin:0 0 10px;
+  font-size:clamp(38px,6vw,74px);
+  line-height:1.04;
+  letter-spacing:-0.04em;
+  color:var(--text);
+  font-weight:800;
+}
+
+.home-hero-content p{
+  margin:0 0 26px;
+  font-size:clamp(17px,2vw,22px);
+  line-height:1.8;
+  color:var(--muted);
+  font-weight:600;
+}
+
+.activity-squares{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:8px;
+}
+
+.activity-square{
+  position:relative;
+  min-height:164px;
+  padding:22px 18px;
+  border-radius:28px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(215,221,229,.95);
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  overflow:hidden;
+}
+
+.activity-square::before{
+  content:"";
+  position:absolute;
+  inset:auto auto 0 0;
+  width:100%;
+  height:3px;
+  background:linear-gradient(90deg,var(--primary),#c7d6ee);
+  opacity:0;
+  transition:.22s ease;
+}
+
+.activity-square:hover{
+  transform:translateY(-4px);
+  border-color:#cfd8e5;
+  box-shadow:0 22px 42px rgba(15,23,42,.08);
+}
+
+.activity-square:hover::before{
+  opacity:1;
+}
+
+.activity-square strong{
+  font-size:18px;
+  font-weight:800;
+  color:var(--text);
+}
+
+.activity-icon{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  position:relative;
+  background:linear-gradient(180deg,#ffffff,#f3f6fb);
+  border:1px solid #d9dfe7;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* أقدم خدمات */
+.activity-icon-service::before,
+.activity-icon-service::after{
+  content:"";
+  position:absolute;
+  background:#111827;
+  border-radius:999px;
+}
+.activity-icon-service::before{
+  width:26px;
+  height:4px;
+  top:18px;
+  left:16px;
+}
+.activity-icon-service::after{
+  width:18px;
+  height:4px;
+  top:30px;
+  left:16px;
+}
+.activity-icon-service{
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.4),
+    0 10px 20px rgba(15,23,42,.05);
+}
+.activity-icon-service span{
+  display:none;
+}
+
+/* أعرض منتجات */
+.activity-icon-products::before,
+.activity-icon-products::after{
+  content:"";
+  position:absolute;
+  border:2px solid #111827;
+}
+.activity-icon-products::before{
+  width:24px;
+  height:18px;
+  top:20px;
+  left:16px;
+  border-radius:6px;
+}
+.activity-icon-products::after{
+  width:10px;
+  height:10px;
+  top:13px;
+  left:23px;
+  border-bottom:none;
+  border-radius:8px 8px 0 0;
+}
+
+/* موقع تعريفي */
+.activity-icon-profile::before,
+.activity-icon-profile::after{
+  content:"";
+  position:absolute;
+  background:#111827;
+}
+.activity-icon-profile::before{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  top:14px;
+  left:21px;
+}
+.activity-icon-profile::after{
+  width:24px;
+  height:10px;
+  border-radius:999px 999px 6px 6px;
+  top:34px;
+  left:17px;
+}
+
+.hero-soft-visual{
+  width:100%;
+  max-width:420px;
+  margin-top:24px;
+  display:grid;
+  gap:10px;
+  justify-items:center;
+}
+
+.hero-soft-line{
+  display:block;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(209,221,245,.28),rgba(255,255,255,.88),rgba(209,221,245,.28));
+  box-shadow:0 10px 24px rgba(15,23,42,.04);
+}
+
+.hero-soft-line.line-a{
+  width:100%;
+  height:10px;
+}
+
+.hero-soft-line.line-b{
+  width:72%;
+  height:8px;
+}
+
+.hero-soft-line.line-c{
+  width:48%;
+  height:6px;
+}
+
+@media (max-width:900px){
+  .home-hero-simple{
+    min-height:calc(88vh - 72px);
+  }
+
+  .activity-squares{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .activity-square{
+    min-height:132px;
+    border-radius:24px;
+  }
+}
+
+@media (max-width:640px){
+  .home-header-inner{
+    min-height:66px;
+  }
+
+  .brand-logo{
+    height:34px;
+  }
+
+  .login-mini-btn{
+    min-width:66px;
+    height:34px;
+    font-size:12px;
+    padding:0 12px;
+  }
+
+  .home-hero-simple{
+    min-height:calc(86vh - 66px);
+    padding:18px 0 28px;
+  }
+
+  .home-hero-content h1{
+    font-size:clamp(32px,10vw,46px);
+  }
+
+  .home-hero-content p{
+    font-size:16px;
+    margin-bottom:22px;
+  }
+
+  .activity-square strong{
+    font-size:16px;
+  }
+}
