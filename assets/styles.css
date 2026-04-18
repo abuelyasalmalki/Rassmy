@@ -4978,6 +4978,7 @@ body{
 
 .testimonials-track{
   display:flex;
+  direction:ltr;
   transition:transform .62s cubic-bezier(.22,.61,.36,1);
   will-change:transform;
 }
@@ -5001,6 +5002,8 @@ body{
   min-height:210px;
   width:100%;
   height:100%;
+  direction:rtl;
+  text-align:right;
 }
 
 .testimonial-rating{
