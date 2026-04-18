@@ -66,6 +66,65 @@ if (portfolioSlider) {
   updateSlider();
 }
 
+
+const testimonialsSlider = document.querySelector("[data-testimonials-slider]");
+if (testimonialsSlider) {
+  const track = testimonialsSlider.querySelector("[data-testimonials-track]");
+  const slides = Array.from(testimonialsSlider.querySelectorAll(".testimonial-slide"));
+  const prevBtn = testimonialsSlider.querySelector("[data-testimonials-prev]");
+  const nextBtn = testimonialsSlider.querySelector("[data-testimonials-next]");
+  const dots = Array.from(testimonialsSlider.querySelectorAll("[data-testimonials-dot]"));
+  let currentIndex = 0;
+  let autoPlayTimer;
+
+  slides.forEach((slide) => {
+    const storeLink = slide.querySelector("[data-store-link]");
+    const storeUrl = (slide.dataset.storeUrl || "").trim();
+
+    if (!storeLink) return;
+
+    if (storeUrl) {
+      storeLink.href = storeUrl;
+      storeLink.hidden = false;
+    } else {
+      storeLink.hidden = true;
+    }
+  });
+
+  const updateSlider = () => {
+    if (!track || !slides.length) return;
+    track.style.transform = `translateX(${currentIndex * -100}%)`;
+    dots.forEach((dot, index) => dot.classList.toggle("is-active", index === currentIndex));
+  };
+
+  const goToSlide = (index) => {
+    if (!slides.length) return;
+    if (index < 0) currentIndex = slides.length - 1;
+    else if (index >= slides.length) currentIndex = 0;
+    else currentIndex = index;
+    updateSlider();
+  };
+
+  const startAutoPlay = () => {
+    clearInterval(autoPlayTimer);
+    autoPlayTimer = setInterval(() => goToSlide(currentIndex + 1), 5500);
+  };
+
+  const stopAutoPlay = () => clearInterval(autoPlayTimer);
+
+  prevBtn?.addEventListener("click", () => goToSlide(currentIndex - 1));
+  nextBtn?.addEventListener("click", () => goToSlide(currentIndex + 1));
+  dots.forEach((dot, index) => dot.addEventListener("click", () => goToSlide(index)));
+
+  testimonialsSlider.addEventListener("mouseenter", stopAutoPlay);
+  testimonialsSlider.addEventListener("mouseleave", startAutoPlay);
+  testimonialsSlider.addEventListener("focusin", stopAutoPlay);
+  testimonialsSlider.addEventListener("focusout", startAutoPlay);
+
+  updateSlider();
+  startAutoPlay();
+}
+
 const arrangeDemo = document.querySelector("[data-arrange-demo]");
 const arrangeToggle = document.querySelector("[data-impression-toggle]");
 const impressionGrid = document.querySelector(".impression-grid--interactive");
