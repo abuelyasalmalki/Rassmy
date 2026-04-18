@@ -37,6 +37,9 @@ if (accountBtn) {
   });
 }
 
+/* =========================
+   Portfolio Slider
+========================= */
 const portfolioSlider = document.querySelector("[data-portfolio-slider]");
 if (portfolioSlider) {
   const track = portfolioSlider.querySelector("[data-portfolio-track]");
@@ -47,26 +50,38 @@ if (portfolioSlider) {
   let currentIndex = 0;
 
   const updateSlider = () => {
-    if (!track) return;
-    track.style.transform = `translateX(${currentIndex * -100}%)`;
-    dots.forEach((dot, index) => dot.classList.toggle("is-active", index === currentIndex));
+    if (!track || !slides.length) return;
+
+    const step = 100 / slides.length;
+    track.style.transform = `translateX(-${currentIndex * step}%)`;
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === currentIndex);
+    });
   };
 
   const goToSlide = (index) => {
     if (!slides.length) return;
+
     if (index < 0) currentIndex = slides.length - 1;
     else if (index >= slides.length) currentIndex = 0;
     else currentIndex = index;
+
     updateSlider();
   };
 
   prevBtn?.addEventListener("click", () => goToSlide(currentIndex - 1));
   nextBtn?.addEventListener("click", () => goToSlide(currentIndex + 1));
-  dots.forEach((dot, index) => dot.addEventListener("click", () => goToSlide(index)));
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => goToSlide(index));
+  });
+
   updateSlider();
 }
 
-
+/* =========================
+   Testimonials Slider
+========================= */
 const testimonialsSlider = document.querySelector("[data-testimonials-slider]");
 if (testimonialsSlider) {
   const track = testimonialsSlider.querySelector("[data-testimonials-track]");
@@ -93,28 +108,41 @@ if (testimonialsSlider) {
 
   const updateSlider = () => {
     if (!track || !slides.length) return;
-    track.style.transform = `translateX(${currentIndex * -100}%)`;
-    dots.forEach((dot, index) => dot.classList.toggle("is-active", index === currentIndex));
+
+    const step = 100 / slides.length;
+    track.style.transform = `translateX(-${currentIndex * step}%)`;
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === currentIndex);
+    });
   };
 
   const goToSlide = (index) => {
     if (!slides.length) return;
+
     if (index < 0) currentIndex = slides.length - 1;
     else if (index >= slides.length) currentIndex = 0;
     else currentIndex = index;
+
     updateSlider();
   };
 
   const startAutoPlay = () => {
     clearInterval(autoPlayTimer);
-    autoPlayTimer = setInterval(() => goToSlide(currentIndex + 1), 5500);
+    autoPlayTimer = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, 5500);
   };
 
-  const stopAutoPlay = () => clearInterval(autoPlayTimer);
+  const stopAutoPlay = () => {
+    clearInterval(autoPlayTimer);
+  };
 
   prevBtn?.addEventListener("click", () => goToSlide(currentIndex - 1));
   nextBtn?.addEventListener("click", () => goToSlide(currentIndex + 1));
-  dots.forEach((dot, index) => dot.addEventListener("click", () => goToSlide(index)));
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => goToSlide(index));
+  });
 
   testimonialsSlider.addEventListener("mouseenter", stopAutoPlay);
   testimonialsSlider.addEventListener("mouseleave", startAutoPlay);
@@ -125,6 +153,9 @@ if (testimonialsSlider) {
   startAutoPlay();
 }
 
+/* =========================
+   Arrange Demo
+========================= */
 const arrangeDemo = document.querySelector("[data-arrange-demo]");
 const arrangeToggle = document.querySelector("[data-impression-toggle]");
 const impressionGrid = document.querySelector(".impression-grid--interactive");
@@ -151,7 +182,11 @@ if (arrangeDemo && arrangeToggle && impressionGrid) {
   });
 
   syncState();
-}/* Pricing billing toggle */
+}
+
+/* =========================
+   Pricing Billing Toggle
+========================= */
 const billingSwitch = document.querySelector("[data-billing-switch]");
 
 if (billingSwitch) {
