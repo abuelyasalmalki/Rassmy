@@ -4,110 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>رسمي | نماذج مواقع جاهزة احترافية</title>
-  <meta name="description" content="رسمي يساعدك على اختيار نموذج موقع احترافي مناسب لنشاطك، ثم تخصيصه لك بسرعة ووضوح حتى تبدأ حضورك الرقمي بثقة." />
+  <meta
+    name="description"
+    content="رسمي يساعدك على اختيار نموذج موقع احترافي مناسب لنشاطك، ثم تخصيصه لك بسرعة ووضوح حتى تبدأ حضورك الرقمي بثقة."
+  />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="header-main">
-        <a href="#home" class="brand" aria-label="رسمي">
-          <img src="logo-full.png" alt="رسمي" class="brand-logo">
-        </a>
 
-        <nav class="main-nav" aria-label="التنقل الرئيسي">
-          <a href="#home" class="is-active">الرئيسية</a>
-          <a href="#models">النماذج</a>
-          <a href="#pricing">الباقات</a>
-        </nav>
-      </div>
+  <header class="site-header home-header-minimal">
+    <div class="container home-header-inner">
+      <a href="#home" class="brand" aria-label="رسمي">
+        <img src="logo-full.png" alt="رسمي" class="brand-logo">
+      </a>
 
-      <div class="header-side">
-        <a href="login.html" class="btn btn-primary header-account-btn" id="accountBtn">دخول</a>
-        <button class="menu-toggle" type="button" aria-label="فتح القائمة" data-menu-toggle>
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-
-    <div class="mobile-menu" data-mobile-menu hidden>
-      <div class="container mobile-menu-inner">
-        <a href="#home">الرئيسية</a>
-        <a href="#models">النماذج</a>
-        <a href="#pricing">الباقات</a>
-        <a href="request.html" class="mobile-cta">ابدأ الطلب</a>
-      </div>
+      <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
     </div>
   </header>
 
-  <section class="hero-prelude" aria-hidden="true">
-    <div class="container">
-      <div class="linked-circles-prelude">
-        <div class="linked-circles-row">
-          <span class="linked-circle">خدمي</span>
-          <span class="linked-circle">تعريفي</span>
-          <span class="linked-circle">كوفي</span>
-          <span class="linked-circle">مطعم</span>
-          <span class="linked-circle">شركة</span>
-          <span class="linked-circle">مؤسسة</span>
-          <span class="linked-circle">عيادة</span>
-        </div>
-
-        <div class="linked-caption-frame">
-          <span>نماذج مخصصة تناسب كل نشاط</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <main>
-    <section class="hero-section" id="home">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow">اختر النموذج الأقرب لنشاطك، ودعنا نكمله لك باحتراف</span>
-          <h1>رسمي يمنحك <span>بداية أسرع</span> بموقع مرتب، واضح، ومقنع من أول زيارة.</h1>
-          <p>
-            بدل أن تبدأ من الصفر وتدخل في حيرة طويلة، تصفح النماذج الجاهزة،
-            اختر الأسلوب الأقرب لنشاطك، وسنتولى تخصيصه لك على الهوية والمحتوى
-            وطريقة العرض حتى يظهر وكأنه صُمم خصيصًا لك.
-          </p>
+    <section class="home-hero-simple" id="home">
+      <div class="container">
+        <div class="home-hero-shell">
+          <div class="home-hero-content">
+            <h1>بناء موقعك صار أسهل بكثير</h1>
+            <p>اختر النموذج الأقرب لنشاطك</p>
 
-          <div class="hero-progress-box">
-            <div class="hero-progress-label">رحلة العمل في رسمي</div>
-            <div class="hero-progress-steps">
-              <span class="hero-progress-step is-active">1. اختر النموذج</span>
-              <span class="hero-progress-step is-active">2. اختر الباقة</span>
-              <span class="hero-progress-step">3. أرسل المعلومات</span>
-              <span class="hero-progress-step">4. يبدأ التنفيذ</span>
+            <div class="activity-squares">
+              <a href="models.html" class="activity-square" aria-label="أقدم خدمات">
+                <span class="activity-icon activity-icon-service"></span>
+                <strong>أقدم خدمات</strong>
+              </a>
+
+              <a href="models.html" class="activity-square" aria-label="أعرض منتجات">
+                <span class="activity-icon activity-icon-products"></span>
+                <strong>أعرض منتجات</strong>
+              </a>
+
+              <a href="models.html" class="activity-square" aria-label="موقع تعريفي">
+                <span class="activity-icon activity-icon-profile"></span>
+                <strong>موقع تعريفي</strong>
+              </a>
             </div>
-          </div>
 
-          <div class="hero-note">
-            مناسب للأنشطة التي تريد حضورًا رقميًا مرتبًا وسريع الإطلاق، دون الدخول في مشروع معقد من البداية.
-          </div>
-
-          <div class="hero-actions">
-            <a href="#models" class="btn btn-primary">شاهد النماذج</a>
-            <a href="#pricing" class="btn btn-secondary">اختر باقتك</a>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="hero-image-note">
-            <strong>واجهة مرتبة تعطي انطباعًا أقوى من أول ثانية</strong>
-            <span>
-              حين يكون عرض الخدمة واضحًا، والرسالة مباشرة، والشكل متقنًا،
-              يصبح الموقع أداة إقناع حقيقية لا مجرد صفحة عادية على الإنترنت.
-            </span>
-          </div>
-
-          <div class="hero-image-wrap">
-            <img src="assets/hero-image.png" alt="عرض بصري لواجهة موقع احترافي من رسمي" class="hero-image">
+            <div class="hero-soft-visual" aria-hidden="true">
+              <span class="hero-soft-line line-a"></span>
+              <span class="hero-soft-line line-b"></span>
+              <span class="hero-soft-line line-c"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -119,8 +66,8 @@
           <span class="eyebrow">نماذج مختارة</span>
           <h2>اختر النموذج الأقرب لطبيعة نشاطك</h2>
           <p>
-            هذه النماذج ليست مجرد أشكال مختلفة، بل أساليب عرض مهيأة لأنواع أنشطة مختلفة،
-            حتى يشعر العميل أن الموقع مناسب له من أول نظرة.
+            هذه النماذج ليست مجرد أشكال مختلفة، بل أساليب عرض مهيأة لأنواع
+            أنشطة مختلفة، حتى يشعر العميل أن الموقع مناسب له من أول نظرة.
           </p>
         </div>
 
@@ -128,16 +75,28 @@
           <article class="home-model-card model-card model-card-featured">
             <div class="model-preview">
               <div class="model-preview-top">
-                <span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
               </div>
+
               <div class="model-preview-body preview-services">
                 <div class="preview-badge">خدمي</div>
                 <div class="preview-title">نموذج خدمي</div>
-                <div class="preview-lines"><span></span><span></span><span></span></div>
+                <div class="preview-lines">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </div>
             </div>
+
             <h3>نموذج خدمي</h3>
-            <p>مناسب للأنشطة التي تحتاج عرض الخدمة بسرعة، وإبراز الفائدة، وتوجيه الزائر إلى التواصل أو الطلب بشكل مباشر.</p>
+            <p>
+              مناسب للأنشطة التي تحتاج عرض الخدمة بسرعة، وإبراز الفائدة،
+              وتوجيه الزائر إلى التواصل أو طلب الخدمة بشكل مباشر.
+            </p>
+
             <div class="model-actions">
               <a href="templates/rahatak/index.html" class="btn btn-primary">شاهد النموذج</a>
             </div>
@@ -146,16 +105,28 @@
           <article class="home-model-card model-card">
             <div class="model-preview">
               <div class="model-preview-top">
-                <span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
               </div>
+
               <div class="model-preview-body preview-restaurant">
                 <div class="preview-badge">مطعم / كوفي</div>
                 <div class="preview-title">نموذج مطعم / كوفي</div>
-                <div class="preview-food-grid"><div></div><div></div><div></div></div>
+                <div class="preview-food-grid">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
             </div>
+
             <h3>نموذج مطعم / كوفي</h3>
-            <p>مناسب لعرض المنيو والهوية ومعلومات الفروع والتواصل بطريقة أوضح، خصوصًا على الجوال وسرعة الوصول.</p>
+            <p>
+              مناسب لعرض المنيو والهوية ومعلومات الفروع والتواصل بطريقة أوضح،
+              خصوصًا على الجوال وسرعة الوصول.
+            </p>
+
             <div class="model-actions">
               <a href="models.html" class="btn btn-primary">شاهد النموذج</a>
             </div>
@@ -164,16 +135,28 @@
           <article class="home-model-card model-card">
             <div class="model-preview">
               <div class="model-preview-top">
-                <span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
               </div>
+
               <div class="model-preview-body preview-clinic">
                 <div class="preview-badge">عيادة</div>
                 <div class="preview-title">نموذج عيادة</div>
-                <div class="preview-clinic-grid"><div></div><div></div><div></div></div>
+                <div class="preview-clinic-grid">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
             </div>
+
             <h3>نموذج عيادة</h3>
-            <p>مناسب للجهات التي تحتاج حضورًا هادئًا ومهنيًا، مع طريقة عرض تساعد على بناء الثقة وإيصال المعلومات الأساسية بوضوح.</p>
+            <p>
+              مناسب للجهات التي تحتاج حضورًا هادئًا ومهنيًا، مع طريقة عرض تساعد
+              على بناء الثقة وإيصال المعلومات الأساسية بوضوح.
+            </p>
+
             <div class="model-actions">
               <a href="models.html" class="btn btn-primary">شاهد النموذج</a>
             </div>
@@ -430,12 +413,16 @@
         <div class="section-head">
           <span class="eyebrow">أمثلة توضيحية</span>
           <h2>نماذج توضح كيف يبدو الموقع بعد التخصيص</h2>
-          <p>هذه أمثلة توضح كيف يتحول النموذج الجاهز إلى موقع مرتب ومناسب للنشاط بعد التخصيص على المحتوى والهوية وطريقة العرض.</p>
+          <p>
+            هذه أمثلة توضح كيف يتحول النموذج الجاهز إلى موقع مرتب ومناسب للنشاط
+            بعد التخصيص على المحتوى والهوية وطريقة العرض.
+          </p>
         </div>
 
         <div class="portfolio-slider" data-portfolio-slider>
           <button class="portfolio-nav portfolio-nav-next" type="button" aria-label="التالي" data-portfolio-next>‹</button>
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="السابق" data-portfolio-prev>›</button>
+
           <div class="portfolio-track-wrap">
             <div class="portfolio-track" data-portfolio-track>
               <article class="portfolio-slide">
@@ -448,13 +435,19 @@
                       <div class="portfolio-boxes"><div></div><div></div><div></div></div>
                     </div>
                   </div>
+
                   <div class="portfolio-content">
                     <div class="portfolio-head">
                       <h3>موقع نشاط خدمي</h3>
                       <span>خدمات</span>
                     </div>
-                    <p>تم تخصيص النموذج لعرض الخدمة الرئيسية، وإبراز نقاط القوة، وتوجيه الزائر إلى التواصل أو طلب الخدمة بشكل واضح.</p>
-                    <blockquote class="portfolio-quote">واجهة مرتبة ومسار واضح يساعد العميل على فهم الخدمة واتخاذ القرار بسرعة.</blockquote>
+                    <p>
+                      تم تخصيص النموذج لعرض الخدمة الرئيسية، وإبراز نقاط القوة،
+                      وتوجيه الزائر إلى التواصل أو طلب الخدمة بشكل واضح.
+                    </p>
+                    <blockquote class="portfolio-quote">
+                      واجهة مرتبة ومسار واضح يساعد العميل على فهم الخدمة واتخاذ القرار بسرعة.
+                    </blockquote>
                     <a href="models.html" class="btn btn-secondary">عرض النموذج</a>
                   </div>
                 </div>
@@ -470,13 +463,19 @@
                       <div class="portfolio-food-grid"><div></div><div></div><div></div><div></div></div>
                     </div>
                   </div>
+
                   <div class="portfolio-content">
                     <div class="portfolio-head">
                       <h3>موقع مطعم أو كوفي</h3>
                       <span>مطاعم وكوفيهات</span>
                     </div>
-                    <p>تم ترتيب الواجهة لعرض المنيو والهوية البصرية ومعلومات الفروع والتواصل بطريقة تناسب الجوال وسرعة الوصول.</p>
-                    <blockquote class="portfolio-quote">عرض واضح ومريح يعطي الزائر تجربة أفضل من أول زيارة.</blockquote>
+                    <p>
+                      تم ترتيب الواجهة لعرض المنيو والهوية البصرية ومعلومات الفروع
+                      والتواصل بطريقة تناسب الجوال وسرعة الوصول.
+                    </p>
+                    <blockquote class="portfolio-quote">
+                      عرض واضح ومريح يعطي الزائر تجربة أفضل من أول زيارة.
+                    </blockquote>
                     <a href="models.html" class="btn btn-secondary">عرض النموذج</a>
                   </div>
                 </div>
@@ -492,19 +491,26 @@
                       <div class="portfolio-boxes two"><div></div><div></div></div>
                     </div>
                   </div>
+
                   <div class="portfolio-content">
                     <div class="portfolio-head">
                       <h3>موقع عيادة أو مركز طبي</h3>
                       <span>عيادات</span>
                     </div>
-                    <p>تم تنظيم المحتوى لإبراز الخدمات الطبية ومعلومات الجهة ووسائل التواصل بطريقة مريحة وواضحة للمراجع.</p>
-                    <blockquote class="portfolio-quote">واجهة هادئة ومهنية تساعد على بناء الثقة وإيصال المعلومات الأساسية بسرعة.</blockquote>
+                    <p>
+                      تم تنظيم المحتوى لإبراز الخدمات الطبية ومعلومات الجهة ووسائل
+                      التواصل بطريقة مريحة وواضحة للمراجع.
+                    </p>
+                    <blockquote class="portfolio-quote">
+                      واجهة هادئة ومهنية تساعد على بناء الثقة وإيصال المعلومات الأساسية بسرعة.
+                    </blockquote>
                     <a href="models.html" class="btn btn-secondary">عرض النموذج</a>
                   </div>
                 </div>
               </article>
             </div>
           </div>
+
           <div class="portfolio-dots" data-portfolio-dots>
             <button type="button" class="is-active" data-portfolio-dot="0" aria-label="الشريحة الأولى"></button>
             <button type="button" data-portfolio-dot="1" aria-label="الشريحة الثانية"></button>
@@ -520,7 +526,8 @@
           <span class="eyebrow">نماذج من أعمالنا</span>
           <h2>نماذج عرض مبدئية لشكل الأعمال</h2>
           <p class="section-note">
-            هذا القسم مبدئي لعرض شكل الأعمال داخل الصفحة، وسيتم استبداله لاحقًا بنماذج حقيقية من أعمالنا المنفذة.
+            هذا القسم مبدئي لعرض شكل الأعمال داخل الصفحة، وسيتم استبداله لاحقًا
+            بنماذج حقيقية من أعمالنا المنفذة.
           </p>
         </div>
 
@@ -573,7 +580,8 @@
           <span class="eyebrow">آراء العملاء</span>
           <h2>قسم مبدئي لآراء العملاء</h2>
           <p class="section-note">
-            هذا القسم موضوع الآن من باب الشكل والترتيب فقط، وسيتم تحديثه لاحقًا بآراء حقيقية بعد جمع التقييمات الفعلية من العملاء.
+            هذا القسم موضوع الآن من باب الشكل والترتيب فقط، وسيتم تحديثه لاحقًا
+            بآراء حقيقية بعد جمع التقييمات الفعلية من العملاء.
           </p>
         </div>
 
@@ -633,7 +641,10 @@
       <div class="container contact-box">
         <div class="contact-copy">
           <span class="eyebrow">ابدأ الآن</span>
-          <h2>اختر النموذج والباقة المناسبين، وأرسل معلومات نشاطك الأساسية، وسنبدأ تجهيز موقعك بصورة جاهزة للإطلاق.</h2>
+          <h2>
+            اختر النموذج والباقة المناسبين، وأرسل معلومات نشاطك الأساسية،
+            وسنبدأ تجهيز موقعك بصورة جاهزة للإطلاق.
+          </h2>
           <p>كل ما تحتاجه الآن هو اختيار واضح، وبعدها نكمل لك الباقي بخطوات مرتبة وسهلة.</p>
         </div>
         <div class="contact-actions">
