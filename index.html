@@ -18,23 +18,29 @@
   <header class="site-header home-header-minimal">
     <div class="container home-header-inner">
       <div class="home-header-side">
-        <details class="header-pages-menu">
-          <summary class="header-pages-toggle" aria-label="صفحات الموقع">
+        <div class="header-pages-menu" data-home-menu>
+          <button
+            type="button"
+            class="header-pages-toggle"
+            aria-label="صفحات الموقع"
+            aria-expanded="false"
+            data-home-menu-toggle
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 7h16"></path>
               <path d="M7 12h13"></path>
               <path d="M10 17h10"></path>
             </svg>
-          </summary>
+          </button>
 
-          <div class="header-pages-dropdown">
+          <div class="header-pages-dropdown" data-home-menu-dropdown hidden>
             <a href="index.html" class="is-current">الرئيسية</a>
             <a href="models.html">النماذج</a>
             <a href="pricing.html">الباقات</a>
             <a href="request.html">الطلب</a>
             <a href="login.html">دخول</a>
           </div>
-        </details>
+        </div>
 
         <a href="#home" class="brand" aria-label="رسمي">
           <img src="logo-full.png" alt="رسمي" class="brand-logo">
