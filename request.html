@@ -149,7 +149,7 @@
 
               <div class="request-stage-actions request-stage-actions-split">
                 <button id="prevStepBtn" class="request-back-btn" type="button">السابق</button>
-                <button id="submitBtn" class="request-submit-btn" type="button">إرسال الطلب</button>
+                <button id="submitBtn" class="request-submit-btn" type="button">إتمام طلب الموقع</button>
               </div>
             </div>
           </form>
@@ -479,7 +479,7 @@ submitBtn.onclick = async () => {
   }catch(e){
     alert(e.message || e);
   }finally{
-    submitBtn.innerText = "إرسال الطلب";
+    submitBtn.innerText = "إتمام طلب الموقع";
     submitBtn.disabled = false;
   }
 };
