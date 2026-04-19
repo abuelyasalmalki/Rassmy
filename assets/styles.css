@@ -474,6 +474,103 @@ textarea{
 }
 
 /* =========================
+   Rassmy idea section
+========================= */
+.rassmy-idea-section{
+  padding-top:42px;
+  padding-bottom:86px;
+  background:transparent;
+}
+
+.idea-head{
+  text-align:center;
+  margin-bottom:36px;
+}
+
+.idea-head h2{
+  margin:0;
+  font-size:clamp(30px,4vw,42px);
+  line-height:1.15;
+  color:var(--text);
+}
+
+.idea-steps{
+  position:relative;
+  display:flex;
+  gap:18px;
+  align-items:flex-end;
+}
+
+.idea-steps::before{
+  content:"";
+  position:absolute;
+  right:8%;
+  left:8%;
+  top:58px;
+  height:1px;
+  background:linear-gradient(90deg, rgba(209,221,245,0), rgba(209,221,245,.95), rgba(209,221,245,0));
+  z-index:0;
+}
+
+.idea-step-card{
+  position:relative;
+  z-index:1;
+  flex:1;
+  min-height:196px;
+  padding:22px 22px 24px;
+  border-radius:28px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(215,221,229,.95);
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:right;
+  overflow:hidden;
+}
+
+.idea-step-card::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:3px;
+  background:linear-gradient(90deg,var(--primary),#c7d6ee);
+  opacity:.9;
+}
+
+.idea-step-card.step-02{
+  transform:translateY(-22px);
+}
+
+.idea-step-card.step-03{
+  transform:translateY(-44px);
+}
+
+.idea-step-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:58px;
+  height:38px;
+  padding:0 14px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+  box-shadow:var(--shadow-soft);
+}
+
+.idea-step-card p{
+  margin:18px 0 0;
+  font-size:22px;
+  line-height:1.75;
+  font-weight:700;
+  color:var(--text);
+}
+
+/* =========================
    Models
 ========================= */
 .home-models-grid{
@@ -1923,6 +2020,20 @@ textarea{
   .portfolio-card{
     grid-template-columns:1fr;
   }
+
+  .idea-steps{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .idea-steps::before{
+    display:none;
+  }
+
+  .idea-step-card.step-02,
+  .idea-step-card.step-03{
+    transform:none;
+  }
 }
 
 @media (max-width:720px){
@@ -1955,6 +2066,14 @@ textarea{
 
   .contact-box{
     padding:22px;
+  }
+
+  .idea-step-card{
+    min-height:auto;
+  }
+
+  .idea-step-card p{
+    font-size:19px;
   }
 }
 
