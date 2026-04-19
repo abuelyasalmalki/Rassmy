@@ -36,45 +36,11 @@
       </div>
     </section>
 
-    <section class="request-summary-section">
-      <div class="container">
-        <div class="request-summary-card">
-          <div class="request-summary-grid">
-            <div class="request-summary-item">
-              <span>النموذج المختار</span>
-              <strong id="summaryTemplate">—</strong>
-            </div>
-
-            <div class="request-summary-item">
-              <span>الباقة المختارة</span>
-              <strong id="summaryPackage">—</strong>
-            </div>
-
-            <div class="request-summary-item">
-              <span>نوع الاشتراك</span>
-              <strong id="summaryCycle">—</strong>
-            </div>
-          </div>
-
-          <div class="request-summary-links">
-            <a id="changeTemplateLink" href="models.html">تغيير النموذج</a>
-            <a id="changePackageLink" href="pricing.html">تغيير الباقة</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="request-form-section">
       <div class="container">
-        <div class="request-steps-head">
-          <div class="request-step-pill is-active" data-step-pill="1">
-            <span>1 / 2</span>
-            <strong>الاختيار</strong>
-          </div>
-
-          <div class="request-step-pill" data-step-pill="2">
-            <span>2 / 2</span>
-            <strong>البيانات الأساسية</strong>
+        <div class="request-progress-wrap" aria-hidden="true">
+          <div class="request-progress-track">
+            <span class="request-progress-fill" id="requestProgressFill"></span>
           </div>
         </div>
 
@@ -181,8 +147,8 @@
                 </div>
               </div>
 
-              <div class="request-stage-actions request-stage-actions-double">
-                <button id="prevStepBtn" class="request-secondary-btn" type="button">السابق</button>
+              <div class="request-stage-actions request-stage-actions-split">
+                <button id="prevStepBtn" class="request-back-btn" type="button">السابق</button>
                 <button id="submitBtn" class="request-submit-btn" type="button">إرسال الطلب</button>
               </div>
             </div>
@@ -240,26 +206,11 @@ const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 const submitBtn = document.getElementById("submitBtn");
 const planNoteEl = document.getElementById("planNote");
 
-const summaryTemplateEl = document.getElementById("summaryTemplate");
-const summaryPackageEl = document.getElementById("summaryPackage");
-const summaryCycleEl = document.getElementById("summaryCycle");
-const changeTemplateLink = document.getElementById("changeTemplateLink");
-const changePackageLink = document.getElementById("changePackageLink");
-
 const nextStepBtn = document.getElementById("nextStepBtn");
 const prevStepBtn = document.getElementById("prevStepBtn");
 const stageOneEl = document.querySelector('[data-stage="1"]');
 const stageTwoEl = document.querySelector('[data-stage="2"]');
-const stepPills = document.querySelectorAll("[data-step-pill]");
-
-const modelTypeMap = {
-  "راحتك": "services",
-  "هائل": "services",
-  "كافورا": "products",
-  "لذة الشواء": "products",
-  "جمالك": "profile",
-  "آفاق": "profile"
-};
+const requestProgressFill = document.getElementById("requestProgressFill");
 
 function normalizePlanParam(value){
   const map = {
@@ -284,12 +235,6 @@ function normalizeCycleParam(value){
     "سنوي": "سنوي"
   };
   return map[value] || value || "";
-}
-
-function getPackageDisplay(){
-  if(packageEl.value === "باقة بلس") return "Plus";
-  if(packageEl.value === "باقة برو") return "Pro";
-  return "—";
 }
 
 function updatePlanNote(){
@@ -326,36 +271,15 @@ function updatePlanNote(){
   }
 }
 
-function updateSummary(){
-  const selectedTemplate = templateEl.value || "—";
-  const selectedPackage = getPackageDisplay();
-  const selectedCycle = cycleEl.value || "—";
-
-  summaryTemplateEl.textContent = selectedTemplate;
-  summaryPackageEl.textContent = selectedPackage;
-  summaryCycleEl.textContent = selectedCycle;
-
-  const selectedType = modelTypeMap[templateEl.value] || "";
-  changeTemplateLink.href = selectedType ? `models.html?type=${selectedType}` : "models.html";
-
-  const params = new URLSearchParams();
-  if(templateEl.value) params.set("model", templateEl.value);
-  if(selectedType) params.set("type", selectedType);
-  if(cycleEl.value === "شهري") params.set("cycle", "monthly");
-  if(cycleEl.value === "سنوي") params.set("cycle", "yearly");
-
-  changePackageLink.href = params.toString() ? `pricing.html?${params.toString()}` : "pricing.html";
-}
-
 function setStep(step){
   const isStepOne = step === 1;
 
   stageOneEl.hidden = !isStepOne;
   stageTwoEl.hidden = isStepOne;
 
-  stepPills.forEach((pill, index) => {
-    pill.classList.toggle("is-active", index + 1 === step);
-  });
+  if (requestProgressFill) {
+    requestProgressFill.style.width = isStepOne ? "50%" : "100%";
+  }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -374,17 +298,8 @@ togglePasswordBtn.addEventListener("click", () => {
   passwordEl.type = passwordEl.type === "password" ? "text" : "password";
 });
 
-packageEl.addEventListener("change", () => {
-  updatePlanNote();
-  updateSummary();
-});
-
-cycleEl.addEventListener("change", () => {
-  updatePlanNote();
-  updateSummary();
-});
-
-templateEl.addEventListener("change", updateSummary);
+packageEl.addEventListener("change", updatePlanNote);
+cycleEl.addEventListener("change", updatePlanNote);
 
 nextStepBtn.addEventListener("click", () => {
   try{
@@ -434,7 +349,6 @@ prevStepBtn.addEventListener("click", () => {
   }
 
   updatePlanNote();
-  updateSummary();
   setStep(1);
 })();
 
@@ -463,7 +377,7 @@ submitBtn.onclick = async () => {
     if(!selectedPackage) throw "اختر الباقة";
     if(!cycle) throw "اختر نوع الاشتراك";
     if(!template) throw "اختر النموذج";
-    if(!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
+    if(!/^\\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
     if(password.length < 6) throw "كلمة المرور ضعيفة";
 
     const email = phone + "@user.com";
