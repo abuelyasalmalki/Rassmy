@@ -72,6 +72,10 @@
   gap:14px;
 }
 
+.request-stage[hidden]{
+  display:none !important;
+}
+
 .request-form-row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -168,7 +172,7 @@
 }
 
 .request-submit-btn{
-  min-width:170px;
+  min-width:190px;
   min-height:50px;
   padding:0 22px;
   border:none;
@@ -187,19 +191,19 @@
 }
 
 .request-back-btn{
-  min-height:42px;
-  padding:0 6px;
+  min-height:34px;
+  padding:0;
   border:none;
   background:none;
-  color:var(--muted);
-  font-size:14px;
-  font-weight:800;
+  color:#98a2b3;
+  font-size:13px;
+  font-weight:700;
   cursor:pointer;
   transition:.2s ease;
 }
 
 .request-back-btn:hover{
-  color:var(--text);
+  color:var(--muted);
 }
 
 .request-link{
@@ -271,6 +275,7 @@
   .request-back-btn{
     align-self:flex-start;
     padding:0;
+    margin-bottom:4px;
   }
 }
 
