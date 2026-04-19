@@ -150,14 +150,6 @@ textarea{
   position:relative;
 }
 
-.header-pages-menu summary{
-  list-style:none;
-}
-
-.header-pages-menu summary::-webkit-details-marker{
-  display:none;
-}
-
 .header-pages-toggle{
   width:42px;
   height:42px;
@@ -170,6 +162,7 @@ textarea{
   box-shadow:var(--shadow-soft);
   cursor:pointer;
   transition:.2s ease;
+  padding:0;
 }
 
 .header-pages-toggle:hover{
@@ -180,12 +173,12 @@ textarea{
   stroke:#fff;
 }
 
-.header-pages-menu[open] .header-pages-toggle{
+.header-pages-menu.is-open .header-pages-toggle{
   background:var(--text);
   border-color:var(--text);
 }
 
-.header-pages-menu[open] .header-pages-toggle svg{
+.header-pages-menu.is-open .header-pages-toggle svg{
   stroke:#fff;
 }
 
@@ -211,6 +204,10 @@ textarea{
   display:grid;
   gap:8px;
   z-index:1200;
+}
+
+.header-pages-dropdown[hidden]{
+  display:none !important;
 }
 
 .header-pages-dropdown a{
