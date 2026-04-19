@@ -3,41 +3,537 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة العميل</title>
-<link rel="stylesheet" href="assets/account.css">
+<title>حسابي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f6f8fb;
+  --surface:#ffffff;
+  --surface-2:#f8fafc;
+  --text:#111827;
+  --muted:#667085;
+  --line:#d7dde5;
+  --shadow:0 18px 40px rgba(15,23,42,.08);
+  --shadow-soft:0 10px 24px rgba(15,23,42,.05);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"IBM Plex Sans Arabic", Tahoma, Arial, sans-serif;
+  background:linear-gradient(180deg,#fbfcfe 0%, #f6f8fb 100%);
+  color:var(--text);
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+.container{
+  width:min(1080px, calc(100% - 24px));
+  margin-inline:auto;
+}
+
+/* =========================
+   Header
+========================= */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.84);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(215,221,229,.7);
+  box-shadow:0 10px 24px rgba(15,23,42,.04);
+}
+
+.account-header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.account-header-side{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand{
+  display:inline-flex;
+  align-items:center;
+}
+
+.brand img{
+  height:42px;
+  width:auto;
+  display:block;
+}
+
+.header-user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--text);
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  box-shadow:var(--shadow-soft);
+}
+
+.header-user-text{
+  display:grid;
+  gap:2px;
+}
+
+.header-user-text strong{
+  font-size:14px;
+  color:var(--text);
+}
+
+.username{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.logout-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:78px;
+  height:38px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+  transition:.2s ease;
+}
+
+.logout-btn:hover{
+  background:var(--text);
+  color:#fff;
+}
+
+/* =========================
+   Page
+========================= */
+.account-page{
+  padding:34px 0 90px;
+}
+
+.account-page-head{
+  margin-bottom:22px;
+}
+
+.account-page-head h1{
+  margin:0;
+  font-size:clamp(32px,5vw,52px);
+  line-height:1.08;
+  color:var(--text);
+}
+
+.account-grid{
+  display:grid;
+  gap:18px;
+}
+
+.account-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(215,221,229,.95);
+  border-radius:28px;
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
+  overflow:hidden;
+}
+
+.account-card-body{
+  padding:22px;
+}
+
+.account-section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.account-section-head h2{
+  margin:0;
+  font-size:22px;
+  line-height:1.2;
+  color:var(--text);
+}
+
+.account-soft-tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  padding:0 12px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
+.account-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.summary-card{
+  padding:16px;
+  border-radius:20px;
+  background:var(--surface-2);
+  border:1px solid rgba(215,221,229,.95);
+}
+
+.summary-card span{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.summary-card strong{
+  color:var(--text);
+  font-size:16px;
+  line-height:1.5;
+  font-weight:800;
+}
+
+.sub-box{
+  display:grid;
+  gap:12px;
+}
+
+.sub-row{
+  padding:14px 16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #edf1f5;
+  color:#475467;
+  font-size:14px;
+  line-height:1.9;
+}
+
+.sub-row strong{
+  color:var(--text);
+  font-weight:700;
+}
+
+.sub-row.price{
+  line-height:2;
+}
+
+.sub-row .inline-actions{
+  display:inline-flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-right:8px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:28px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  margin-right:6px;
+}
+
+.badge-green{
+  background:#e8f7ec;
+  color:#15703a;
+}
+
+.badge-red{
+  background:#fdecec;
+  color:#b42318;
+}
+
+.link{
+  color:#111827;
+  font-weight:700;
+  border-bottom:1px solid rgba(17,24,39,.18);
+}
+
+.link:hover{
+  color:#374151;
+}
+
+.inline-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  padding:0 10px;
+  border:none;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+  transition:.2s ease;
+}
+
+.inline-btn:hover{
+  background:var(--text);
+  color:#fff;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:800;
+  margin-top:10px;
+}
+
+.s1{
+  background:#fff3cd;
+  color:#856404;
+}
+
+.s2{
+  background:#e3f2fd;
+  color:#0c5460;
+}
+
+.s3{
+  background:#e6f4ea;
+  color:#155724;
+}
+
+.progress-bar{
+  height:10px;
+  background:#eceff3;
+  border-radius:999px;
+  margin-top:16px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:#111827;
+}
+
+.progress{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+
+.step{
+  text-align:center;
+  padding:9px 8px;
+  background:#eef1f5;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.step.active{
+  background:#111827;
+  color:#fff;
+}
+
+.note{
+  background:#f8fbff;
+  padding:14px 16px;
+  border-radius:16px;
+  margin-top:16px;
+  font-size:14px;
+  line-height:1.9;
+  color:#475467;
+  border:1px solid #e8edf5;
+}
+
+.order-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+
+.order-item{
+  padding:14px 16px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #edf1f5;
+}
+
+.order-item span{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.order-item strong{
+  color:var(--text);
+  font-size:14px;
+  line-height:1.8;
+  font-weight:700;
+}
+
+.empty-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(215,221,229,.95);
+  border-radius:28px;
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
+  padding:22px;
+  color:var(--muted);
+  font-size:15px;
+}
+
+.request-success-toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111827;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:12px;
+  font-size:14px;
+  z-index:9999;
+  box-shadow:0 12px 26px rgba(0,0,0,.18);
+  white-space:pre-line;
+}
+
+@media (max-width:860px){
+  .account-summary{
+    grid-template-columns:1fr;
+  }
+
+  .order-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:720px){
+  .account-header-inner{
+    min-height:66px;
+  }
+
+  .brand img{
+    height:34px;
+  }
+
+  .account-page{
+    padding:26px 0 72px;
+  }
+
+  .account-page-head h1{
+    font-size:36px;
+  }
+
+  .account-card{
+    border-radius:24px;
+  }
+
+  .account-card-body{
+    padding:18px;
+  }
+
+  .account-section-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .logout-btn{
+    min-width:70px;
+    height:34px;
+    font-size:12px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<header class="account-topbar">
-  <div class="account-topbar-inner">
-    <div class="account-brand">
-      <div class="account-logo-box">
+<header class="site-header">
+  <div class="container account-header-inner">
+    <div class="account-header-side">
+      <a href="index.html" class="brand" aria-label="رسمي">
         <img src="logo-full.png" alt="رسمي">
-      </div>
-    </div>
+      </a>
 
-    <div class="account-user-box">
-      <div class="account-user-box">
-        <div class="account-avatar" id="avatar">؟</div>
-        <div>
-          <strong>حسابك</strong>
-          <div id="userName" class="account-username"></div>
+      <div class="header-user">
+        <div class="avatar" id="avatar">؟</div>
+        <div class="header-user-text">
+          <strong>حسابي</strong>
+          <div id="userName" class="username"></div>
         </div>
       </div>
-
-      <button onclick="logout()" class="account-logout-btn">خروج</button>
     </div>
+
+    <button onclick="logout()" class="logout-btn">خروج</button>
   </div>
 </header>
 
-<div class="account-container">
-  <div id="orders"></div>
-</div>
+<main class="account-page">
+  <div class="container">
+    <div class="account-page-head">
+      <h1>حسابي</h1>
+    </div>
+
+    <div id="orders" class="account-grid"></div>
+  </div>
+</main>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const app = initializeApp({
@@ -49,93 +545,41 @@ const app = initializeApp({
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let currentOrderId = null;
-let currentStatusText = "";
-
-const escapeHtml = (value)=>{
-  return String(value ?? "")
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#39;");
-};
-
-const sanitizeUrl = (value)=>{
-  if(!value) return "";
-  const trimmed = String(value).trim();
-  if(!/^https?:\/\//i.test(trimmed)) return "";
-  return trimmed;
-};
+const orders = document.getElementById("orders");
+const userName = document.getElementById("userName");
+const avatar = document.getElementById("avatar");
 
 window.logout = ()=> signOut(auth).then(()=>location.href="login.html");
 
-window.showSoon = (message = "الميزة متاحة بعد اكتمال موقعك")=>{
+window.showSoon = ()=>{
   const msg = document.createElement("div");
-  msg.className = "account-toast";
-  msg.innerText = message;
+
+  msg.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20"/>
+        <path d="M12 2a15 15 0 0 1 0 20"/>
+        <path d="M12 2a15 15 0 0 0 0 20"/>
+      </svg>
+      <span>الميزة متاحة بعد اكتمال موقعك</span>
+    </div>
+  `;
+
+  msg.style.position = "fixed";
+  msg.style.bottom = "20px";
+  msg.style.left = "50%";
+  msg.style.transform = "translateX(-50%)";
+  msg.style.background = "#111";
+  msg.style.color = "#fff";
+  msg.style.padding = "12px 20px";
+  msg.style.borderRadius = "10px";
+  msg.style.fontSize = "14px";
+  msg.style.zIndex = "9999";
+
   document.body.appendChild(msg);
   setTimeout(()=>msg.remove(),2000);
 };
-
-window.dismissAccountAlert = async ()=>{
-  const alertBox = document.getElementById("accountAlertCard");
-  if(alertBox){
-    alertBox.remove();
-  }
-
-  if(currentOrderId && currentStatusText){
-    try{
-      await updateDoc(doc(db,"orders",currentOrderId),{
-        alertDismissedForStatus: currentStatusText
-      });
-    }catch(e){
-      console.error("Failed to dismiss alert:", e);
-    }
-  }
-};
-
-function getAlertContent(statusText, customerName, planText){
-  if(statusText === "قيد التنفيذ"){
-    return {
-      title: `مرحبًا ${customerName}، جاري العمل على موقعك`,
-      text: `العمل جارٍ الآن على تجهيز الموقع وتخصيصه حسب نشاطك. الباقة الحالية: ${planText}. وسيتم التواصل معك لإكمال التخصيص.`
-    };
-  }
-
-  if(statusText === "مكتمل"){
-    return {
-      title: `مرحبًا ${customerName}، موقعك أصبح جاهزًا`,
-      text: `تم اكتمال الموقع بنجاح. يمكنك الآن متابعة رابط الموقع ومعلومات الاشتراك من نفس الصفحة.`
-    };
-  }
-
-  return {
-    title: `مرحبًا ${customerName}، تم استلام طلبك`,
-    text: `تم تسجيل طلبك بنجاح. الباقة الحالية: ${planText}. وسيتم التواصل معك لإكمال التخصيص.`
-  };
-}
-
-function autoHideAlertAfterFiveMinutes(){
-  setTimeout(()=>{
-    const alertBox = document.getElementById("accountAlertCard");
-    if(alertBox){
-      alertBox.remove();
-    }
-  }, 300000);
-}
-
-function hasCompletedAlertExpired(statusText, statusUpdatedAt){
-  if(statusText !== "مكتمل" || !statusUpdatedAt?.seconds){
-    return false;
-  }
-
-  const updatedMs = statusUpdatedAt.seconds * 1000;
-  const nowMs = Date.now();
-  const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
-
-  return (nowMs - updatedMs) >= threeDaysMs;
-}
 
 onAuthStateChanged(auth, async (user)=>{
 
@@ -145,68 +589,28 @@ onAuthStateChanged(auth, async (user)=>{
   }
 
   try{
-    const ordersBox = document.getElementById("orders");
-    const orderRef = doc(db,"orders",user.uid);
-    const orderSnap = await getDoc(orderRef);
+    const orderSnap = await getDoc(doc(db,"orders",user.uid));
     const subSnap = await getDoc(doc(db,"subscriptions",user.uid));
 
     if(!orderSnap.exists()){
-      ordersBox.innerHTML = `
-        <div class="account-empty">
-          لا يوجد طلب بعد
-        </div>
-      `;
+      orders.innerHTML = `<div class="empty-card">لا يوجد طلب بعد</div>`;
       return;
     }
-
-    currentOrderId = user.uid;
 
     const d = orderSnap.data();
     const sub = subSnap.exists() ? subSnap.data() : {};
 
-    const userNameEl = document.getElementById("userName");
-    const avatarEl = document.getElementById("avatar");
+    userName.innerText = d.name ? d.name : "—";
+    avatar.innerText = d.name ? d.name.charAt(0) : "?";
 
-    userNameEl.innerText = d.name ? "العميل: " + d.name : "العميل";
-    avatarEl.innerText = d.name ? d.name.charAt(0) : "?";
+    let step=1, percent=33, statusText="تم تقديم الطلب", cls="s1", msg="جاري التواصل معك";
 
-    let step = 1;
-    let percent = 33;
-    let statusText = "تم تقديم الطلب";
-    let cls = "s1";
-    let msg = "تم استلام طلبك بنجاح، وسيتم التواصل معك لإكمال التخصيص.";
-
-    if(d.status === "قيد التنفيذ"){
-      step = 2;
-      percent = 66;
-      statusText = "قيد التنفيذ";
-      cls = "s2";
-      msg = "العمل جارٍ على تجهيز موقعك وتخصيصه حسب نشاطك.";
+    if(d.status==="قيد التنفيذ"){
+      step=2; percent=66; statusText="قيد التنفيذ"; cls="s2"; msg="فريقنا يعمل على موقعك";
     }
 
-    if(d.status === "مكتمل"){
-      step = 3;
-      percent = 100;
-      statusText = "مكتمل";
-      cls = "s3";
-      msg = "موقعك جاهز، ويمكنك الآن متابعة رابط الموقع ومعلومات الاشتراك.";
-    }
-
-    currentStatusText = statusText;
-
-    if(d.alertLastStatus !== statusText){
-      try{
-        await updateDoc(orderRef,{
-          alertDismissedForStatus: "",
-          alertLastStatus: statusText,
-          statusUpdatedAt: serverTimestamp()
-        });
-
-        d.alertDismissedForStatus = "";
-        d.alertLastStatus = statusText;
-      }catch(e){
-        console.error("Failed to sync alert status:", e);
-      }
+    if(d.status==="مكتمل"){
+      step=3; percent=100; statusText="مكتمل"; cls="s3"; msg="موقعك جاهز";
     }
 
     let orderDate = "—";
@@ -214,163 +618,141 @@ onAuthStateChanged(auth, async (user)=>{
       orderDate = new Date(d.createdAt.seconds * 1000).toLocaleDateString('ar-SA');
     }
 
-    const hostingStatusText = sub.status === "مفعل" ? "مفعلة" : "سيتم تفعيلها فور إنجاز الموقع";
-    const domainStatusText = sub.domainDate ? "مربوط" : "لم يتم الربط";
+    const hostingBadge = sub.status==="مفعل"
+      ? `<span class="badge badge-green">مفعلة</span>`
+      : `<span class="badge badge-red">غير مفعلة</span>`;
 
-    const planText = sub.plan || d.package || "—";
-    const customerName = d.name || "عميلنا";
-    const alertContent = getAlertContent(statusText, customerName, planText);
+    const domainBadge = sub.domainDate
+      ? `<span class="badge badge-green">مربوط</span>`
+      : `<span class="badge badge-red">غير مربوط</span>`;
 
-    const dismissedForCurrentStatus = d.alertDismissedForStatus === statusText;
-    const completedAlertExpired = hasCompletedAlertExpired(statusText, d.statusUpdatedAt);
-    const shouldShowAlert = !dismissedForCurrentStatus && !completedAlertExpired;
-
-    const safeSiteUrl = sanitizeUrl(sub.siteUrl);
-    const safeInvoiceUrl = sanitizeUrl(d.invoiceUrl);
-    const safeSubId = escapeHtml(sub.subId || "-");
-    const safePlanText = escapeHtml(planText);
-    const safeHostingStatusText = escapeHtml(hostingStatusText);
-    const safeHostingDate = escapeHtml(sub.hostingDate || "—");
-    const safeDomainStatusText = escapeHtml(domainStatusText);
-    const safeDomainDate = escapeHtml(sub.domainDate || "—");
-    const safeMsg = escapeHtml(msg);
-    const safeOrderId = escapeHtml(d.orderId || "-");
-    const safeOrderDate = escapeHtml(orderDate);
-    const safeName = escapeHtml(d.name || "-");
-    const safePhone = escapeHtml(d.phone || "-");
-    const safeActivityName = escapeHtml(d.activityName || "-");
-    const safeActivityType = escapeHtml(d.activityType || "-");
-    const safePackage = escapeHtml(d.package || "-");
-    const safeTemplate = escapeHtml(d.template || "-");
-    const safePaymentStatus = escapeHtml(d.paymentStatus || "");
-    const safeAlertTitle = escapeHtml(alertContent.title);
-    const safeAlertText = escapeHtml(alertContent.text);
-
-    const siteLinkHtml = safeSiteUrl
-      ? `<a class="account-link" href="${safeSiteUrl}" target="_blank" rel="noopener noreferrer">زيارة الموقع</a>`
-      : `<a href="javascript:void(0)" class="account-link" onclick="showSoon('لم يكتمل بعد')">رابط الموقع</a>`;
-
-    const invoiceHtml = safeInvoiceUrl
-      ? `<a class="account-link" href="${safeInvoiceUrl}" target="_blank" rel="noopener noreferrer">عرض الفاتورة</a>`
-      : `لم تصدر بعد`;
-
-    ordersBox.innerHTML = `
-      ${shouldShowAlert ? `
-      <section class="account-alert-card" id="accountAlertCard">
-        <span class="account-badge">لوحة متابعة الطلب</span>
-
-        <div class="account-alert-head">
-          <div>
-            <h1>${safeAlertTitle}</h1>
-            <p>${safeAlertText}</p>
+    orders.innerHTML = `
+      <section class="account-card">
+        <div class="account-card-body">
+          <div class="account-section-head">
+            <h2>معلومات الاشتراك</h2>
+            <span class="account-soft-tag">${sub.subId || "-"}</span>
           </div>
-          <span class="account-status ${cls}">${statusText}</span>
-        </div>
 
-        <div class="account-alert-actions">
-          <button class="account-alert-btn" onclick="dismissAccountAlert()">حسنًا</button>
+          <div class="account-summary">
+            <div class="summary-card">
+              <span>نوع الاشتراك</span>
+              <strong>${sub.plan || "Plus"}</strong>
+            </div>
+
+            <div class="summary-card">
+              <span>الاستضافة</span>
+              <strong>${sub.status || "جاري التفعيل"}</strong>
+            </div>
+
+            <div class="summary-card">
+              <span>رابط الموقع</span>
+              <strong>${sub.siteUrl ? "متوفر" : "سيتم إضافته لاحقًا"}</strong>
+            </div>
+          </div>
+
+          <div class="sub-box">
+            <div class="sub-row">
+              <strong>ID:</strong> ${sub.subId || "-"}
+            </div>
+
+            <div class="sub-row">
+              <strong>رابط الموقع:</strong>
+              ${sub.siteUrl 
+                ? `<a class="link" href="${sub.siteUrl}" target="_blank">زيارة الموقع</a>`
+                : "سيتم إضافته لاحقًا"}
+            </div>
+
+            <div class="sub-row">
+              <strong>الاستضافة:</strong>
+              ${hostingBadge}
+            </div>
+
+            <div class="sub-row">
+              <strong>الدومين:</strong>
+              ${domainBadge}
+            </div>
+
+            <div class="sub-row">
+              <strong>نوع الاشتراك:</strong>
+              ${sub.plan || "Plus"}
+              <span class="inline-actions">
+                <button class="inline-btn" onclick="showSoon()">ترقية</button>
+              </span>
+            </div>
+
+            <div class="sub-row price">
+              <strong>السعر:</strong> السنة الأولى مجانا<br>
+              التجديد القادم بعد سنة 299 ريال فقط
+              <span class="inline-actions">
+                <button class="inline-btn" onclick="showSoon()">تجديد</button>
+              </span>
+            </div>
+          </div>
         </div>
       </section>
-      ` : ""}
 
-      <section class="account-grid">
-        <div class="account-card">
-          <div class="account-card-title">
-            <div>
-              <h2>الاشتراك والموقع</h2>
-            </div>
+      <section class="account-card">
+        <div class="account-card-body">
+          <div class="account-section-head">
+            <h2>طلباتي</h2>
+            <span class="account-soft-tag">طلب تصميم موقع</span>
           </div>
 
-          <div class="account-sub-box">
-            <div class="account-sub-row">
-              <strong>رقم الاشتراك:</strong> ${safeSubId}
-            </div>
+          <div class="status ${cls}">${statusText}</div>
 
-            <div class="account-sub-row">
-              <strong>رابط الموقع:</strong> ${siteLinkHtml}
-            </div>
-
-            <div class="account-sub-row">
-              <strong>الباقة الحالية:</strong> ${safePlanText}
-              <div class="account-actions">
-                <button class="account-btn" onclick="showSoon()">ترقية</button>
-              </div>
-            </div>
-
-            <div class="account-sub-row">
-              <strong>الاستضافة:</strong><br>
-              الحالة: ${safeHostingStatusText}<br>
-              تاريخ انتهاء الاستضافة: ${safeHostingDate}
-              <div class="account-actions">
-                <button class="account-btn" onclick="showSoon()">تجديد</button>
-              </div>
-            </div>
-
-            <div class="account-sub-row">
-              <strong>الدومين:</strong><br>
-              الحالة: ${safeDomainStatusText}<br>
-              تاريخ انتهاء الدومين: ${safeDomainDate}
-              <div class="account-actions">
-                <button class="account-btn" onclick="showSoon()">ربط</button>
-                <button class="account-btn" onclick="showSoon()">تجديد</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="account-card">
-          <div class="account-card-title">
-            <div>
-              <h2>معلومات الطلب</h2>
-              <div class="account-card-sub">تفاصيل الطلب وحالته الحالية</div>
-            </div>
-            <span class="account-status ${cls}">${statusText}</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${percent}%"></div>
           </div>
 
-          <div class="account-progress-bar">
-            <div class="account-progress-fill" style="width:${percent}%"></div>
+          <div class="progress">
+            <div class="step ${step>=1?"active":""}">تم الطلب</div>
+            <div class="step ${step>=2?"active":""}">تنفيذ</div>
+            <div class="step ${step>=3?"active":""}">مكتمل</div>
           </div>
 
-          <div class="account-steps">
-            <div class="account-step ${step>=1?"active":""} ${step===1?"current":""}">تم الطلب</div>
-            <div class="account-step ${step>=2?"active":""} ${step===2?"current":""}">قيد التنفيذ</div>
-            <div class="account-step ${step>=3?"active":""} ${step===3?"current":""}">مكتمل</div>
-          </div>
+          <div class="note">${msg}</div>
 
-          <div class="account-note">${safeMsg}</div>
+          <div class="order-grid">
+            <div class="order-item">
+              <span>رقم الطلب</span>
+              <strong>${d.orderId || "-"}</strong>
+            </div>
 
-          <div class="account-info-list">
-            <div class="account-info-row"><strong>رقم الطلب:</strong> ${safeOrderId}</div>
-            <div class="account-info-row"><strong>تاريخ الطلب:</strong> ${safeOrderDate}</div>
-            <div class="account-info-row"><strong>اسم العميل:</strong> ${safeName}</div>
-            <div class="account-info-row"><strong>رقم الجوال:</strong> ${safePhone}</div>
-            <div class="account-info-row"><strong>اسم النشاط:</strong> ${safeActivityName}</div>
-            <div class="account-info-row"><strong>نوع النشاط:</strong> ${safeActivityType}</div>
-            <div class="account-info-row"><strong>الباقة:</strong> ${safePackage}</div>
-            <div class="account-info-row"><strong>النموذج:</strong> ${safeTemplate}</div>
-            ${
-              d.paymentStatus
-                ? `<div class="account-info-row"><strong>حالة الدفع:</strong> ${safePaymentStatus}</div>`
-                : ``
-            }
-            <div class="account-info-row"><strong>الفاتورة:</strong> ${invoiceHtml}</div>
+            <div class="order-item">
+              <span>تاريخ الطلب</span>
+              <strong>${orderDate}</strong>
+            </div>
+
+            <div class="order-item">
+              <span>اسم العميل</span>
+              <strong>${d.name || "-"}</strong>
+            </div>
+
+            <div class="order-item">
+              <span>الجوال</span>
+              <strong>${d.phone || ""}</strong>
+            </div>
+
+            <div class="order-item">
+              <span>اسم النشاط</span>
+              <strong>${d.activityName || ""}</strong>
+            </div>
+
+            <div class="order-item">
+              <span>نوع النشاط</span>
+              <strong>${d.activityType || ""}</strong>
+            </div>
           </div>
         </div>
       </section>
     `;
-
-    if(shouldShowAlert){
-      autoHideAlertAfterFiveMinutes();
-    }
 
   }catch(e){
     console.error(e);
-    document.getElementById("orders").innerHTML = `
-      <div class="account-empty">
-        حدث خطأ أثناء تحميل البيانات
-      </div>
-    `;
+    orders.innerHTML = `<div class="empty-card">خطأ في تحميل البيانات</div>`;
   }
+
 });
 </script>
 
