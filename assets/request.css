@@ -1,162 +1,155 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>طلب موقع جديد</title>
-<link rel="stylesheet" href="./assets/request.css">
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap");
-*{
-  box-sizing:border-box;
+.request-page{
+  min-height:100vh;
 }
 
-body{
-  font-family:Tahoma, Arial, sans-serif;
-  background:#f6f8fc;
+.request-intro-section{
+  padding:56px 0 18px;
+}
+
+.request-intro-copy{
+  max-width:760px;
+  margin-inline:auto;
+  text-align:center;
+}
+
+.request-intro-copy h1{
+  margin:0 0 12px;
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.1;
+  color:var(--text);
+}
+
+.request-intro-copy p{
   margin:0;
-  color:#111827;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.9;
 }
 
-.request-container{
-  max-width:960px;
-  margin:auto;
-  padding:24px 16px 40px;
+.request-summary-section{
+  padding:8px 0 20px;
 }
 
-.request-page-head{
-  text-align:center;
-  margin-bottom:24px;
+.request-summary-card{
+  max-width:980px;
+  margin-inline:auto;
+  padding:20px;
+  border-radius:24px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(215,221,229,.95);
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
+  display:grid;
+  gap:16px;
 }
 
-.request-logo{
-  text-align:center;
-  margin-bottom:18px;
+.request-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:14px;
 }
 
-.request-logo img{
-  width:190px;
-  max-width:100%;
-  height:auto;
-  display:inline-block;
-  object-fit:contain;
+.request-summary-item{
+  padding:16px;
+  border-radius:18px;
+  background:#f8fafc;
+  border:1px solid rgba(215,221,229,.9);
+  display:grid;
+  gap:6px;
 }
 
-.request-badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 14px;
-  border-radius:999px;
-  background:#eaf2ff;
-  color:#2563eb;
+.request-summary-item span{
+  color:var(--muted);
   font-size:13px;
   font-weight:700;
-  margin-bottom:14px;
 }
 
-.request-page-head h1{
-  margin:0 0 10px;
-  font-size:30px;
+.request-summary-item strong{
+  color:var(--text);
+  font-size:18px;
+  font-weight:800;
+  line-height:1.4;
 }
 
-.request-page-head p{
-  margin:0 auto;
-  max-width:720px;
-  color:#6b7280;
-  line-height:1.9;
-  font-size:15px;
+.request-summary-links{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
 }
 
-.request-layout{
+.request-summary-links a{
+  color:var(--text);
+  font-size:14px;
+  font-weight:800;
+  border-bottom:1px solid rgba(17,24,39,.18);
+  transition:.2s ease;
+}
+
+.request-summary-links a:hover{
+  color:var(--primary);
+  border-bottom-color:rgba(37,99,235,.28);
+}
+
+.request-form-section{
+  padding:10px 0 96px;
+}
+
+.request-steps-head{
+  max-width:980px;
+  margin:0 auto 18px;
   display:grid;
-  grid-template-columns:.88fr 1.12fr;
-  gap:20px;
-  align-items:start;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+
+.request-step-pill{
+  padding:14px 16px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+  display:grid;
+  gap:4px;
+}
+
+.request-step-pill span{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
+.request-step-pill strong{
+  color:var(--text);
+  font-size:15px;
+  font-weight:800;
+}
+
+.request-step-pill.is-active{
+  background:var(--text);
+  border-color:var(--text);
+  box-shadow:0 12px 24px rgba(17,24,39,.12);
+}
+
+.request-step-pill.is-active span,
+.request-step-pill.is-active strong{
+  color:#fff;
 }
 
 .request-card{
+  max-width:980px;
+  margin-inline:auto;
   background:#fff;
   padding:24px;
-  border-radius:18px;
-  border:1px solid #e8edf5;
-  box-shadow:0 10px 24px rgba(15,23,42,0.05);
-}
-
-.request-side-card h2,
-.request-form-card h2{
-  margin:0 0 10px;
-  font-size:24px;
-}
-
-.request-side-card p,
-.request-form-card p{
-  margin:0 0 18px;
-  color:#6b7280;
-  line-height:1.9;
-  font-size:14px;
-}
-
-.request-info-list{
-  display:grid;
-  gap:12px;
-  margin-top:16px;
-}
-
-.request-info-item{
-  padding:16px;
-  border-radius:14px;
-  background:#f8fbff;
-  border:1px solid #e8edf5;
-}
-
-.request-info-item strong{
-  display:block;
-  margin-bottom:4px;
-  font-size:15px;
-}
-
-.request-info-item span{
-  color:#6b7280;
-  font-size:13px;
-  line-height:1.8;
-}
-
-.request-preview-box{
-  margin-top:18px;
-  padding:18px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#f8fbff,#eef4ff);
-  border:1px solid #dce8fb;
-}
-
-.request-preview-box strong{
-  display:block;
-  margin-bottom:8px;
-  font-size:16px;
-}
-
-.request-preview-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:10px;
-}
-
-.request-preview-tags span{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:700;
-  background:#fff;
-  border:1px solid #e5e7eb;
-  color:#4b5563;
+  border-radius:28px;
+  border:1px solid rgba(215,221,229,.95);
+  box-shadow:0 16px 34px rgba(15,23,42,.05);
 }
 
 .request-form{
+  display:grid;
+  gap:14px;
+}
+
+.request-stage{
   display:grid;
   gap:14px;
 }
@@ -167,6 +160,10 @@ body{
   gap:14px;
 }
 
+.request-form-row-single{
+  grid-template-columns:1fr;
+}
+
 .request-field{
   display:grid;
   gap:8px;
@@ -174,33 +171,35 @@ body{
 
 .request-field label{
   font-size:14px;
-  font-weight:700;
+  font-weight:800;
   color:#334155;
 }
 
 .request-field input,
 .request-field select{
   width:100%;
-  padding:14px;
-  border-radius:12px;
+  min-height:54px;
+  padding:14px 16px;
+  border-radius:16px;
   border:1px solid #d8e0eb;
   font-size:14px;
   font-family:inherit;
   background:#fff;
   outline:none;
-  transition:0.2s ease;
+  transition:.2s ease;
   text-align:right;
+  color:var(--text);
 }
 
 .request-field input:focus,
 .request-field select:focus{
   border-color:#93c5fd;
-  box-shadow:0 0 0 4px rgba(37,99,235,0.08);
+  box-shadow:0 0 0 4px rgba(37,99,235,.08);
 }
 
 .request-small-text{
   font-size:12px;
-  color:#6b7280;
+  color:var(--muted);
   margin-top:-2px;
 }
 
@@ -209,32 +208,28 @@ body{
 }
 
 .request-password-wrap input{
-  padding-left:44px;
+  padding-left:48px;
 }
 
 .request-password-wrap button{
   position:absolute;
-  left:10px;
+  left:12px;
   top:50%;
   transform:translateY(-50%);
-  background:none;
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
   border:none;
+  background:none;
   padding:0;
   margin:0;
   cursor:pointer;
-  width:26px;
-  height:26px;
-  display:grid;
-  place-items:center;
-}
-
-.request-password-wrap svg{
-  display:block;
 }
 
 .request-plan-note{
   padding:14px 16px;
-  border-radius:14px;
+  border-radius:16px;
   background:#f8fbff;
   border:1px solid #e8edf5;
   color:#475569;
@@ -242,46 +237,62 @@ body{
   line-height:1.8;
 }
 
-.request-submit-row{
+.request-stage-actions{
   display:flex;
-  align-items:center;
-  gap:14px;
-  flex-wrap:wrap;
-  margin-top:4px;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:6px;
+}
+
+.request-stage-actions-double{
+  justify-content:space-between;
+}
+
+.request-submit-btn,
+.request-secondary-btn{
+  min-width:170px;
+  min-height:50px;
+  padding:0 22px;
+  border:none;
+  border-radius:16px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
 }
 
 .request-submit-btn{
-  width:auto;
-  min-width:220px;
-  padding:14px 22px;
-  border:none;
-  border-radius:12px;
-  background:#111827;
+  background:var(--text);
   color:#fff;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
+  box-shadow:0 12px 24px rgba(17,24,39,.16);
 }
 
 .request-submit-btn:hover{
-  opacity:.95;
+  transform:translateY(-1px);
 }
 
-.request-submit-hint{
-  font-size:13px;
-  color:#6b7280;
+.request-secondary-btn{
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+}
+
+.request-secondary-btn:hover{
+  background:var(--surface-2);
 }
 
 .request-link{
   text-align:center;
-  margin-top:16px;
+  margin-top:18px;
   font-size:14px;
+  color:var(--muted);
 }
 
 .request-link a{
-  color:#111827;
+  color:var(--text);
   text-decoration:none;
-  font-weight:700;
+  font-weight:800;
 }
 
 .request-success-toast{
@@ -299,450 +310,76 @@ body{
   white-space:pre-line;
 }
 
-@media (max-width:900px){
-  .request-layout{
+@media (max-width:860px){
+  .request-summary-grid{
     grid-template-columns:1fr;
-  }
-}
-
-@media (max-width:680px){
-  .request-container{
-    padding:16px 12px 32px;
-  }
-
-  .request-page-head h1{
-    font-size:26px;
-  }
-
-  .request-card{
-    padding:18px;
-    border-radius:16px;
   }
 
   .request-form-row{
     grid-template-columns:1fr;
   }
+}
 
-  .request-submit-row{
-    flex-direction:column;
-    align-items:stretch;
+@media (max-width:720px){
+  .request-intro-section{
+    padding:40px 0 14px;
   }
 
-  .request-submit-btn{
+  .request-intro-copy h1{
+    font-size:38px;
+  }
+
+  .request-intro-copy p{
+    font-size:15px;
+  }
+
+  .request-card{
+    padding:18px;
+    border-radius:24px;
+  }
+
+  .request-summary-card{
+    padding:16px;
+    border-radius:20px;
+  }
+
+  .request-steps-head{
+    grid-template-columns:1fr;
+  }
+
+  .request-stage-actions,
+  .request-stage-actions-double{
+    flex-direction:column;
+    justify-content:stretch;
+  }
+
+  .request-submit-btn,
+  .request-secondary-btn{
     width:100%;
     min-width:0;
   }
-
-  .request-logo img{
-    width:160px;
-  }
 }
 
-/* ===== v48 Cairo request page ===== */
-html, body, button, input, select, textarea, label, p, h1, h2, h3, a, span{
-  font-family:"Cairo", Tahoma, Arial, sans-serif !important;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="request-container">
-  <div class="request-page-head">
-    <div class="request-logo">
-      <a href="./index.html">
-        <img src="./logo-full.png" alt="رسمي">
-      </a>
-    </div>
-
-    <span class="request-badge">اختر الباقة + اختر النموذج + أرسل الطلب</span>
-    <h1>ابدأ موقعك الآن</h1>
-    <p>
-      اختر الباقة والنموذج المناسبين لنشاطك، ثم أرسل البيانات الأساسية،
-      وسنقوم بتجهيز طلبك وربطه بحسابك بشكل منظم.
-    </p>
-  </div>
-
-  <div class="request-layout">
-    <div class="request-card request-form-card">
-      <form class="request-form" id="requestForm">
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="name">اسم التاجر</label>
-            <input id="name" placeholder="اكتب اسم التاجر">
-          </div>
-
-          <div class="request-field">
-            <label for="activityName">اسم النشاط</label>
-            <input id="activityName" placeholder="اكتب اسم النشاط">
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="activityType">نوع النشاط</label>
-            <select id="activityType">
-              <option value="">اختر نوع النشاط</option>
-              <option value="خدمات">خدمات</option>
-              <option value="بيع منتجات">بيع منتجات</option>
-              <option value="مطعم / كوفي">مطعم / كوفي</option>
-              <option value="عيادة">عيادة</option>
-              <option value="شركة">شركة</option>
-              <option value="مؤسسة">مؤسسة</option>
-              <option value="شخصي">شخصي</option>
-              <option value="أخرى">أخرى</option>
-            </select>
-          </div>
-
-          <div class="request-field">
-            <label for="customType">نوع النشاط المخصص</label>
-            <input id="customType" placeholder="اكتب نوع النشاط" style="display:none;">
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="package">الباقة</label>
-            <select id="package">
-              <option value="">اختر الباقة</option>
-              <option value="باقة بلس">باقة بلس</option>
-              <option value="باقة برو">باقة برو</option>
-            </select>
-          </div>
-
-          <div class="request-field">
-            <label for="cycle">نوع الاشتراك</label>
-            <select id="cycle">
-              <option value="">اختر نوع الاشتراك</option>
-              <option value="شهري">شهري</option>
-              <option value="سنوي">سنوي</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="template">النموذج المختار</label>
-            <select id="template">
-              <option value="">اختر النموذج</option>
-              <option value="نموذج موقع خدمات">نموذج موقع خدمات</option>
-              <option value="نموذج مطاعم وكوفيهات">نموذج مطاعم وكوفيهات</option>
-              <option value="قالب بيع منتجات">قالب بيع منتجات</option>
-              <option value="نموذج عيادات">نموذج عيادات</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="phone">رقم الجوال</label>
-            <input id="phone" placeholder="05xxxxxxxx">
-            <div class="request-small-text">سيتم استخدامه لتسجيل الدخول</div>
-          </div>
-
-          <div class="request-field">
-            <label for="password">كلمة المرور</label>
-            <div class="request-password-wrap">
-              <input id="password" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
-              <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
-                <svg id="eyeSvg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="request-plan-note" id="planNote">
-          اختر الباقة ليظهر ملخص سريع عنها هنا.
-        </div>
-
-        <div class="request-submit-row">
-          <button id="submitBtn" class="request-submit-btn" type="button">ابدأ طلبك</button>
-        </div>
-      </form>
-
-      <div class="request-link">
-        لديك حساب؟ <a href="./login.html">تسجيل الدخول</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const app = initializeApp({
-  apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
-  authDomain:"site-orders-415e4.firebaseapp.com",
-  projectId:"site-orders-415e4"
-});
-
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-const activityTypeEl = document.getElementById("activityType");
-const customTypeEl = document.getElementById("customType");
-const packageEl = document.getElementById("package");
-const templateEl = document.getElementById("template");
-const cycleEl = document.getElementById("cycle");
-const passwordEl = document.getElementById("password");
-const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-const submitBtn = document.getElementById("submitBtn");
-const planNoteEl = document.getElementById("planNote");
-
-activityTypeEl.onchange = () => {
-  customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
-};
-
-togglePasswordBtn.addEventListener("click", () => {
-  passwordEl.type = passwordEl.type === "password" ? "text" : "password";
-});
-
-function normalizeTemplateParam(value){
-  const map = {
-    services: "نموذج موقع خدمات",
-    service: "نموذج موقع خدمات",
-    restaurant: "نموذج مطاعم وكوفيهات",
-    cafe: "نموذج مطاعم وكوفيهات",
-    products: "قالب بيع منتجات",
-    product: "قالب بيع منتجات",
-    clinic: "نموذج عيادات",
-    medical: "نموذج عيادات"
-  };
-  return map[value] || value || "";
-}
-
-function normalizePlanParam(value){
-  const map = {
-    plus: "باقة بلس",
-    basic: "باقة بلس",
-    pro: "باقة برو",
-    premium: "باقة برو"
-  };
-  return map[value] || value || "";
-}
-
-function normalizeCycleParam(value){
-  const map = {
-    monthly: "شهري",
-    month: "شهري",
-    yearly: "سنوي",
-    annual: "سنوي",
-    year: "سنوي"
-  };
-  return map[value] || value || "";
-}
-
-function updatePlanNote(){
-  const selectedPlan = packageEl.value;
-  const selectedCycle = cycleEl.value;
-
-  if(!selectedPlan){
-    planNoteEl.textContent = "اختر الباقة ونوع الاشتراك ليظهر الملخص هنا.";
-    return;
+@media (max-width:640px){
+  .request-summary-item{
+    padding:14px;
   }
 
-  if(!selectedCycle){
-    planNoteEl.textContent = "اختر نوع الاشتراك ليظهر الملخص هنا.";
-    return;
+  .request-summary-item strong{
+    font-size:16px;
   }
 
-  if(selectedPlan === "باقة بلس" && selectedCycle === "شهري"){
-    planNoteEl.textContent = "79 ريال شهريًا + رسوم تخصيص أولية.";
-    return;
+  .request-field input,
+  .request-field select{
+    min-height:50px;
+    border-radius:14px;
+    font-size:14px;
   }
 
-  if(selectedPlan === "باقة بلس" && selectedCycle === "سنوي"){
-    planNoteEl.textContent = "750 ريال سنويًا — التخصيص مجاني.";
-    return;
-  }
-
-  if(selectedPlan === "باقة برو" && selectedCycle === "شهري"){
-    planNoteEl.textContent = "159 ريال شهريًا + رسوم تخصيص أولية.";
-    return;
-  }
-
-  if(selectedPlan === "باقة برو" && selectedCycle === "سنوي"){
-    planNoteEl.textContent = "1299 ريال سنويًا — التخصيص مجاني.";
+  .request-submit-btn,
+  .request-secondary-btn{
+    min-height:46px;
+    border-radius:14px;
+    font-size:14px;
   }
 }
-
-packageEl.addEventListener("change", updatePlanNote);
-cycleEl.addEventListener("change", updatePlanNote);
-
-(function applyQueryParams(){
-  const params = new URLSearchParams(window.location.search);
-  const templateParam = normalizeTemplateParam((params.get("template") || "").trim().toLowerCase());
-  const planParam = normalizePlanParam((params.get("plan") || "").trim().toLowerCase());
-  const cycleParam = normalizeCycleParam((params.get("cycle") || "").trim().toLowerCase());
-
-  if(templateParam){
-    for(const option of templateEl.options){
-      if(option.value === templateParam){
-        templateEl.value = templateParam;
-        break;
-      }
-    }
-  }
-
-  if(planParam){
-    for(const option of packageEl.options){
-      if(option.value === planParam){
-        packageEl.value = planParam;
-        break;
-      }
-    }
-  }
-
-  if(cycleParam){
-    for(const option of cycleEl.options){
-      if(option.value === cycleParam){
-        cycleEl.value = cycleParam;
-        break;
-      }
-    }
-  }
-
-  updatePlanNote();
-})();
-
-submitBtn.onclick = async () => {
-  submitBtn.innerText = "جاري الإرسال...";
-  submitBtn.disabled = true;
-
-  try{
-    const name = document.getElementById("name").value.trim();
-    const activityName = document.getElementById("activityName").value.trim();
-    let activityType = activityTypeEl.value;
-    const customTypeVal = customTypeEl.value.trim();
-    const selectedPackage = packageEl.value;
-    const cycle = cycleEl.value;
-    const template = templateEl.value;
-    const phone = document.getElementById("phone").value.trim();
-    const password = passwordEl.value;
-
-    if(activityType === "أخرى"){
-      activityType = customTypeVal;
-    }
-
-    if(name.length < 3) throw "اكتب اسم التاجر";
-    if(activityName.length < 2) throw "اكتب اسم النشاط";
-    if(!activityType) throw "اختر نوع النشاط";
-    if(!selectedPackage) throw "اختر الباقة";
-    if(!cycle) throw "اختر نوع الاشتراك";
-    if(!template) throw "اختر النموذج";
-    if(!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
-    if(password.length < 6) throw "كلمة المرور ضعيفة";
-
-    const email = phone + "@user.com";
-
-    let user;
-
-    try{
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      user = cred.user;
-    }catch(err){
-      if(err.code === "auth/email-already-in-use"){
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        user = cred.user;
-      }else{
-        throw err;
-      }
-    }
-
-    const orderRef = doc(db,"orders", user.uid);
-    const orderSnap = await getDoc(orderRef);
-
-    const orderData = {
-      name,
-      activityName,
-      activityType,
-      package: selectedPackage,
-      billingCycle: cycle,
-      template,
-      phone,
-      status:"تم تقديم الطلب",
-      userId:user.uid,
-      orderId:"ORD-"+Date.now(),
-      createdAt: serverTimestamp()
-    };
-
-    if(!orderSnap.exists()){
-      await setDoc(orderRef, orderData);
-    }else{
-      await setDoc(orderRef, {
-        ...orderData,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-    }
-
-    const userRef = doc(db,"users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if(!userSnap.exists()){
-      await setDoc(userRef,{
-        name,
-        phone,
-        role:"client",
-        createdAt: serverTimestamp()
-      });
-    }else{
-      await setDoc(userRef,{
-        name,
-        phone,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-    }
-
-    const subRef = doc(db,"subscriptions", user.uid);
-    const subSnap = await getDoc(subRef);
-
-    const subscriptionData = {
-      userId: user.uid,
-      name,
-      phone,
-      status: "جاري التفعيل",
-      plan: selectedPackage,
-      billingCycle: cycle,
-      template,
-      siteUrl: "",
-      hostingDate: "",
-      domainDate: "",
-      updatedAt: serverTimestamp()
-    };
-
-    if(!subSnap.exists()){
-      await setDoc(subRef,{
-        subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
-        ...subscriptionData,
-        createdAt: serverTimestamp()
-      });
-    }else{
-      await setDoc(subRef, subscriptionData, { merge: true });
-    }
-
-    const msg = document.createElement("div");
-    msg.className = "request-success-toast";
-    msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
-    document.body.appendChild(msg);
-
-    setTimeout(() => {
-      window.location.href = "./account.html";
-    }, 1200);
-
-  }catch(e){
-    alert(e.message || e);
-  }finally{
-    submitBtn.innerText = "ابدأ طلبك";
-    submitBtn.disabled = false;
-  }
-};
-</script>
-
-</body>
-</html>
