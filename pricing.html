@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رسمي | الباقات</title>
+  <meta
+    name="description"
+    content="اختر الباقة المناسبة لك بعد تحديد النموذج، ثم انتقل مباشرة إلى صفحة الطلب."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/pricing.css" />
+</head>
+<body>
+  <header class="site-header home-header-minimal">
+    <div class="container home-header-inner">
+      <a href="index.html" class="brand" aria-label="رسمي">
+        <img src="logo-full.png" alt="رسمي" class="brand-logo">
+      </a>
+
+      <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
+    </div>
+  </header>
+
+  <main class="pricing-page" data-pricing-page>
+    <section class="pricing-intro-section">
+      <div class="container">
+        <div class="pricing-intro-copy">
+          <h1>اختر الباقة المناسبة لك</h1>
+          <p>بعد اختيار النموذج، اختر الباقة التي تناسب احتياجك.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-selected-section">
+      <div class="container">
+        <div class="pricing-selected-card">
+          <div class="pricing-selected-copy">
+            <span class="pricing-selected-label">النموذج المختار:</span>
+            <strong data-selected-model-name>---</strong>
+          </div>
+
+          <a href="models.html" class="pricing-change-link" data-change-model-link>تغيير</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-plans-section">
+      <div class="container">
+        <div class="billing-switch pricing-billing-switch" data-billing-switch>
+          <button type="button" class="billing-tab" data-billing-tab="monthly">شهري</button>
+          <button type="button" class="billing-tab is-active" data-billing-tab="yearly">سنوي</button>
+        </div>
+
+        <div class="pricing-grid-simple">
+          <article class="pricing-card-simple" data-plan-card="plus">
+            <h2>Plus</h2>
+
+            <div class="pricing-price-row">
+              <span class="pricing-price-value" data-price-yearly="750" data-price-monthly="79">750</span>
+              <small data-cycle-label>ريال سنويًا</small>
+            </div>
+
+            <p class="pricing-plan-note">بداية احترافية واضحة لنشاطك.</p>
+            <div class="pricing-plan-subnote" data-plan-subnote>التخصيص مجاني</div>
+            <div class="pricing-plan-saving" data-plan-saving>مقدار التوفير 398 ريال</div>
+
+            <ul class="pricing-features-list">
+              <li>نموذج موقع احترافي جاهز</li>
+              <li>تخصيص أساسي حسب الهوية والنشاط</li>
+              <li>تجهيز الصفحات الأساسية للموقع</li>
+              <li>استضافة متضمنة</li>
+              <li>صياغة المحتوى التسويقي</li>
+              <li>دعم فني</li>
+            </ul>
+
+            <a href="#" class="pricing-plan-select pricing-plan-select-secondary" data-plan-link="plus">اختيار</a>
+          </article>
+
+          <article class="pricing-card-simple pricing-card-simple-strong" data-plan-card="pro">
+            <h2>Pro</h2>
+
+            <div class="pricing-price-row">
+              <span class="pricing-price-value" data-price-yearly="1299" data-price-monthly="159">1299</span>
+              <small data-cycle-label>ريال سنويًا</small>
+            </div>
+
+            <p class="pricing-plan-note">حضور أقوى ومزايا أكمل لنمو نشاطك.</p>
+            <div class="pricing-plan-subnote" data-plan-subnote>التخصيص مجاني</div>
+            <div class="pricing-plan-saving" data-plan-saving>مقدار التوفير 959 ريال</div>
+
+            <ul class="pricing-features-list">
+              <li>جميع مزايا باقة Plus</li>
+              <li>تخصيص أعلى على التصميم والهوية</li>
+              <li>أرشفة الموقع وتحسين الظهور في محركات البحث</li>
+              <li>ربط الموقع مع إحصاءات جوجل</li>
+              <li>دومين مجاني .com</li>
+              <li>إيميل رسمي للموقع</li>
+            </ul>
+
+            <a href="#" class="pricing-plan-select" data-plan-link="pro">اختيار</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-closing-section">
+      <div class="container">
+        <div class="pricing-closing-card">
+          <h2>بعد اختيار الباقة، تنتقل مباشرة إلى صفحة الطلب.</h2>
+          <p>أكمل الخطوة التالية وأرسل بيانات نشاطك الأساسية.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© رسمي — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/script.js"></script>
+</body>
+</html>
