@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>رسمي | كل النماذج</title>
+  <title>رسمي | النماذج</title>
+  <meta
+    name="description"
+    content="اختر النموذج الأقرب لنشاطك، ثم حدده ليتم تخصيصه لك حسب الهوية والمحتوى وطريقة العرض."
+  />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,40 +15,239 @@
   <link rel="stylesheet" href="assets/models.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="header-main">
-        <a href="index.html" class="brand" aria-label="رسمي"><img src="logo-full.png" alt="رسمي" class="brand-logo"></a>
-        <nav class="main-nav" aria-label="التنقل الرئيسي">
-          <a href="index.html">الرئيسية</a>
-          <a href="models.html" class="is-active">النماذج</a>
-          <a href="index.html#pricing">الباقات</a>
-          <a href="index.html#contact">تواصل</a>
-        </nav>
-      </div>
-      <div class="header-side"><a href="request.html" class="btn btn-primary header-account-btn">ابدأ الطلب</a></div>
+  <header class="site-header home-header-minimal">
+    <div class="container home-header-inner">
+      <a href="index.html" class="brand" aria-label="رسمي">
+        <img src="logo-full.png" alt="رسمي" class="brand-logo">
+      </a>
+
+      <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
     </div>
   </header>
 
-  <main>
-    <section class="models-page-hero">
-      <div class="container models-page-head">
-        <span class="eyebrow">كل النماذج</span>
-        <h1>استعرض جميع النماذج واختر الأقرب لطبيعة نشاطك</h1>
-        <p>هذه الصفحة تجمع النماذج المتاحة داخل رسمي بصورة أوضح، لتأخذ تصورًا أفضل قبل اختيار النموذج الأنسب وبدء الطلب.</p>
+  <main class="models-page" data-models-page>
+    <section class="models-intro-section">
+      <div class="container">
+        <div class="models-intro-copy">
+          <h1>اختر النموذج الأقرب لنشاطك</h1>
+          <p>كل نموذج يتم تخصيصه لك حسب الهوية والمحتوى وطريقة العرض.</p>
+        </div>
       </div>
     </section>
 
-    <section class="section models-page-section">
+    <section class="models-main-section">
       <div class="container">
-        <div class="models-page-grid">
-          <article class="models-tile models-tile-featured"><div class="models-tile-preview"><div class="models-tile-top"><span></span><span></span><span></span></div><div class="models-tile-screen preview-services"><span class="models-tile-badge">خدمات</span><div class="models-tile-title">نموذج موقع خدمات</div><div class="models-tile-lines"><span></span><span></span><span></span></div><div class="models-tile-boxes"><div></div><div></div></div></div></div><div class="models-tile-head"><span class="models-tag">مناسب للخدمات</span><span class="models-type">خدمي</span></div><h3>نموذج موقع خدمات</h3><p>يعرض خدماتك بصورة واضحة ومقنعة، ويقود العميل إلى التواصل أو طلب الخدمة بسهولة.</p><div class="models-actions"><a href="templates/rahatak/index.html" class="btn btn-primary">شاهد النموذج</a><a href="request.html?template=services" class="btn btn-secondary">اختر هذا النموذج</a></div></article>
-          <article class="models-tile"><div class="models-tile-preview"><div class="models-tile-top"><span></span><span></span><span></span></div><div class="models-tile-screen preview-restaurant"><span class="models-tile-badge">مطاعم وكوفيهات</span><div class="models-tile-title">نموذج مطاعم وكوفيهات</div><div class="models-tile-grid three"><div></div><div></div><div></div></div></div></div><div class="models-tile-head"><span class="models-tag">مطاعم</span><span class="models-type">مطعم / كوفي</span></div><h3>نموذج مطاعم وكوفيهات</h3><p>يعرض المنيو والفروع والتواصل بطريقة مرتبة وواضحة، خصوصًا على الجوال.</p><div class="models-actions"><a href="templates/rahatak/index.html" class="btn btn-primary">شاهد النموذج</a><a href="request.html?template=restaurant" class="btn btn-secondary">اختر هذا النموذج</a></div></article>
-          <article class="models-tile"><div class="models-tile-preview"><div class="models-tile-top"><span></span><span></span><span></span></div><div class="models-tile-screen preview-products"><span class="models-tile-badge">منتجات</span><div class="models-tile-title">قالب عرض منتجات</div><div class="models-tile-list"><span></span><span></span><span></span></div></div></div><div class="models-tile-head"><span class="models-tag">منتجات</span><span class="models-type">بيع / عرض</span></div><h3>قالب عرض منتجات</h3><p>ينظم عرض المنتجات بصورة مرتبة وواضحة، ويمنح النشاط حضورًا أكثر احترافية.</p><div class="models-actions"><a href="templates/rahatak/index.html" class="btn btn-primary">شاهد النموذج</a><a href="request.html?template=products" class="btn btn-secondary">اختر هذا النموذج</a></div></article>
-          <article class="models-tile"><div class="models-tile-preview"><div class="models-tile-top"><span></span><span></span><span></span></div><div class="models-tile-screen preview-clinic"><span class="models-tile-badge">عيادات</span><div class="models-tile-title">نموذج عيادات</div><div class="models-tile-grid three"><div></div><div></div><div></div></div></div></div><div class="models-tile-head"><span class="models-tag">عيادات</span><span class="models-type">طبي</span></div><h3>نموذج عيادات</h3><p>يعرض الخدمات والمعلومات الأساسية بصورة مهنية ومطمئنة للمراجع.</p><div class="models-actions"><a href="templates/rahatak/index.html" class="btn btn-primary">شاهد النموذج</a><a href="request.html?template=clinic" class="btn btn-secondary">اختر هذا النموذج</a></div></article>
+        <div class="models-filters-wrap">
+          <div class="models-filters" role="tablist" aria-label="فلترة النماذج">
+            <button type="button" class="models-filter-btn is-active" data-model-filter="all">الكل</button>
+            <button type="button" class="models-filter-btn" data-model-filter="services">خدمات</button>
+            <button type="button" class="models-filter-btn" data-model-filter="products">عرض المنتجات</button>
+            <button type="button" class="models-filter-btn" data-model-filter="profile">مواقع تعريفية</button>
+          </div>
+
+          <p class="models-current-label" data-models-current>
+            يعرض الآن: كل النماذج
+          </p>
+        </div>
+
+        <div class="models-grid" data-models-grid>
+          <article
+            class="model-card-simple"
+            data-model-category="services"
+            data-model-name="راحتك"
+          >
+            <div class="model-thumb" data-model-image="راحتك">
+              <img class="model-thumb-image" alt="معاينة نموذج راحتك" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>راحتك</span>
+              </div>
+            </div>
+
+            <h3>راحتك</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="راحتك">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="راحتك"
+                data-model-type="services"
+              >اختيار</a>
+            </div>
+          </article>
+
+          <article
+            class="model-card-simple"
+            data-model-category="services"
+            data-model-name="هائل"
+          >
+            <div class="model-thumb" data-model-image="هائل">
+              <img class="model-thumb-image" alt="معاينة نموذج هائل" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>هائل</span>
+              </div>
+            </div>
+
+            <h3>هائل</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="هائل">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="هائل"
+                data-model-type="services"
+              >اختيار</a>
+            </div>
+          </article>
+
+          <article
+            class="model-card-simple"
+            data-model-category="products"
+            data-model-name="كافورا"
+          >
+            <div class="model-thumb" data-model-image="كافورا">
+              <img class="model-thumb-image" alt="معاينة نموذج كافورا" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>كافورا</span>
+              </div>
+            </div>
+
+            <h3>كافورا</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="كافورا">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="كافورا"
+                data-model-type="products"
+              >اختيار</a>
+            </div>
+          </article>
+
+          <article
+            class="model-card-simple"
+            data-model-category="products"
+            data-model-name="لذة الشواء"
+          >
+            <div class="model-thumb" data-model-image="لذة الشواء">
+              <img class="model-thumb-image" alt="معاينة نموذج لذة الشواء" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>لذة الشواء</span>
+              </div>
+            </div>
+
+            <h3>لذة الشواء</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="لذة الشواء">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="لذة الشواء"
+                data-model-type="products"
+              >اختيار</a>
+            </div>
+          </article>
+
+          <article
+            class="model-card-simple"
+            data-model-category="profile"
+            data-model-name="جمالك"
+          >
+            <div class="model-thumb" data-model-image="جمالك">
+              <img class="model-thumb-image" alt="معاينة نموذج جمالك" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>جمالك</span>
+              </div>
+            </div>
+
+            <h3>جمالك</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="جمالك">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="جمالك"
+                data-model-type="profile"
+              >اختيار</a>
+            </div>
+          </article>
+
+          <article
+            class="model-card-simple"
+            data-model-category="profile"
+            data-model-name="آفاق"
+          >
+            <div class="model-thumb" data-model-image="آفاق">
+              <img class="model-thumb-image" alt="معاينة نموذج آفاق" hidden>
+              <div class="model-thumb-placeholder" aria-hidden="true">
+                <span>آفاق</span>
+              </div>
+            </div>
+
+            <h3>آفاق</h3>
+
+            <div class="model-card-actions">
+              <button type="button" class="model-preview-btn" data-model-preview="آفاق">معاينة</button>
+              <a
+                href="#"
+                class="model-select-btn"
+                data-model-select
+                data-model-name="آفاق"
+                data-model-type="profile"
+              >اختيار</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="models-closing-section">
+      <div class="container">
+        <div class="models-closing-card">
+          <h2>اختر النموذج المناسب ثم انتقل للباقات</h2>
+          <p>بعد الضغط على اختيار، تنتقل مباشرة إلى الخطوة التالية.</p>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="models-preview-modal" data-preview-modal hidden>
+    <div class="models-preview-backdrop" data-preview-close></div>
+
+    <div
+      class="models-preview-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modelsPreviewTitle"
+    >
+      <button type="button" class="models-preview-close" data-preview-close aria-label="إغلاق">×</button>
+
+      <div class="models-preview-media">
+        <img class="models-preview-image" data-preview-image alt="" hidden>
+        <div class="models-preview-placeholder" data-preview-placeholder>
+          <span data-preview-placeholder-name></span>
+        </div>
+      </div>
+
+      <h3 id="modelsPreviewTitle" data-preview-title></h3>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© رسمي — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/script.js"></script>
 </body>
 </html>
