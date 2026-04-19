@@ -63,8 +63,7 @@
 }
 
 .request-form{
-  display:grid;
-  gap:14px;
+  display:block;
 }
 
 .request-stage{
