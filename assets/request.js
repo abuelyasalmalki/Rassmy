@@ -112,19 +112,25 @@ function updatePlanNote() {
   }
 }
 
-function setStep(step) {
-  const isStepOne = step === 1;
+function showStage(stageNumber) {
+  const showFirst = stageNumber === 1;
 
-  if (isStepOne) {
+  if (showFirst) {
+    stageOneEl.hidden = false;
     stageOneEl.classList.add("is-active");
+
+    stageTwoEl.hidden = true;
     stageTwoEl.classList.remove("is-active");
   } else {
+    stageOneEl.hidden = true;
     stageOneEl.classList.remove("is-active");
+
+    stageTwoEl.hidden = false;
     stageTwoEl.classList.add("is-active");
   }
 
   if (requestProgressFill) {
-    requestProgressFill.style.width = isStepOne ? "50%" : "100%";
+    requestProgressFill.style.width = showFirst ? "50%" : "100%";
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -158,7 +164,7 @@ if (nextStepBtn) {
   nextStepBtn.addEventListener("click", () => {
     try {
       validateStepOne();
-      setStep(2);
+      showStage(2);
     } catch (error) {
       alert(error.message || error);
     }
@@ -167,7 +173,7 @@ if (nextStepBtn) {
 
 if (prevStepBtn) {
   prevStepBtn.addEventListener("click", () => {
-    setStep(1);
+    showStage(1);
   });
 }
 
@@ -209,7 +215,7 @@ if (prevStepBtn) {
   }
 
   updatePlanNote();
-  setStep(1);
+  showStage(1);
 })();
 
 /* =========================
