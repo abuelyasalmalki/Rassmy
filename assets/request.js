@@ -115,8 +115,19 @@ function updatePlanNote() {
 function setStep(step) {
   const isStepOne = step === 1;
 
-  stageOneEl.hidden = !isStepOne;
-  stageTwoEl.hidden = isStepOne;
+  if (isStepOne) {
+    stageOneEl.hidden = false;
+    stageOneEl.style.display = "grid";
+
+    stageTwoEl.hidden = true;
+    stageTwoEl.style.display = "none";
+  } else {
+    stageOneEl.hidden = true;
+    stageOneEl.style.display = "none";
+
+    stageTwoEl.hidden = false;
+    stageTwoEl.style.display = "grid";
+  }
 
   if (requestProgressFill) {
     requestProgressFill.style.width = isStepOne ? "50%" : "100%";
