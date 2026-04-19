@@ -17,9 +17,29 @@
 
   <header class="site-header home-header-minimal">
     <div class="container home-header-inner">
-      <a href="#home" class="brand" aria-label="رسمي">
-        <img src="logo-full.png" alt="رسمي" class="brand-logo">
-      </a>
+      <div class="home-header-side">
+        <details class="header-pages-menu">
+          <summary class="header-pages-toggle" aria-label="صفحات الموقع">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16"></path>
+              <path d="M7 12h13"></path>
+              <path d="M10 17h10"></path>
+            </svg>
+          </summary>
+
+          <div class="header-pages-dropdown">
+            <a href="index.html" class="is-current">الرئيسية</a>
+            <a href="models.html">النماذج</a>
+            <a href="pricing.html">الباقات</a>
+            <a href="request.html">الطلب</a>
+            <a href="login.html">دخول</a>
+          </div>
+        </details>
+
+        <a href="#home" class="brand" aria-label="رسمي">
+          <img src="logo-full.png" alt="رسمي" class="brand-logo">
+        </a>
+      </div>
 
       <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
     </div>
@@ -34,17 +54,17 @@
             <p>اختر النموذج الأقرب لنشاطك</p>
 
             <div class="activity-squares">
-              <a href="models.html" class="activity-square" aria-label="أقدم خدمات">
+              <a href="models.html?type=services" class="activity-square" aria-label="أقدم خدمات">
                 <span class="activity-icon activity-icon-service"></span>
                 <strong>أقدم خدمات</strong>
               </a>
 
-              <a href="models.html" class="activity-square" aria-label="أعرض منتجات">
+              <a href="models.html?type=products" class="activity-square" aria-label="أعرض منتجات">
                 <span class="activity-icon activity-icon-products"></span>
                 <strong>أعرض منتجات</strong>
               </a>
 
-              <a href="models.html" class="activity-square" aria-label="موقع تعريفي">
+              <a href="models.html?type=profile" class="activity-square" aria-label="موقع تعريفي">
                 <span class="activity-icon activity-icon-profile"></span>
                 <strong>موقع تعريفي</strong>
               </a>
