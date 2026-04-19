@@ -117,7 +117,7 @@ textarea{
 }
 
 .brand-logo{
-  height:42px;
+  height:36px;
   width:auto;
 }
 
@@ -809,7 +809,8 @@ textarea{
   }
 
   .brand-logo{
-    height:34px;
+    height:30px;
+    width:auto;
   }
 
   .login-mini-btn{
