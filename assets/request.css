@@ -67,12 +67,12 @@
 }
 
 .request-stage{
-  display:grid;
+  display:none;
   gap:14px;
 }
 
-.request-stage[hidden]{
-  display:none !important;
+.request-stage.is-active{
+  display:grid;
 }
 
 .request-form-row{
