@@ -116,17 +116,11 @@ function setStep(step) {
   const isStepOne = step === 1;
 
   if (isStepOne) {
-    stageOneEl.hidden = false;
-    stageOneEl.style.display = "grid";
-
-    stageTwoEl.hidden = true;
-    stageTwoEl.style.display = "none";
+    stageOneEl.classList.add("is-active");
+    stageTwoEl.classList.remove("is-active");
   } else {
-    stageOneEl.hidden = true;
-    stageOneEl.style.display = "none";
-
-    stageTwoEl.hidden = false;
-    stageTwoEl.style.display = "grid";
+    stageOneEl.classList.remove("is-active");
+    stageTwoEl.classList.add("is-active");
   }
 
   if (requestProgressFill) {
@@ -145,29 +139,37 @@ function validateStepOne() {
 /* =========================
    UI events
 ========================= */
-activityTypeEl.onchange = () => {
-  customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
-};
+if (activityTypeEl && customTypeEl) {
+  activityTypeEl.onchange = () => {
+    customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
+  };
+}
 
-togglePasswordBtn.addEventListener("click", () => {
-  passwordEl.type = passwordEl.type === "password" ? "text" : "password";
-});
+if (togglePasswordBtn && passwordEl) {
+  togglePasswordBtn.addEventListener("click", () => {
+    passwordEl.type = passwordEl.type === "password" ? "text" : "password";
+  });
+}
 
-packageEl.addEventListener("change", updatePlanNote);
-cycleEl.addEventListener("change", updatePlanNote);
+if (packageEl) packageEl.addEventListener("change", updatePlanNote);
+if (cycleEl) cycleEl.addEventListener("change", updatePlanNote);
 
-nextStepBtn.addEventListener("click", () => {
-  try {
-    validateStepOne();
-    setStep(2);
-  } catch (error) {
-    alert(error.message || error);
-  }
-});
+if (nextStepBtn) {
+  nextStepBtn.addEventListener("click", () => {
+    try {
+      validateStepOne();
+      setStep(2);
+    } catch (error) {
+      alert(error.message || error);
+    }
+  });
+}
 
-prevStepBtn.addEventListener("click", () => {
-  setStep(1);
-});
+if (prevStepBtn) {
+  prevStepBtn.addEventListener("click", () => {
+    setStep(1);
+  });
+}
 
 /* =========================
    Query params
@@ -179,7 +181,7 @@ prevStepBtn.addEventListener("click", () => {
   const planParam = normalizePlanParam((params.get("plan") || "").trim().toLowerCase());
   const cycleParam = normalizeCycleParam((params.get("cycle") || "").trim().toLowerCase());
 
-  if (modelParam) {
+  if (modelParam && templateEl) {
     for (const option of templateEl.options) {
       if (option.value === modelParam) {
         templateEl.value = modelParam;
@@ -188,7 +190,7 @@ prevStepBtn.addEventListener("click", () => {
     }
   }
 
-  if (planParam) {
+  if (planParam && packageEl) {
     for (const option of packageEl.options) {
       if (option.value === planParam) {
         packageEl.value = planParam;
@@ -197,7 +199,7 @@ prevStepBtn.addEventListener("click", () => {
     }
   }
 
-  if (cycleParam) {
+  if (cycleParam && cycleEl) {
     for (const option of cycleEl.options) {
       if (option.value === cycleParam) {
         cycleEl.value = cycleParam;
@@ -213,134 +215,136 @@ prevStepBtn.addEventListener("click", () => {
 /* =========================
    Submit request
 ========================= */
-submitBtn.onclick = async () => {
-  submitBtn.innerText = "جاري الإرسال...";
-  submitBtn.disabled = true;
-
-  try {
-    const name = document.getElementById("name").value.trim();
-    const activityName = document.getElementById("activityName").value.trim();
-    let activityType = activityTypeEl.value;
-    const customTypeVal = customTypeEl.value.trim();
-    const selectedPackage = packageEl.value;
-    const cycle = cycleEl.value;
-    const template = templateEl.value;
-    const phone = document.getElementById("phone").value.trim();
-    const password = passwordEl.value;
-
-    if (activityType === "أخرى") {
-      activityType = customTypeVal;
-    }
-
-    if (name.length < 3) throw "اكتب اسم التاجر";
-    if (activityName.length < 2) throw "اكتب اسم النشاط";
-    if (!activityType) throw "اختر نوع النشاط";
-    if (!selectedPackage) throw "اختر الباقة";
-    if (!cycle) throw "اختر نوع الاشتراك";
-    if (!template) throw "اختر النموذج";
-    if (!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
-    if (password.length < 6) throw "كلمة المرور ضعيفة";
-
-    const email = phone + "@user.com";
-
-    let user;
+if (submitBtn) {
+  submitBtn.onclick = async () => {
+    submitBtn.innerText = "جاري الإرسال...";
+    submitBtn.disabled = true;
 
     try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      user = cred.user;
-    } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        user = cred.user;
-      } else {
-        throw err;
+      const name = document.getElementById("name").value.trim();
+      const activityName = document.getElementById("activityName").value.trim();
+      let activityType = activityTypeEl.value;
+      const customTypeVal = customTypeEl.value.trim();
+      const selectedPackage = packageEl.value;
+      const cycle = cycleEl.value;
+      const template = templateEl.value;
+      const phone = document.getElementById("phone").value.trim();
+      const password = passwordEl.value;
+
+      if (activityType === "أخرى") {
+        activityType = customTypeVal;
       }
-    }
 
-    const orderRef = doc(db, "orders", user.uid);
-    const orderSnap = await getDoc(orderRef);
+      if (name.length < 3) throw "اكتب اسم التاجر";
+      if (activityName.length < 2) throw "اكتب اسم النشاط";
+      if (!activityType) throw "اختر نوع النشاط";
+      if (!selectedPackage) throw "اختر الباقة";
+      if (!cycle) throw "اختر نوع الاشتراك";
+      if (!template) throw "اختر النموذج";
+      if (!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
+      if (password.length < 6) throw "كلمة المرور ضعيفة";
 
-    const orderData = {
-      name,
-      activityName,
-      activityType,
-      package: selectedPackage,
-      billingCycle: cycle,
-      template,
-      phone,
-      status: "تم تقديم الطلب",
-      userId: user.uid,
-      orderId: "ORD-" + Date.now(),
-      createdAt: serverTimestamp()
-    };
+      const email = phone + "@user.com";
 
-    if (!orderSnap.exists()) {
-      await setDoc(orderRef, orderData);
-    } else {
-      await setDoc(orderRef, {
-        ...orderData,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-    }
+      let user;
 
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        user = cred.user;
+      } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          user = cred.user;
+        } else {
+          throw err;
+        }
+      }
 
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
+      const orderRef = doc(db, "orders", user.uid);
+      const orderSnap = await getDoc(orderRef);
+
+      const orderData = {
+        name,
+        activityName,
+        activityType,
+        package: selectedPackage,
+        billingCycle: cycle,
+        template,
+        phone,
+        status: "تم تقديم الطلب",
+        userId: user.uid,
+        orderId: "ORD-" + Date.now(),
+        createdAt: serverTimestamp()
+      };
+
+      if (!orderSnap.exists()) {
+        await setDoc(orderRef, orderData);
+      } else {
+        await setDoc(orderRef, {
+          ...orderData,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      }
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          name,
+          phone,
+          role: "client",
+          createdAt: serverTimestamp()
+        });
+      } else {
+        await setDoc(userRef, {
+          name,
+          phone,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      }
+
+      const subRef = doc(db, "subscriptions", user.uid);
+      const subSnap = await getDoc(subRef);
+
+      const subscriptionData = {
+        userId: user.uid,
         name,
         phone,
-        role: "client",
-        createdAt: serverTimestamp()
-      });
-    } else {
-      await setDoc(userRef, {
-        name,
-        phone,
+        status: "جاري التفعيل",
+        plan: selectedPackage,
+        billingCycle: cycle,
+        template,
+        siteUrl: "",
+        hostingDate: "",
+        domainDate: "",
         updatedAt: serverTimestamp()
-      }, { merge: true });
+      };
+
+      if (!subSnap.exists()) {
+        await setDoc(subRef, {
+          subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
+          ...subscriptionData,
+          createdAt: serverTimestamp()
+        });
+      } else {
+        await setDoc(subRef, subscriptionData, { merge: true });
+      }
+
+      const msg = document.createElement("div");
+      msg.className = "request-success-toast";
+      msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
+      document.body.appendChild(msg);
+
+      setTimeout(() => {
+        window.location.href = "account.html";
+      }, 1200);
+
+    } catch (e) {
+      alert(e.message || e);
+    } finally {
+      submitBtn.innerText = "إتمام طلب الموقع";
+      submitBtn.disabled = false;
     }
-
-    const subRef = doc(db, "subscriptions", user.uid);
-    const subSnap = await getDoc(subRef);
-
-    const subscriptionData = {
-      userId: user.uid,
-      name,
-      phone,
-      status: "جاري التفعيل",
-      plan: selectedPackage,
-      billingCycle: cycle,
-      template,
-      siteUrl: "",
-      hostingDate: "",
-      domainDate: "",
-      updatedAt: serverTimestamp()
-    };
-
-    if (!subSnap.exists()) {
-      await setDoc(subRef, {
-        subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
-        ...subscriptionData,
-        createdAt: serverTimestamp()
-      });
-    } else {
-      await setDoc(subRef, subscriptionData, { merge: true });
-    }
-
-    const msg = document.createElement("div");
-    msg.className = "request-success-toast";
-    msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
-    document.body.appendChild(msg);
-
-    setTimeout(() => {
-      window.location.href = "account.html";
-    }, 1200);
-
-  } catch (e) {
-    alert(e.message || e);
-  } finally {
-    submitBtn.innerText = "إتمام طلب الموقع";
-    submitBtn.disabled = false;
-  }
-};
+  };
+}
