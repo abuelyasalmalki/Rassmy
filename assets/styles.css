@@ -148,47 +148,54 @@ textarea{
 ========================= */
 .header-pages-menu{
   position:relative;
+  z-index:1200;
+}
+
+.header-pages-checkbox{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
 }
 
 .header-pages-toggle{
   width:42px;
   height:42px;
   display:inline-flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:4px;
   border-radius:14px;
   background:#fff;
   border:1px solid var(--line);
   box-shadow:var(--shadow-soft);
   cursor:pointer;
   transition:.2s ease;
-  padding:0;
+}
+
+.header-pages-toggle span{
+  width:18px;
+  height:2px;
+  border-radius:999px;
+  background:var(--text);
+  transition:.2s ease;
 }
 
 .header-pages-toggle:hover{
   background:var(--text);
 }
 
-.header-pages-toggle:hover svg{
-  stroke:#fff;
+.header-pages-toggle:hover span{
+  background:#fff;
 }
 
-.header-pages-menu.is-open .header-pages-toggle{
+.header-pages-checkbox:checked + .header-pages-toggle{
   background:var(--text);
   border-color:var(--text);
 }
 
-.header-pages-menu.is-open .header-pages-toggle svg{
-  stroke:#fff;
-}
-
-.header-pages-toggle svg{
-  width:18px;
-  height:18px;
-  stroke:var(--text);
-  stroke-width:2;
-  fill:none;
-  transition:.2s ease;
+.header-pages-checkbox:checked + .header-pages-toggle span{
+  background:#fff;
 }
 
 .header-pages-dropdown{
@@ -201,13 +208,12 @@ textarea{
   background:#fff;
   border:1px solid rgba(215,221,229,.95);
   box-shadow:0 22px 42px rgba(15,23,42,.10);
-  display:grid;
+  display:none;
   gap:8px;
-  z-index:1200;
 }
 
-.header-pages-dropdown[hidden]{
-  display:none !important;
+.header-pages-checkbox:checked + .header-pages-toggle + .header-pages-dropdown{
+  display:grid;
 }
 
 .header-pages-dropdown a{
@@ -675,14 +681,14 @@ textarea{
   }
 
   .header-pages-toggle{
-    width:36px;
-    height:36px;
+    width:38px;
+    height:38px;
     border-radius:12px;
   }
 
   .header-pages-dropdown{
     top:calc(100% + 10px);
-    min-width:180px;
+    min-width:185px;
     padding:8px;
     border-radius:16px;
   }
