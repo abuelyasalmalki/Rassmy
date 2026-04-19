@@ -54,6 +54,107 @@ if (toggleBtn && mobileMenu) {
 }
 
 /* =========================
+   Shared helpers
+========================= */
+const imageExtensions = ["webp", "jpg", "png", "jpeg"];
+const imageCache = new Map();
+
+const categoryLabels = {
+  all: "كل النماذج",
+  services: "نماذج موقع خدمات",
+  products: "نماذج موقع عرض المنتجات",
+  profile: "نماذج المواقع التعريفية"
+};
+
+const storageKeys = {
+  model: "rassmy_selected_model",
+  type: "rassmy_selected_type"
+};
+
+function normalizeFilter(value) {
+  if (!value) return "all";
+
+  const cleaned = value.toLowerCase().trim();
+
+  if (["services", "service"].includes(cleaned)) return "services";
+  if (["products", "product"].includes(cleaned)) return "products";
+  if (["profile", "profiles", "intro", "informational"].includes(cleaned)) return "profile";
+
+  return "all";
+}
+
+function buildImageCandidates(name) {
+  const encodedName = encodeURIComponent(name);
+  return imageExtensions.map((ext) => `assets/models/${encodedName}.${ext}`);
+}
+
+function tryLoadImage(src) {
+  return new Promise((resolve) => {
+    const testImage = new Image();
+    testImage.onload = () => resolve(src);
+    testImage.onerror = () => resolve(null);
+    testImage.src = src;
+  });
+}
+
+async function resolveModelImage(name) {
+  if (imageCache.has(name)) {
+    return imageCache.get(name);
+  }
+
+  const candidates = buildImageCandidates(name);
+
+  for (const candidate of candidates) {
+    const found = await tryLoadImage(candidate);
+    if (found) {
+      imageCache.set(name, found);
+      return found;
+    }
+  }
+
+  imageCache.set(name, null);
+  return null;
+}
+
+function buildPricingUrl(name, type) {
+  const params = new URLSearchParams();
+  params.set("model", name);
+  params.set("type", type);
+  return `pricing.html?${params.toString()}`;
+}
+
+function buildRequestUrl({ model, type, plan, cycle }) {
+  const params = new URLSearchParams();
+
+  if (model) params.set("model", model);
+  if (type) params.set("type", type);
+  if (plan) params.set("plan", plan);
+  if (cycle) params.set("cycle", cycle);
+
+  return `request.html?${params.toString()}`;
+}
+
+function saveSelectedModel(model, type) {
+  try {
+    sessionStorage.setItem(storageKeys.model, model || "");
+    sessionStorage.setItem(storageKeys.type, type || "");
+  } catch (error) {
+    /* تجاهل أي مشكلة تخزين */
+  }
+}
+
+function getSavedSelectedModel() {
+  try {
+    return {
+      model: sessionStorage.getItem(storageKeys.model) || "",
+      type: sessionStorage.getItem(storageKeys.type) || ""
+    };
+  } catch (error) {
+    return { model: "", type: "" };
+  }
+}
+
+/* =========================
    Models page
 ========================= */
 const modelsPage = document.querySelector("[data-models-page]");
@@ -71,78 +172,8 @@ if (modelsPage) {
   const previewCloseButtons = Array.from(document.querySelectorAll("[data-preview-close]"));
 
   const imageBlocks = Array.from(document.querySelectorAll("[data-model-image]"));
-  const selectLinks = Array.from(document.querySelectorAll("[data-model-select]"));
   const previewButtons = Array.from(document.querySelectorAll("[data-model-preview]"));
-
-  const categoryLabels = {
-    all: "كل النماذج",
-    services: "نماذج موقع خدمات",
-    products: "نماذج موقع عرض المنتجات",
-    profile: "نماذج المواقع التعريفية"
-  };
-
-  const imageCache = new Map();
-  const imageExtensions = ["webp", "jpg", "png", "jpeg"];
-
-  const normalizeFilter = (value) => {
-    if (!value) return "all";
-
-    const cleaned = value.toLowerCase().trim();
-
-    if (["services", "service"].includes(cleaned)) return "services";
-    if (["products", "product"].includes(cleaned)) return "products";
-    if (["profile", "profiles", "intro", "informational"].includes(cleaned)) return "profile";
-
-    return "all";
-  };
-
-  const buildModelRequestUrl = (name, type) => {
-    const params = new URLSearchParams();
-    params.set("model", name);
-    params.set("type", type);
-    return `request.html?${params.toString()}`;
-  };
-
-  selectLinks.forEach((link) => {
-    const name = link.dataset.modelName || "";
-    const type = link.dataset.modelType || "";
-    link.href = buildModelRequestUrl(name, type);
-  });
-
-  const buildImageCandidates = (name) => {
-    const encodedName = encodeURIComponent(name);
-    return imageExtensions.map((ext) => `assets/models/${encodedName}.${ext}`);
-  };
-
-  const tryLoadImage = (src) => {
-    return new Promise((resolve) => {
-      const testImage = new Image();
-
-      testImage.onload = () => resolve(src);
-      testImage.onerror = () => resolve(null);
-      testImage.src = src;
-    });
-  };
-
-  const resolveModelImage = async (name) => {
-    if (imageCache.has(name)) {
-      return imageCache.get(name);
-    }
-
-    const candidates = buildImageCandidates(name);
-
-    for (const candidate of candidates) {
-      const found = await tryLoadImage(candidate);
-
-      if (found) {
-        imageCache.set(name, found);
-        return found;
-      }
-    }
-
-    imageCache.set(name, null);
-    return null;
-  };
+  const selectButtons = Array.from(document.querySelectorAll(".model-select-btn"));
 
   const setupCardImages = async () => {
     for (const block of imageBlocks) {
@@ -251,6 +282,21 @@ if (modelsPage) {
     });
   });
 
+  selectButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const card = button.closest(".model-card-simple");
+      if (!card) return;
+
+      const modelName = card.dataset.modelName || "";
+      const modelType = normalizeFilter(card.dataset.modelCategory || "");
+
+      saveSelectedModel(modelName, modelType);
+
+      const correctHref = buildPricingUrl(modelName, modelType);
+      button.setAttribute("href", correctHref);
+    });
+  });
+
   previewCloseButtons.forEach((button) => {
     button.addEventListener("click", closePreviewModal);
   });
@@ -264,4 +310,101 @@ if (modelsPage) {
   const initialFilter = normalizeFilter(new URLSearchParams(window.location.search).get("type"));
   applyFilter(initialFilter, false);
   setupCardImages();
+}
+
+/* =========================
+   Pricing page
+========================= */
+const pricingPage = document.querySelector("[data-pricing-page]");
+
+if (pricingPage) {
+  const params = new URLSearchParams(window.location.search);
+  const savedSelection = getSavedSelectedModel();
+
+  const selectedModelName =
+    params.get("model") ||
+    savedSelection.model ||
+    "لم يتم تحديد نموذج بعد";
+
+  const selectedType = normalizeFilter(
+    params.get("type") ||
+    savedSelection.type ||
+    "all"
+  );
+
+  const initialCycle = params.get("cycle") === "monthly" ? "monthly" : "yearly";
+
+  const selectedModelNameNode = document.querySelector("[data-selected-model-name]");
+  const changeModelLink = document.querySelector("[data-change-model-link]");
+
+  const billingSwitch = document.querySelector("[data-billing-switch]");
+  const tabs = billingSwitch ? Array.from(billingSwitch.querySelectorAll("[data-billing-tab]")) : [];
+  const cards = Array.from(document.querySelectorAll("[data-plan-card]"));
+
+  if (selectedModelNameNode) {
+    selectedModelNameNode.textContent = selectedModelName;
+  }
+
+  if (changeModelLink) {
+    if (selectedType === "all") {
+      changeModelLink.href = "models.html";
+    } else {
+      changeModelLink.href = `models.html?type=${selectedType}`;
+    }
+  }
+
+  const formatPlans = (mode) => {
+    tabs.forEach((tab) => {
+      tab.classList.toggle("is-active", tab.dataset.billingTab === mode);
+    });
+
+    cards.forEach((card) => {
+      const priceNode = card.querySelector(".pricing-price-value");
+      const cycleLabel = card.querySelector("[data-cycle-label]");
+      const subnote = card.querySelector("[data-plan-subnote]");
+      const saving = card.querySelector("[data-plan-saving]");
+      const link = card.querySelector("[data-plan-link]");
+      const plan = card.dataset.planCard;
+
+      if (!priceNode || !cycleLabel || !subnote || !saving || !link || !plan) return;
+
+      if (mode === "monthly") {
+        priceNode.textContent = priceNode.dataset.priceMonthly || "";
+        cycleLabel.textContent = "ريال شهريًا";
+        subnote.textContent = plan === "plus" ? "رسوم تخصيص أولية 200 ريال" : "رسوم تخصيص أولية 350 ريال";
+        saving.textContent = "";
+      } else {
+        priceNode.textContent = priceNode.dataset.priceYearly || "";
+        cycleLabel.textContent = "ريال سنويًا";
+        subnote.textContent = "التخصيص مجاني";
+        saving.textContent = plan === "plus" ? "مقدار التوفير 398 ريال" : "مقدار التوفير 959 ريال";
+      }
+
+      link.href = buildRequestUrl({
+        model: selectedModelName,
+        type: selectedType,
+        plan,
+        cycle: mode
+      });
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const selectedMode = tab.dataset.billingTab || "yearly";
+      formatPlans(selectedMode);
+
+      const url = new URL(window.location.href);
+      url.searchParams.set("cycle", selectedMode);
+      if (selectedModelName && selectedModelName !== "لم يتم تحديد نموذج بعد") {
+        url.searchParams.set("model", selectedModelName);
+      }
+      if (selectedType && selectedType !== "all") {
+        url.searchParams.set("type", selectedType);
+      }
+      window.history.replaceState({}, "", url);
+    });
+  });
+
+  formatPlans(initialCycle);
 }
