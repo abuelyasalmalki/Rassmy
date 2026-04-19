@@ -18,22 +18,16 @@
   <header class="site-header home-header-minimal">
     <div class="container home-header-inner">
       <div class="home-header-side">
-        <div class="header-pages-menu" data-home-menu>
-          <button
-            type="button"
-            class="header-pages-toggle"
-            aria-label="صفحات الموقع"
-            aria-expanded="false"
-            data-home-menu-toggle
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 7h16"></path>
-              <path d="M7 12h13"></path>
-              <path d="M10 17h10"></path>
-            </svg>
-          </button>
+        <div class="header-pages-menu">
+          <input type="checkbox" id="homeMenuToggle" class="header-pages-checkbox">
 
-          <div class="header-pages-dropdown" data-home-menu-dropdown hidden>
+          <label for="homeMenuToggle" class="header-pages-toggle" aria-label="صفحات الموقع">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+
+          <div class="header-pages-dropdown">
             <a href="index.html" class="is-current">الرئيسية</a>
             <a href="models.html">النماذج</a>
             <a href="pricing.html">الباقات</a>
