@@ -1,141 +1,211 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>طلب موقع جديد</title>
-<link rel="stylesheet" href="assets/request.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسمي | الطلب</title>
+  <meta
+    name="description"
+    content="أكمل طلب موقعك وأدخل بياناتك الأساسية لنبدأ تخصيص موقعك."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/request.css">
 </head>
-
 <body>
 
-<div class="request-container">
-  <div class="request-page-head">
-    <div class="request-logo">
-      <a href="index.html">
-        <img src="logo-full.png" alt="رسمي">
+  <header class="site-header home-header-minimal">
+    <div class="container home-header-inner">
+      <a href="index.html" class="brand" aria-label="رسمي">
+        <img src="logo-full.png" alt="رسمي" class="brand-logo">
       </a>
+
+      <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
     </div>
+  </header>
 
-    <span class="request-badge">اختر الباقة + اختر النموذج + أرسل الطلب</span>
-    <h1>ابدأ موقعك الآن</h1>
-    <p>
-      اختر الباقة والنموذج المناسبين لنشاطك، ثم أرسل البيانات الأساسية،
-      وسنقوم بتجهيز طلبك وربطه بحسابك بشكل منظم.
-    </p>
-  </div>
-
-  <div class="request-layout">
-    <div class="request-card request-form-card">
-      <form class="request-form" id="requestForm">
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="name">اسم التاجر</label>
-            <input id="name" placeholder="اكتب اسم التاجر">
-          </div>
-
-          <div class="request-field">
-            <label for="activityName">اسم النشاط</label>
-            <input id="activityName" placeholder="اكتب اسم النشاط">
-          </div>
+  <main class="request-page">
+    <section class="request-intro-section">
+      <div class="container">
+        <div class="request-intro-copy">
+          <h1>أكمل طلب موقعك</h1>
+          <p>أدخل بياناتك الأساسية لنبدأ تخصيص موقعك.</p>
         </div>
+      </div>
+    </section>
 
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="activityType">نوع النشاط</label>
-            <select id="activityType">
-              <option value="">اختر نوع النشاط</option>
-              <option value="خدمات">خدمات</option>
-              <option value="بيع منتجات">بيع منتجات</option>
-              <option value="مطعم / كوفي">مطعم / كوفي</option>
-              <option value="عيادة">عيادة</option>
-              <option value="شركة">شركة</option>
-              <option value="مؤسسة">مؤسسة</option>
-              <option value="شخصي">شخصي</option>
-              <option value="أخرى">أخرى</option>
-            </select>
-          </div>
+    <section class="request-summary-section">
+      <div class="container">
+        <div class="request-summary-card">
+          <div class="request-summary-grid">
+            <div class="request-summary-item">
+              <span>النموذج المختار</span>
+              <strong id="summaryTemplate">—</strong>
+            </div>
 
-          <div class="request-field">
-            <label for="customType">نوع النشاط المخصص</label>
-            <input id="customType" placeholder="اكتب نوع النشاط" style="display:none;">
-          </div>
-        </div>
+            <div class="request-summary-item">
+              <span>الباقة المختارة</span>
+              <strong id="summaryPackage">—</strong>
+            </div>
 
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="package">الباقة</label>
-            <select id="package">
-              <option value="">اختر الباقة</option>
-              <option value="باقة بلس">باقة بلس</option>
-              <option value="باقة برو">باقة برو</option>
-            </select>
-          </div>
-
-          <div class="request-field">
-            <label for="cycle">نوع الاشتراك</label>
-            <select id="cycle">
-              <option value="">اختر نوع الاشتراك</option>
-              <option value="شهري">شهري</option>
-              <option value="سنوي">سنوي</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="template">النموذج المختار</label>
-            <select id="template">
-              <option value="">اختر النموذج</option>
-              <option value="نموذج موقع خدمات">نموذج موقع خدمات</option>
-              <option value="نموذج مطاعم وكوفيهات">نموذج مطاعم وكوفيهات</option>
-              <option value="قالب بيع منتجات">قالب بيع منتجات</option>
-              <option value="نموذج عيادات">نموذج عيادات</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="request-form-row">
-          <div class="request-field">
-            <label for="phone">رقم الجوال</label>
-            <input id="phone" placeholder="05xxxxxxxx">
-            <div class="request-small-text">سيتم استخدامه لتسجيل الدخول</div>
-          </div>
-
-          <div class="request-field">
-            <label for="password">كلمة المرور</label>
-            <div class="request-password-wrap">
-              <input id="password" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
-              <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
-                <svg id="eyeSvg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
+            <div class="request-summary-item">
+              <span>نوع الاشتراك</span>
+              <strong id="summaryCycle">—</strong>
             </div>
           </div>
-        </div>
 
-        <div class="request-plan-note" id="planNote">
-          اختر الباقة ليظهر ملخص سريع عنها هنا.
+          <div class="request-summary-links">
+            <a id="changeTemplateLink" href="models.html">تغيير النموذج</a>
+            <a id="changePackageLink" href="pricing.html">تغيير الباقة</a>
+          </div>
         </div>
-
-        <div class="request-submit-row">
-          <button id="submitBtn" class="request-submit-btn" type="button">ابدأ طلبك</button>
-        </div>
-      </form>
-
-      <div class="request-link">
-        لديك حساب؟ <a href="login.html">تسجيل الدخول</a>
       </div>
+    </section>
+
+    <section class="request-form-section">
+      <div class="container">
+        <div class="request-steps-head">
+          <div class="request-step-pill is-active" data-step-pill="1">
+            <span>1 / 2</span>
+            <strong>الاختيار</strong>
+          </div>
+
+          <div class="request-step-pill" data-step-pill="2">
+            <span>2 / 2</span>
+            <strong>البيانات الأساسية</strong>
+          </div>
+        </div>
+
+        <div class="request-card request-form-card">
+          <form class="request-form" id="requestForm">
+            <div class="request-stage" data-stage="1">
+              <div class="request-form-row">
+                <div class="request-field">
+                  <label for="package">الباقة</label>
+                  <select id="package">
+                    <option value="">اختر الباقة</option>
+                    <option value="باقة بلس">Plus</option>
+                    <option value="باقة برو">Pro</option>
+                  </select>
+                </div>
+
+                <div class="request-field">
+                  <label for="cycle">نوع الاشتراك</label>
+                  <select id="cycle">
+                    <option value="">اختر نوع الاشتراك</option>
+                    <option value="شهري">شهري</option>
+                    <option value="سنوي">سنوي</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="request-form-row request-form-row-single">
+                <div class="request-field">
+                  <label for="template">النموذج المختار</label>
+                  <select id="template">
+                    <option value="">اختر النموذج</option>
+                    <option value="راحتك">راحتك</option>
+                    <option value="هائل">هائل</option>
+                    <option value="كافورا">كافورا</option>
+                    <option value="لذة الشواء">لذة الشواء</option>
+                    <option value="جمالك">جمالك</option>
+                    <option value="آفاق">آفاق</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="request-plan-note" id="planNote">
+                اختر الباقة ونوع الاشتراك ليظهر الملخص هنا.
+              </div>
+
+              <div class="request-stage-actions">
+                <button id="nextStepBtn" class="request-submit-btn" type="button">التالي</button>
+              </div>
+            </div>
+
+            <div class="request-stage" data-stage="2" hidden>
+              <div class="request-form-row">
+                <div class="request-field">
+                  <label for="name">اسم التاجر</label>
+                  <input id="name" placeholder="اكتب اسم التاجر">
+                </div>
+
+                <div class="request-field">
+                  <label for="activityName">اسم النشاط</label>
+                  <input id="activityName" placeholder="اكتب اسم النشاط">
+                </div>
+              </div>
+
+              <div class="request-form-row">
+                <div class="request-field">
+                  <label for="activityType">نوع النشاط</label>
+                  <select id="activityType">
+                    <option value="">اختر نوع النشاط</option>
+                    <option value="خدمات">خدمات</option>
+                    <option value="بيع منتجات">بيع منتجات</option>
+                    <option value="مطعم / كوفي">مطعم / كوفي</option>
+                    <option value="عيادة">عيادة</option>
+                    <option value="شركة">شركة</option>
+                    <option value="مؤسسة">مؤسسة</option>
+                    <option value="شخصي">شخصي</option>
+                    <option value="أخرى">أخرى</option>
+                  </select>
+                </div>
+
+                <div class="request-field">
+                  <label for="customType">نوع النشاط المخصص</label>
+                  <input id="customType" placeholder="اكتب نوع النشاط" style="display:none;">
+                </div>
+              </div>
+
+              <div class="request-form-row">
+                <div class="request-field">
+                  <label for="phone">رقم الجوال</label>
+                  <input id="phone" placeholder="05xxxxxxxx">
+                  <div class="request-small-text">سيتم استخدامه لتسجيل الدخول</div>
+                </div>
+
+                <div class="request-field">
+                  <label for="password">كلمة المرور</label>
+                  <div class="request-password-wrap">
+                    <input id="password" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
+                    <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="request-stage-actions request-stage-actions-double">
+                <button id="prevStepBtn" class="request-secondary-btn" type="button">السابق</button>
+                <button id="submitBtn" class="request-submit-btn" type="button">إرسال الطلب</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="request-link">
+            لديك حساب؟ <a href="login.html">تسجيل الدخول</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© رسمي — جميع الحقوق محفوظة</p>
     </div>
-  </div>
-</div>
+  </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const app = initializeApp({
   apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
@@ -145,6 +215,20 @@ const app = initializeApp({
 
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+const accountBtn = document.getElementById("accountBtn");
+
+if (accountBtn) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      accountBtn.textContent = "حسابي";
+      accountBtn.href = "account.html";
+    } else {
+      accountBtn.textContent = "دخول";
+      accountBtn.href = "login.html";
+    }
+  });
+}
 
 const activityTypeEl = document.getElementById("activityType");
 const customTypeEl = document.getElementById("customType");
@@ -156,34 +240,35 @@ const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 const submitBtn = document.getElementById("submitBtn");
 const planNoteEl = document.getElementById("planNote");
 
-activityTypeEl.onchange = () => {
-  customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
+const summaryTemplateEl = document.getElementById("summaryTemplate");
+const summaryPackageEl = document.getElementById("summaryPackage");
+const summaryCycleEl = document.getElementById("summaryCycle");
+const changeTemplateLink = document.getElementById("changeTemplateLink");
+const changePackageLink = document.getElementById("changePackageLink");
+
+const nextStepBtn = document.getElementById("nextStepBtn");
+const prevStepBtn = document.getElementById("prevStepBtn");
+const stageOneEl = document.querySelector('[data-stage="1"]');
+const stageTwoEl = document.querySelector('[data-stage="2"]');
+const stepPills = document.querySelectorAll("[data-step-pill]");
+
+const modelTypeMap = {
+  "راحتك": "services",
+  "هائل": "services",
+  "كافورا": "products",
+  "لذة الشواء": "products",
+  "جمالك": "profile",
+  "آفاق": "profile"
 };
-
-togglePasswordBtn.addEventListener("click", () => {
-  passwordEl.type = passwordEl.type === "password" ? "text" : "password";
-});
-
-function normalizeTemplateParam(value){
-  const map = {
-    services: "نموذج موقع خدمات",
-    service: "نموذج موقع خدمات",
-    restaurant: "نموذج مطاعم وكوفيهات",
-    cafe: "نموذج مطاعم وكوفيهات",
-    products: "قالب بيع منتجات",
-    product: "قالب بيع منتجات",
-    clinic: "نموذج عيادات",
-    medical: "نموذج عيادات"
-  };
-  return map[value] || value || "";
-}
 
 function normalizePlanParam(value){
   const map = {
     plus: "باقة بلس",
     basic: "باقة بلس",
     pro: "باقة برو",
-    premium: "باقة برو"
+    premium: "باقة برو",
+    "باقة بلس": "باقة بلس",
+    "باقة برو": "باقة برو"
   };
   return map[value] || value || "";
 }
@@ -194,9 +279,17 @@ function normalizeCycleParam(value){
     month: "شهري",
     yearly: "سنوي",
     annual: "سنوي",
-    year: "سنوي"
+    year: "سنوي",
+    "شهري": "شهري",
+    "سنوي": "سنوي"
   };
   return map[value] || value || "";
+}
+
+function getPackageDisplay(){
+  if(packageEl.value === "باقة بلس") return "Plus";
+  if(packageEl.value === "باقة برو") return "Pro";
+  return "—";
 }
 
 function updatePlanNote(){
@@ -233,19 +326,90 @@ function updatePlanNote(){
   }
 }
 
-packageEl.addEventListener("change", updatePlanNote);
-cycleEl.addEventListener("change", updatePlanNote);
+function updateSummary(){
+  const selectedTemplate = templateEl.value || "—";
+  const selectedPackage = getPackageDisplay();
+  const selectedCycle = cycleEl.value || "—";
+
+  summaryTemplateEl.textContent = selectedTemplate;
+  summaryPackageEl.textContent = selectedPackage;
+  summaryCycleEl.textContent = selectedCycle;
+
+  const selectedType = modelTypeMap[templateEl.value] || "";
+  changeTemplateLink.href = selectedType ? `models.html?type=${selectedType}` : "models.html";
+
+  const params = new URLSearchParams();
+  if(templateEl.value) params.set("model", templateEl.value);
+  if(selectedType) params.set("type", selectedType);
+  if(cycleEl.value === "شهري") params.set("cycle", "monthly");
+  if(cycleEl.value === "سنوي") params.set("cycle", "yearly");
+
+  changePackageLink.href = params.toString() ? `pricing.html?${params.toString()}` : "pricing.html";
+}
+
+function setStep(step){
+  const isStepOne = step === 1;
+
+  stageOneEl.hidden = !isStepOne;
+  stageTwoEl.hidden = isStepOne;
+
+  stepPills.forEach((pill, index) => {
+    pill.classList.toggle("is-active", index + 1 === step);
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function validateStepOne(){
+  if(!packageEl.value) throw "اختر الباقة";
+  if(!cycleEl.value) throw "اختر نوع الاشتراك";
+  if(!templateEl.value) throw "اختر النموذج";
+}
+
+activityTypeEl.onchange = () => {
+  customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
+};
+
+togglePasswordBtn.addEventListener("click", () => {
+  passwordEl.type = passwordEl.type === "password" ? "text" : "password";
+});
+
+packageEl.addEventListener("change", () => {
+  updatePlanNote();
+  updateSummary();
+});
+
+cycleEl.addEventListener("change", () => {
+  updatePlanNote();
+  updateSummary();
+});
+
+templateEl.addEventListener("change", updateSummary);
+
+nextStepBtn.addEventListener("click", () => {
+  try{
+    validateStepOne();
+    setStep(2);
+  }catch(error){
+    alert(error.message || error);
+  }
+});
+
+prevStepBtn.addEventListener("click", () => {
+  setStep(1);
+});
 
 (function applyQueryParams(){
   const params = new URLSearchParams(window.location.search);
-  const templateParam = normalizeTemplateParam((params.get("template") || "").trim().toLowerCase());
+
+  const modelParam = (params.get("model") || params.get("template") || "").trim();
   const planParam = normalizePlanParam((params.get("plan") || "").trim().toLowerCase());
   const cycleParam = normalizeCycleParam((params.get("cycle") || "").trim().toLowerCase());
 
-  if(templateParam){
+  if(modelParam){
     for(const option of templateEl.options){
-      if(option.value === templateParam){
-        templateEl.value = templateParam;
+      if(option.value === modelParam){
+        templateEl.value = modelParam;
         break;
       }
     }
@@ -270,6 +434,8 @@ cycleEl.addEventListener("change", updatePlanNote);
   }
 
   updatePlanNote();
+  updateSummary();
+  setStep(1);
 })();
 
 submitBtn.onclick = async () => {
@@ -399,7 +565,7 @@ submitBtn.onclick = async () => {
   }catch(e){
     alert(e.message || e);
   }finally{
-    submitBtn.innerText = "ابدأ طلبك";
+    submitBtn.innerText = "إرسال الطلب";
     submitBtn.disabled = false;
   }
 };
