@@ -1,105 +1,111 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+const selectedModelNameEl = document.querySelector("[data-selected-model-name]");
+const changeModelLinkEl = document.querySelector("[data-change-model-link]");
+const billingTabs = Array.from(document.querySelectorAll("[data-billing-tab]"));
+const planLinks = Array.from(document.querySelectorAll("[data-plan-link]"));
+const priceValues = Array.from(document.querySelectorAll("[data-price-yearly]"));
+const cycleLabels = Array.from(document.querySelectorAll("[data-cycle-label]"));
+const planSubnotes = Array.from(document.querySelectorAll("[data-plan-subnote]"));
+const planSavings = Array.from(document.querySelectorAll("[data-plan-saving]"));
 
-/* =========================
-   Firebase
-========================= */
-const app = initializeApp({
-  apiKey: "AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
-  authDomain: "site-orders-415e4.firebaseapp.com",
-  projectId: "site-orders-415e4"
+const params = new URLSearchParams(window.location.search);
+
+const selectedModel = (params.get("model") || "").trim();
+const selectedType = (params.get("type") || "").trim();
+let selectedCycle = (params.get("cycle") || "yearly").trim().toLowerCase();
+
+const validCycles = ["monthly", "yearly"];
+if (!validCycles.includes(selectedCycle)) {
+  selectedCycle = "yearly";
+}
+
+function updateSelectedModel() {
+  if (selectedModelNameEl) {
+    selectedModelNameEl.textContent = selectedModel || "---";
+  }
+
+  if (changeModelLinkEl) {
+    changeModelLinkEl.href = selectedType
+      ? `models.html?type=${encodeURIComponent(selectedType)}`
+      : "models.html";
+  }
+}
+
+function updatePlanLinks() {
+  planLinks.forEach((linkEl) => {
+    const planKey = linkEl.dataset.planLink;
+
+    if (!selectedModel) {
+      linkEl.href = "models.html";
+      return;
+    }
+
+    const requestParams = new URLSearchParams();
+    requestParams.set("model", selectedModel);
+    requestParams.set("plan", planKey);
+    requestParams.set("cycle", selectedCycle);
+
+    if (selectedType) {
+      requestParams.set("type", selectedType);
+    }
+
+    linkEl.href = `request.html?${requestParams.toString()}`;
+  });
+}
+
+function updatePrices() {
+  const isMonthly = selectedCycle === "monthly";
+
+  billingTabs.forEach((tab) => {
+    tab.classList.toggle("is-active", tab.dataset.billingTab === selectedCycle);
+  });
+
+  priceValues.forEach((priceEl) => {
+    priceEl.textContent = isMonthly
+      ? priceEl.dataset.priceMonthly
+      : priceEl.dataset.priceYearly;
+  });
+
+  cycleLabels.forEach((labelEl) => {
+    labelEl.textContent = isMonthly ? "ريال شهريًا" : "ريال سنويًا";
+  });
+
+  planSubnotes.forEach((noteEl) => {
+    if (!noteEl.dataset.yearlyText) {
+      noteEl.dataset.yearlyText = noteEl.textContent;
+    }
+
+    noteEl.textContent = isMonthly ? "رسوم تخصيص أولية" : noteEl.dataset.yearlyText;
+  });
+
+  planSavings.forEach((savingEl) => {
+    if (!savingEl.dataset.originalText) {
+      savingEl.dataset.originalText = savingEl.textContent;
+    }
+
+    savingEl.textContent = isMonthly ? "" : savingEl.dataset.originalText;
+  });
+
+  updatePlanLinks();
+}
+
+billingTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    selectedCycle = tab.dataset.billingTab;
+    updatePrices();
+  });
 });
 
-const auth = getAuth(app);
-
-/* =========================
-   Account button
-========================= */
-const accountBtn = document.getElementById("accountBtn");
-
-if (accountBtn) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      accountBtn.textContent = "حسابي";
-      accountBtn.href = "account.html";
-    } else {
-      accountBtn.textContent = "دخول";
-      accountBtn.href = "login.html";
+planLinks.forEach((linkEl) => {
+  linkEl.addEventListener("click", (event) => {
+    if (!selectedModel) {
+      event.preventDefault();
+      alert("اختر نموذجًا أولًا");
+      window.location.href = selectedType
+        ? `models.html?type=${encodeURIComponent(selectedType)}`
+        : "models.html";
     }
   });
-}
+});
 
-/* =========================
-   Mobile menu helper
-========================= */
-const toggleBtn = document.querySelector("[data-menu-toggle]");
-const mobileMenu = document.querySelector("[data-mobile-menu]");
-
-if (toggleBtn && mobileMenu) {
-  toggleBtn.addEventListener("click", () => {
-    const isHidden = mobileMenu.hasAttribute("hidden");
-
-    if (isHidden) {
-      mobileMenu.removeAttribute("hidden");
-    } else {
-      mobileMenu.setAttribute("hidden", "");
-    }
-  });
-
-  mobileMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileMenu.setAttribute("hidden", "");
-    });
-  });
-}
-
-/* =========================
-   Home header dropdown
-========================= */
-const homeMenu = document.querySelector("[data-home-menu]");
-const homeMenuToggle = document.querySelector("[data-home-menu-toggle]");
-const homeMenuDropdown = document.querySelector("[data-home-menu-dropdown]");
-
-if (homeMenu && homeMenuToggle && homeMenuDropdown) {
-  const closeHomeMenu = () => {
-    homeMenu.classList.remove("is-open");
-    homeMenuDropdown.hidden = true;
-    homeMenuToggle.setAttribute("aria-expanded", "false");
-  };
-
-  const openHomeMenu = () => {
-    homeMenu.classList.add("is-open");
-    homeMenuDropdown.hidden = false;
-    homeMenuToggle.setAttribute("aria-expanded", "true");
-  };
-
-  homeMenuToggle.addEventListener("click", (event) => {
-    event.stopPropagation();
-
-    const isOpen = homeMenu.classList.contains("is-open");
-
-    if (isOpen) {
-      closeHomeMenu();
-    } else {
-      openHomeMenu();
-    }
-  });
-
-  homeMenuDropdown.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      closeHomeMenu();
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!homeMenu.contains(event.target)) {
-      closeHomeMenu();
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeHomeMenu();
-    }
-  });
-}
+updateSelectedModel();
+updatePrices();
