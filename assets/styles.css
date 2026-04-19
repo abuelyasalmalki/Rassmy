@@ -105,6 +105,12 @@ textarea{
   gap:16px;
 }
 
+.home-header-side{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
 .brand{
   display:inline-flex;
   align-items:center;
@@ -133,6 +139,97 @@ textarea{
 }
 
 .login-mini-btn:hover{
+  background:var(--text);
+  color:#fff;
+}
+
+/* =========================
+   Header dropdown menu
+========================= */
+.header-pages-menu{
+  position:relative;
+}
+
+.header-pages-menu summary{
+  list-style:none;
+}
+
+.header-pages-menu summary::-webkit-details-marker{
+  display:none;
+}
+
+.header-pages-toggle{
+  width:42px;
+  height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.header-pages-toggle:hover{
+  background:var(--text);
+}
+
+.header-pages-toggle:hover svg{
+  stroke:#fff;
+}
+
+.header-pages-menu[open] .header-pages-toggle{
+  background:var(--text);
+  border-color:var(--text);
+}
+
+.header-pages-menu[open] .header-pages-toggle svg{
+  stroke:#fff;
+}
+
+.header-pages-toggle svg{
+  width:18px;
+  height:18px;
+  stroke:var(--text);
+  stroke-width:2;
+  fill:none;
+  transition:.2s ease;
+}
+
+.header-pages-dropdown{
+  position:absolute;
+  top:calc(100% + 12px);
+  right:0;
+  min-width:220px;
+  padding:10px;
+  border-radius:20px;
+  background:#fff;
+  border:1px solid rgba(215,221,229,.95);
+  box-shadow:0 22px 42px rgba(15,23,42,.10);
+  display:grid;
+  gap:8px;
+  z-index:1200;
+}
+
+.header-pages-dropdown a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  border-radius:14px;
+  color:var(--text);
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.header-pages-dropdown a:hover{
+  background:var(--surface-2);
+}
+
+.header-pages-dropdown a.is-current{
   background:var(--text);
   color:#fff;
 }
@@ -550,6 +647,10 @@ textarea{
     padding:28px 20px;
     border-radius:24px;
   }
+
+  .header-pages-dropdown{
+    min-width:200px;
+  }
 }
 
 @media (max-width:640px){
@@ -561,6 +662,10 @@ textarea{
     min-height:66px;
   }
 
+  .home-header-side{
+    gap:10px;
+  }
+
   .brand-logo{
     height:34px;
   }
@@ -570,6 +675,25 @@ textarea{
     height:34px;
     font-size:12px;
     padding:0 12px;
+  }
+
+  .header-pages-toggle{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+  }
+
+  .header-pages-dropdown{
+    top:calc(100% + 10px);
+    min-width:180px;
+    padding:8px;
+    border-radius:16px;
+  }
+
+  .header-pages-dropdown a{
+    min-height:40px;
+    padding:0 12px;
+    font-size:13px;
   }
 
   .home-hero-simple{
