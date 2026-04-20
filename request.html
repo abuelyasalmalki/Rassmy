@@ -18,9 +18,29 @@
 
   <header class="site-header home-header-minimal">
     <div class="container home-header-inner">
-      <a href="index.html" class="brand" aria-label="رسمي">
-        <img src="logo-full.png" alt="رسمي" class="brand-logo">
-      </a>
+      <div class="home-header-side">
+        <div class="header-pages-menu">
+          <input type="checkbox" id="homeMenuToggle" class="header-pages-checkbox">
+
+          <label for="homeMenuToggle" class="header-pages-toggle" aria-label="صفحات الموقع">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+
+          <div class="header-pages-dropdown">
+            <a href="models.html">النماذج</a>
+            <a href="pricing.html">الباقات</a>
+            <a href="request.html" class="is-current">الطلب</a>
+            <a href="faq.html">الأسئلة الشائعة</a>
+            <a href="contact.html">تواصل معنا</a>
+          </div>
+        </div>
+
+        <a href="index.html" class="brand" aria-label="رسمي">
+          <img src="logo-full.png" alt="رسمي" class="brand-logo">
+        </a>
+      </div>
 
       <a href="login.html" class="login-mini-btn" id="accountBtn">دخول</a>
     </div>
