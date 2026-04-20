@@ -23,9 +23,18 @@
 
   <header class="topbar">
     <div class="container nav">
-      <a class="brand" href="index.html">
-        <span class="brand-badge">ر</span>
-        <span>راحتك</span>
+      <a class="brand" href="index.html" aria-label="راحتك">
+        <span class="brand-badge" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 11.5L12 5L20 11.5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V11.5Z" fill="white"/>
+            <path d="M9.5 20V14.5C9.5 13.9477 9.94772 13.5 10.5 13.5H13.5C14.0523 13.5 14.5 13.9477 14.5 14.5V20" stroke="#1c8fff" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M3.5 11.5L12 4.5L20.5 11.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span style="display:flex;flex-direction:column;gap:2px;line-height:1.05;">
+          <strong style="font-size:24px;font-weight:800;color:var(--text);">راحتك</strong>
+          <small style="font-size:12px;font-weight:700;color:var(--muted);">تنظيف منازل</small>
+        </span>
       </a>
 
       <nav class="nav-links" aria-label="التنقل الرئيسي">
