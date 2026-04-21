@@ -132,55 +132,43 @@
     <section class="section before-after-section">
       <div class="container">
         <span class="eyebrow">قبل / بعد التنظيف</span>
-        <h2>نتيجة تظهر بصريًا من أول زيارة</h2>
-        <p>هذا القسم يختصر الفرق الحقيقي الذي يلمسه العميل: مساحة أهدأ، مظهر أنظف، وانطباع أوضح من أول نظرة.</p>
+        <h2>شاهد الفرق الحقيقي في نفس المساحة</h2>
+        <p>بدّل بين قبل وبعد لترى النتيجة بشكل مباشر وواضح.</p>
 
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;">
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">فرق بصري واضح</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">مناسب قبل المناسبات</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">يعكس مستوى الخدمة</span>
-        </div>
+        <div class="card" data-compare-root style="padding:24px; margin-top:24px;">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:18px;">
+            <button
+              type="button"
+              data-compare-toggle="before"
+              aria-pressed="true"
+              style="border:none;border-radius:999px;padding:12px 22px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 10px 24px rgba(28,143,255,.16);"
+            >
+              قبل
+            </button>
+            <button
+              type="button"
+              data-compare-toggle="after"
+              aria-pressed="false"
+              style="border:1px solid var(--line);border-radius:999px;padding:12px 22px;font:inherit;font-weight:800;cursor:pointer;background:#fff;color:var(--text);"
+            >
+              بعد
+            </button>
+          </div>
 
-        <div class="grid before-after-grid">
-          <article class="card compare-card">
-            <div class="compare-image-wrap">
-              <img src="assets/images/kitchen_before.png" alt="مطبخ قبل التنظيف" class="compare-image">
-              <span class="compare-badge">قبل</span>
-            </div>
+          <div class="compare-image-wrap" style="border-radius:24px;border:1px solid var(--line);overflow:hidden;">
+            <img
+              src="assets/images/kitchen_before.png"
+              alt="مطبخ قبل التنظيف"
+              class="compare-image"
+              data-compare-image
+              style="height:min(66vw, 520px);min-height:260px;"
+            >
+            <span class="compare-badge" data-compare-badge>قبل</span>
+          </div>
 
-            <div class="compare-copy">
-              <h3>قبل الخدمة</h3>
-              <p>
-                تراكم بصري وعدم وضوح في الترتيب العام، مع إحساس أن المكان يحتاج عناية أوسع
-                خصوصًا في المساحات التي تُستخدم يوميًا.
-              </p>
-              <ul class="pricing-list" style="margin-top:16px;margin-bottom:0;">
-                <li>تكدس بصري في الأسطح والمساحات</li>
-                <li>إحساس أقل بالنظافة والهدوء</li>
-                <li>عدم جاهزية المكان بالشكل المطلوب</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="card compare-card">
-            <div class="compare-image-wrap">
-              <img src="assets/images/kitchen_after.png" alt="مطبخ بعد التنظيف" class="compare-image">
-              <span class="compare-badge compare-badge-after">بعد</span>
-            </div>
-
-            <div class="compare-copy">
-              <h3>بعد الخدمة</h3>
-              <p>
-                نتيجة أوضح وأكثر راحة بصريًا، مع ترتيب أنظف للمساحة وإحساس أفضل بجاهزية المكان
-                للاستخدام اليومي أو لاستقبال الضيوف.
-              </p>
-              <ul class="pricing-list" style="margin-top:16px;margin-bottom:0;">
-                <li>نظافة أوضح من أول نظرة</li>
-                <li>ترتيب أفضل للمشهد العام</li>
-                <li>مظهر أنسب للمطبخ والمساحات المهمة</li>
-              </ul>
-            </div>
-          </article>
+          <p data-compare-caption style="margin:14px 0 0;text-align:center;font-size:14px;color:var(--muted);font-weight:700;">
+            المطبخ قبل التنظيف
+          </p>
         </div>
       </div>
     </section>
@@ -507,5 +495,66 @@
   </a>
 
   <script src="assets/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const compareRoot = document.querySelector('[data-compare-root]');
+      if (!compareRoot) return;
+
+      const image = compareRoot.querySelector('[data-compare-image]');
+      const badge = compareRoot.querySelector('[data-compare-badge]');
+      const caption = compareRoot.querySelector('[data-compare-caption]');
+      const buttons = compareRoot.querySelectorAll('[data-compare-toggle]');
+
+      const states = {
+        before: {
+          src: 'assets/images/kitchen_before.png',
+          alt: 'مطبخ قبل التنظيف',
+          badge: 'قبل',
+          caption: 'المطبخ قبل التنظيف'
+        },
+        after: {
+          src: 'assets/images/kitchen_after.png',
+          alt: 'مطبخ بعد التنظيف',
+          badge: 'بعد',
+          caption: 'المطبخ بعد التنظيف'
+        }
+      };
+
+      function setCompareState(stateKey) {
+        const state = states[stateKey];
+        if (!state) return;
+
+        image.src = state.src;
+        image.alt = state.alt;
+        badge.textContent = state.badge;
+        caption.textContent = state.caption;
+
+        if (stateKey === 'after') {
+          badge.classList.add('compare-badge-after');
+        } else {
+          badge.classList.remove('compare-badge-after');
+        }
+
+        buttons.forEach((button) => {
+          const isActive = button.dataset.compareToggle === stateKey;
+          button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          button.style.background = isActive
+            ? 'linear-gradient(135deg,var(--primary),var(--primary-dark))'
+            : '#fff';
+          button.style.color = isActive ? '#fff' : 'var(--text)';
+          button.style.border = isActive ? 'none' : '1px solid var(--line)';
+          button.style.boxShadow = isActive ? '0 10px 24px rgba(28,143,255,.16)' : 'none';
+        });
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setCompareState(button.dataset.compareToggle);
+        });
+      });
+
+      setCompareState('before');
+    });
+  </script>
 </body>
 </html>
