@@ -843,6 +843,34 @@ p{
   margin:0;
 }
 
+.compare-showcase-card{
+  padding:24px;
+  margin-top:24px;
+}
+
+.compare-toggle-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:18px;
+}
+
+.compare-toggle-btn{
+  min-width:120px;
+}
+
+.compare-image-frame{
+  border-radius:24px;
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+
+.compare-showcase-card [data-compare-image]{
+  height:min(66vw, 520px);
+  min-height:260px;
+}
+
 /* ===== COVERAGE ===== */
 .coverage-section{
   background:linear-gradient(180deg,rgba(249,251,251,0) 0%,rgba(22,173,178,.04) 100%);
@@ -1551,27 +1579,91 @@ p{
 
 @media (max-width:740px){
   .section{
-    padding:64px 0;
+    padding:56px 0;
   }
 
   .section-sm{
-    padding:46px 0;
+    padding:40px 0;
   }
 
   .container{
     width:min(100%, calc(100% - 24px));
   }
 
+  .demo-topbar{
+    font-size:12px;
+  }
+
   .demo-topbar-inner{
     align-items:flex-start;
+    gap:10px;
+  }
+
+  .demo-topbar-actions{
+    width:100%;
+  }
+
+  .demo-link{
+    flex:1 1 calc(50% - 5px);
+    min-height:38px;
+  }
+
+  .nav{
+    min-height:72px;
+    gap:10px;
+    padding:10px 0;
+  }
+
+  .brand strong{
+    font-size:22px !important;
+  }
+
+  .brand small{
+    font-size:11px !important;
+  }
+
+  .brand-badge{
+    width:40px;
+    height:40px;
+  }
+
+  .btn-row{
+    width:100%;
+  }
+
+  .btn-row .btn{
+    width:100%;
+  }
+
+  .hero{
+    padding:22px 0 52px;
+  }
+
+  .hero-copy{
+    padding:6px 0;
   }
 
   .hero-copy h1{
-    font-size:38px;
+    font-size:34px;
+    line-height:1.18;
+    margin-bottom:12px;
+  }
+
+  .hero-copy p{
+    font-size:15px;
+  }
+
+  .hero-points{
+    margin:18px 0 22px;
+  }
+
+  .hero-point{
+    padding:13px 14px;
+    border-radius:16px;
   }
 
   .hero-visual{
-    min-height:400px;
+    min-height:320px;
   }
 
   .hero-image-placeholder{
@@ -1667,21 +1759,39 @@ p{
     bottom:14px;
   }
 
+  .intro-strip-section{
+    margin-top:-6px;
+  }
+
+  .intro-strip{
+    padding:14px;
+  }
+
+  .intro-strip-item{
+    padding:16px;
+  }
+
   .compare-image{
-    height:280px;
+    height:240px;
   }
 
-  .compare-copy{
-    padding:18px;
+  .compare-showcase-card{
+    padding:16px;
   }
 
-  .compare-badge{
-    top:14px;
-    right:14px;
-    min-width:64px;
-    height:38px;
-    font-size:14px;
-    padding:0 14px;
+  .compare-toggle-row{
+    gap:8px;
+    margin-bottom:14px;
+  }
+
+  .compare-toggle-btn{
+    width:100%;
+    min-width:0;
+    padding:11px 18px !important;
+  }
+
+  .compare-showcase-card [data-compare-caption]{
+    font-size:13px !important;
   }
 
   .faq-question{
@@ -1702,6 +1812,10 @@ p{
   .plan-body,
   .page-hero .card{
     padding:18px;
+  }
+
+  .quick-booking-wrap{
+    gap:18px;
   }
 
   .coverage-tags{
@@ -1726,8 +1840,74 @@ p{
     font-size:24px;
   }
 
+  .cta-band{
+    padding:22px;
+    border-radius:24px;
+  }
+
+  .cta-band .btn-row{
+    width:100%;
+  }
+
+  .cta-band .btn-row .btn{
+    width:100%;
+  }
+
+  .footer-wrap{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .footer-links{
+    width:100%;
+    gap:12px;
+  }
+
+  .floating-whatsapp{
+    min-height:52px;
+    padding:0 16px;
+  }
+
   .floating-whatsapp-text{
     font-size:13px;
+  }
+}
+
+@media (max-width:480px){
+  .container{
+    width:min(100%, calc(100% - 20px));
+  }
+
+  .demo-topbar-inner{
+    gap:8px;
+  }
+
+  .demo-link{
+    flex:1 1 100%;
+  }
+
+  .brand strong{
+    font-size:21px !important;
+  }
+
+  .brand small{
+    font-size:11px !important;
+  }
+
+  .hero-copy h1{
+    font-size:31px;
+  }
+
+  .hero-visual{
+    min-height:280px;
+  }
+
+  .compare-image{
+    height:210px;
+  }
+
+  .floating-whatsapp-text{
+    font-size:12.5px;
   }
 }
 
