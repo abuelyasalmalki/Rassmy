@@ -576,15 +576,24 @@ small.mono{
   }
 
   .nav{
-    gap:.75rem;
+    gap:.6rem;
   }
 
   .brand-logo img{
-    width:78px;
+    width:74px;
   }
 
   .nav-actions{
-    width:auto;
+    gap:.35rem;
+    flex-wrap:nowrap;
+  }
+
+  .nav-actions .button{
+    min-height:40px;
+    padding:.55rem .85rem;
+    font-size:.92rem;
+    line-height:1.2;
+    white-space:nowrap;
   }
 
   .hero-content{
