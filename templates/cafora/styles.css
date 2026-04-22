@@ -112,7 +112,7 @@ img{
 }
 
 .brand-logo img{
-  width:120px;
+  width:112px;
   height:auto;
   display:block;
   border-radius:12px;
@@ -485,7 +485,7 @@ small.mono{
 /* ===== Responsive ===== */
 @media (max-width:960px){
   .brand-logo img{
-    width:88px;
+    width:82px;
   }
 
   .grid-3{
@@ -580,7 +580,7 @@ small.mono{
   }
 
   .brand-logo img{
-    width:74px;
+    width:68px;
   }
 
   .nav-actions{
