@@ -38,6 +38,56 @@ img{
   padding:0 1rem;
 }
 
+/* ===== Demo Topbar ===== */
+.demo-topbar{
+  background:linear-gradient(135deg,#12393d,#0d6e74);
+  color:#fff;
+  font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.demo-topbar-inner{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  padding:8px 0;
+}
+
+.demo-topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.demo-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  color:#fff !important;
+  font-weight:700;
+}
+
+.demo-link:hover{
+  background:rgba(255,255,255,.16);
+}
+
+.demo-link-primary{
+  background:#fff;
+  color:#0d6e74 !important;
+}
+
+.demo-link-primary:hover{
+  background:#f7fbfb;
+}
+
 /* ===== Header ===== */
 .header{
   position:sticky;
@@ -83,10 +133,10 @@ img{
   justify-content:center;
   min-height:46px;
   padding:.75rem 1.1rem;
-  border:none;
+  border:1.5px solid transparent;
   border-radius:999px;
   background:var(--primary);
-  color:#fff !important;
+  color:#fff;
   font-weight:700;
   cursor:pointer;
   box-shadow:0 6px 18px var(--ring);
@@ -96,30 +146,31 @@ img{
 .button:hover{
   background:var(--primary-700);
   transform:translateY(-1px);
+  color:#fff;
 }
 
 .button-outline{
   background:transparent;
-  color:var(--primary);
-  border:1.5px solid var(--primary);
+  color:var(--primary) !important;
+  border-color:var(--primary);
   box-shadow:none;
 }
 
 .button-outline:hover{
   background:var(--primary);
   border-color:var(--primary);
-  color:#fff;
+  color:#fff !important;
 }
 
 .header .button-outline{
-  color:#fff;
+  color:#fff !important;
   border-color:rgba(255,255,255,.24);
 }
 
 .header .button-outline:hover{
   background:rgba(255,255,255,.08);
   border-color:rgba(255,255,255,.34);
-  color:#fff;
+  color:#fff !important;
 }
 
 /* ===== Hero ===== */
@@ -459,6 +510,10 @@ small.mono{
 }
 
 @media (max-width:720px){
+  .demo-topbar-inner{
+    align-items:flex-start;
+  }
+
   .nav{
     align-items:center;
   }
@@ -506,6 +561,18 @@ small.mono{
 @media (max-width:540px){
   .container{
     padding:0 .9rem;
+  }
+
+  .demo-topbar{
+    font-size:12px;
+  }
+
+  .demo-topbar-actions{
+    width:100%;
+  }
+
+  .demo-link{
+    flex:1 1 100%;
   }
 
   .nav{
