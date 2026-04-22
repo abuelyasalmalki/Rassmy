@@ -1,0 +1,282 @@
+
+:root{
+  --primary:#059669;
+  --primary-700:#047857;
+  --text:#0f172a;
+  --muted:#475569;
+  --bg:#ffffff;
+  --ring:rgba(5,150,105,0.22);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans Arabic",sans-serif;color:var(--text);background:var(--bg);direction:rtl;line-height:1.7}
+.container{max-width:1120px;margin:0 auto;padding:0 1rem}
+.header{position:sticky;top:0;z-index:50;background:#0b1d2a;border-bottom:1px solid rgba(255,255,255,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.brand-logo img{width:120px;height:auto;display:block;border-radius:12px}
+@media (max-width: 960px){.brand-logo img{width:80px}}
+.nav-actions{display:flex;gap:.5rem;align-items:center}
+.button{appearance:none;border:none;border-radius:999px;background:var(--primary);color:#fff;padding:.75rem 1.1rem;font-weight:700;cursor:pointer;box-shadow:0 6px 18px var(--ring)}
+.button:hover{background:var(--primary-700)}
+
+.hero{padding:3rem 0 2rem;background:linear-gradient(180deg,#ecfdf5,transparent)}
+.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center}
+.hero h1{font-size:2.4rem;line-height:1.25;margin:.25rem 0 .5rem}
+.badge{display:inline-flex;gap:.5rem;align-items:center;background:#dcfce7;border:1px solid #bbf7d0;color:#065f46;padding:.35rem .75rem;border-radius:999px;font-weight:700}
+.lead{color:var(--muted);font-size:1.1rem}
+.hero-card{background:#fff;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,.06)}
+.hero-img{width:100%;display:block}
+.section{padding:3rem 0}
+.section h2{font-size:1.8rem;margin:0 0 .5rem}
+.kicker{color:var(--primary);font-weight:800;letter-spacing:.02em;margin-bottom:.25rem}
+.grid{display:grid;gap:1rem}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{border:1px solid #e5e7eb;border-radius:20px;padding:1rem;background:#fff;box-shadow:0 8px 24px rgba(2,6,23,.04)}
+.card p{color:var(--muted);margin:.25rem 0 .5rem}
+.price{font-weight:800;color:var(--primary)}
+.list{list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.35rem}
+.list li{display:flex;gap:.5rem;align-items:flex-start}
+.list li:before{content:"✔";color:var(--primary-700);font-weight:800;display:inline-block;width:1.2rem}
+.gallery{display:grid;gap:.75rem;grid-template-columns:repeat(12,1fr)}
+.gallery img{width:100%;height:100%;object-fit:cover;border-radius:16px;border:1px solid #e5e7eb}
+.gallery a{display:block}
+.gallery .x4{grid-column:span 7}
+.gallery .x2{grid-column:span 5}
+.quote{background:linear-gradient(180deg,#f1f5f9,#ffffff);border:1px solid #e2e8f0;border-radius:24px;padding:1.25rem}
+.footer{background:#0f172a;color:#e2e8f0;padding:2rem 0;margin-top:2rem}
+.footer a{color:#a7f3d0}
+.inline{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.field{display:grid;gap:.25rem}
+.input{width:100%;padding:.8rem 1rem;border:1.5px solid #e5e7eb;border-radius:14px;background:#fff;color:var(--text)}
+.contact-card{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+.map{border-radius:20px;border:1px solid #e5e7eb;min-height:280px;background:#f8fafc;display:grid;place-items:center;color:#64748b}
+@media (max-width: 960px){
+  .hero-inner{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .contact-card{grid-template-columns:1fr}
+}
+small.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:#64748b}
+
+/* Bundle images sizing */
+.bundle-img, .card img[alt^="باقة"]{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  border-radius:14px;
+  border:1px solid #e5e7eb;
+}
+
+
+.hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.hero-card picture, .hero-card img{display:block;width:100%}
+.hero-img{width:100%;height:auto;object-fit:cover}
+
+
+/* Make hero section taller */
+.hero-card{
+  height:80vh; /* cover 80% of viewport height */
+  overflow:hidden;
+}
+.hero-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+
+/* ---- Hero banner: make it full-width & tall ---- */
+.hero{padding:0}
+.hero-inner{display:block}
+.hero-card{height:80vh; overflow:hidden; order:-1; margin:0; border-radius:0}
+.hero-card picture, .hero-card img{display:block; width:100%; height:100%; object-fit:cover}
+/* Ensure text spacing after banner */
+.hero-inner > div:not(.hero-card){padding:1.5rem 1rem}
+@media (min-width: 1024px){
+  .hero-card{height:85vh}
+}
+
+
+/* Full-bleed hero banner */
+.hero-visual{padding:0;margin:0}
+.hero-visual picture, .hero-visual img{
+  display:block;
+  width:100%;
+  height:100vh; /* full screen */
+  object-fit:cover;
+  object-position:center center; /* show center by default */
+}
+@media (max-width: 960px){
+  .hero-visual picture, .hero-visual img{height:75vh; object-position:center top}
+}
+/* Content hero after banner */
+.hero-content{padding:2rem 0; background:linear-gradient(180deg,#ecfdf5,transparent)}
+
+
+/* Hero banner with original aspect ratio */
+.hero-visual picture, .hero-visual img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+
+
+/* Responsive hero banner behavior */
+.hero-visual{
+  padding:0;
+  margin:0;
+  background:#0b1d2a; /* fallback bg behind letterboxing if needed */
+}
+.hero-visual picture, .hero-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  background:#0b1d2a; /* match header background to blend sides */
+}
+
+@media (min-width: 1024px){
+  .hero-visual picture, .hero-visual img{
+    width:auto;
+    max-height:90vh;   /* don't exceed viewport height */
+    margin:0 auto;     /* center horizontally */
+  }
+}
+
+
+
+/* Mobile: nudge brand logo slightly away from the right edge */
+@media (max-width: 960px){
+  .brand{ margin-right: 10px; } /* RTL: right margin pushes it a bit left */
+}
+
+
+
+/* copyable numbers */
+.copyable{user-select:text; padding:0 .25rem; background:rgba(0,0,0,0.04); border-radius:.375rem}
+.copy-btn{margin-inline-start:.25rem; padding:.35rem .6rem; border:1px solid #ddd; border-radius:.5rem; cursor:pointer; font-size:.85rem}
+.copy-btn:active{transform:scale(.98)}
+.map-embed{margin-top:1rem; border-radius:1rem; overflow:hidden; box-shadow:0 4px 18px rgba(0,0,0,0.08)}
+
+
+/* WhatsApp contact box */
+.footer-contact{margin-top:1.5rem; padding:1rem; border-top:1px solid #eee; text-align:center}
+.footer-contact h3{margin-bottom:.75rem; font-size:1.1rem}
+.whatsapp-box{display:inline-flex; align-items:center; gap:.5rem; padding:.6rem 1rem; border:2px solid #25D366; border-radius:.75rem; background:#f8fdf9}
+.whatsapp-number{font-weight:bold; font-size:1rem; color:#128C7E; user-select:text}
+.copy-btn{padding:.35rem .75rem; border:1px solid #ccc; border-radius:.5rem; cursor:pointer; font-size:.85rem; background:#fff}
+.copy-btn:active{transform:scale(.97)}
+
+
+.button-outline {
+  background: var(--primary);
+  color: #fff;
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease;
+}
+.button-outline:hover {
+  background: var(--primary-700);
+  border-color: var(--primary-700);
+  color: #fff;
+}
+
+
+/* WhatsApp CTA button */
+.whatsapp-btn {
+  display:inline-block;
+  background:#25D366;
+  color:#fff;
+  padding:.75rem 1.5rem;
+  border-radius:.75rem;
+  font-weight:bold;
+  text-decoration:none;
+  transition:background .3s ease;
+}
+.whatsapp-btn:hover {
+  background:#128C7E;
+}
+
+
+/* Cafoura identity WhatsApp button */
+.contact-section{text-align:center; padding:2rem 1rem}
+.contact-heading{margin-bottom:.5rem; font-size:1.1rem; font-weight:600}
+
+.cafoura-btn{
+  display:inline-block;
+  background:var(--primary);
+  color:#fff;
+  padding:1rem 2.5rem;
+  border-radius:1rem;
+  font-weight:bold;
+  font-size:1.1rem;
+  text-decoration:none;
+  transition:background .3s ease;
+}
+.cafoura-btn:hover{
+  background:var(--primary-700);
+  border-color:var(--primary-700);
+  color:#fff;
+}
+
+
+
+/* bundles-img-fix: unify bundle card image display */
+.bundles img,
+.bundles-section img,
+.bundle-card img{
+  width: 100%;
+  height: 360px; /* matches typical card height */
+  object-fit: cover;
+  display: block;
+}
+
+
+/* --- bundles-img-consistency fix --- */
+.bundles img,
+.bundles-section img,
+.bundle-card img,
+.product-card img,
+.card.bundle img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+@media (min-width: 992px){
+  /* keep consistent heights on desktop if any grid differences */
+  .bundles .card img,
+  .bundles-section .card img,
+  .bundle-card img { max-height: 480px; }
+}
+/* --- end fix --- */
+
+
+/* --- bundles-layout-fix --- */
+.bundles, .bundles-section, .bundles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.bundles .card, .bundles-section .card, .bundle-card, .product-card, .item-card {
+  margin: 0; /* avoid collapsed spacing */
+}
+.bundles img, .bundles-section img, .bundle-card img, .product-card img, .card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+/* --- end bundles-layout-fix --- */
+
+a.button { text-decoration: none; color: white !important; display: inline-block; }
+
+.small-slogan { font-size: 0.9em; }
