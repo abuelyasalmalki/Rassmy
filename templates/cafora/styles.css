@@ -577,12 +577,13 @@ small.mono{
     min-height:74px;
     gap:.4rem;
     padding:.8rem 0;
+    justify-content:space-between;
   }
 
   .brand{
-    flex:1 1 auto;
+    flex:0 0 auto;
     min-width:0;
-    justify-content:flex-end;
+    justify-content:flex-start;
   }
 
   .brand-logo img{
@@ -649,6 +650,12 @@ small.mono{
     min-height:70px;
     gap:.32rem;
     padding:.72rem 0;
+    justify-content:space-between;
+  }
+
+  .brand{
+    flex:0 0 auto;
+    justify-content:flex-start;
   }
 
   .brand-logo img{
