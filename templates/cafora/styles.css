@@ -109,6 +109,7 @@ img{
   display:flex;
   align-items:center;
   gap:.75rem;
+  flex-shrink:0;
 }
 
 .brand-logo img{
@@ -563,6 +564,10 @@ small.mono{
     padding:0 .9rem;
   }
 
+  .header .container{
+    padding-inline:.65rem;
+  }
+
   .demo-topbar{
     font-size:12px;
   }
@@ -576,24 +581,31 @@ small.mono{
   }
 
   .nav{
-    gap:.6rem;
+    gap:.45rem;
+    padding:.68rem 0;
+  }
+
+  .brand{
+    gap:.5rem;
   }
 
   .brand-logo img{
-    width:68px;
+    width:74px;
   }
 
   .nav-actions{
-    gap:.35rem;
+    gap:.3rem;
     flex-wrap:nowrap;
+    flex-shrink:0;
   }
 
   .nav-actions .button{
-    min-height:40px;
-    padding:.55rem .85rem;
-    font-size:.92rem;
-    line-height:1.2;
+    min-height:38px;
+    padding:.5rem .72rem;
+    font-size:.88rem;
+    line-height:1.15;
     white-space:nowrap;
+    border-radius:999px;
   }
 
   .hero-content{
@@ -627,5 +639,29 @@ small.mono{
 
   .footer{
     padding:1.6rem 0;
+  }
+}
+
+@media (max-width:390px){
+  .header .container{
+    padding-inline:.55rem;
+  }
+
+  .nav{
+    gap:.35rem;
+  }
+
+  .brand-logo img{
+    width:70px;
+  }
+
+  .nav-actions{
+    gap:.28rem;
+  }
+
+  .nav-actions .button{
+    min-height:37px;
+    padding:.46rem .64rem;
+    font-size:.82rem;
   }
 }
