@@ -22,9 +22,11 @@ body{
   line-height:1.7;
 }
 
-a{
+a,
+button{
   text-decoration:none;
   color:inherit;
+  -webkit-tap-highlight-color:transparent;
 }
 
 img{
@@ -110,11 +112,25 @@ img{
   align-items:center;
   gap:.75rem;
   flex-shrink:0;
+  background:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.brand:hover,
+.brand:focus,
+.brand:active,
+.brand:focus-visible{
+  background:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
 }
 
 .brand-logo{
   display:flex;
   align-items:center;
+  background:transparent !important;
 }
 
 .brand-logo img{
@@ -122,6 +138,11 @@ img{
   height:auto;
   display:block;
   border-radius:12px;
+  background:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
 .nav-actions{
