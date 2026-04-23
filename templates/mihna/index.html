@@ -1,511 +1,1829 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>راحتك | تنظيف منازل باهتمام وتنظيم</title>
-  <meta name="description" content="راحتك لخدمات تنظيف المنازل في الرياض. حجز سريع، مواعيد مرنة، وباقات واضحة تناسب الشقق والفلل والزيارات الدورية.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مِهنة | قالب خدمات احترافي</title>
+  <meta name="description" content="مِهنة قالب خدمات احترافي عام مناسب لشركات التنظيف والصيانة والنقل والعزل والخدمات الميدانية مع هوية قوية، أقسام واضحة، وحجز مباشر عبر واتساب." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #e2e8f0;
+      --surface-3: #cbd5e1;
+      --ink: #0f172a;
+      --ink-2: #1e293b;
+      --muted: #64748b;
+      --line: rgba(15, 23, 42, 0.12);
+      --accent: #f59e0b;
+      --accent-2: #fbbf24;
+      --accent-soft: rgba(245, 158, 11, 0.12);
+      --dark: #0f172a;
+      --dark-2: #111827;
+      --dark-3: #1e293b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.12);
+      --shadow-md: 0 16px 36px rgba(15, 23, 42, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --container: min(1180px, calc(100% - 28px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Cairo", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea, select { font: inherit; }
+
+    .container { width: var(--container); margin-inline: auto; }
+
+    .demo-bar {
+      background: linear-gradient(90deg, var(--dark), var(--dark-3));
+      color: #fff;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .demo-bar__inner {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+    .demo-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-weight: 700;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248,250,252,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+    }
+    .site-header__inner {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: fit-content;
+    }
+    .brand__mark {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      color: var(--dark);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(245, 158, 11, 0.24);
+    }
+    .brand__text {
+      display: grid;
+      gap: 2px;
+      line-height: 1.2;
+    }
+    .brand__title {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--dark);
+    }
+    .brand__subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-weight: 700;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav a {
+      position: relative;
+      padding: 6px 0;
+      transition: color .2s ease;
+    }
+    .nav a::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width .2s ease;
+    }
+    .nav a:hover { color: var(--dark); }
+    .nav a:hover::after { width: 100%; }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: fit-content;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--dark);
+      box-shadow: 0 14px 28px rgba(245, 158, 11, 0.24);
+    }
+    .btn--secondary {
+      background: var(--surface);
+      color: var(--dark);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+    }
+    .btn--dark {
+      background: var(--dark);
+      color: #fff;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.24);
+    }
+
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(245,158,11,0.18), transparent 20%),
+        radial-gradient(circle at 90% 10%, rgba(251,191,36,0.14), transparent 18%),
+        linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 84px;
+      background: var(--bg);
+      clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
+    }
+    .hero__grid {
+      position: relative;
+      z-index: 2;
+      min-height: 780px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 28px;
+      align-items: center;
+      padding: 42px 0 120px;
+    }
+    .hero__copy {
+      display: grid;
+      gap: 20px;
+      align-content: center;
+    }
+    .eyebrow {
+      width: fit-content;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(36px, 5vw, 70px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 760px;
+    }
+    .hero h1 span {
+      color: var(--accent-2);
+      display: block;
+    }
+    .hero p {
+      margin: 0;
+      max-width: 700px;
+      color: rgba(255,255,255,0.78);
+      font-size: 18px;
+      line-height: 2;
+    }
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .hero__stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 720px;
+    }
+    .stat {
+      padding: 18px 18px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(8px);
+    }
+    .stat strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .stat span {
+      display: block;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .hero-panel {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.22);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .hero-panel__top {
+      padding: 22px 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      gap: 8px;
+    }
+    .hero-panel__label {
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .hero-panel__title {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+    .hero-panel__body {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+    }
+    .quick-field {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      gap: 5px;
+    }
+    .quick-field small {
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .quick-field strong {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .hero-panel__note {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.24);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .trust-band {
+      position: relative;
+      z-index: 4;
+      margin-top: -42px;
+      margin-bottom: 8px;
+    }
+    .trust-band__inner {
+      background: var(--surface);
+      border: 1px solid rgba(15,23,42,0.06);
+      box-shadow: var(--shadow-lg);
+      border-radius: 24px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .trust-item {
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #f8fafc);
+      border: 1px solid var(--line);
+      padding: 16px 16px 14px;
+      display: grid;
+      gap: 6px;
+    }
+    .trust-item strong {
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .trust-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .section {
+      position: relative;
+      padding: 88px 0;
+    }
+    .section + .section { border-top: 1px solid rgba(15,23,42,0.05); }
+    .section--dark {
+      background: linear-gradient(180deg, var(--dark), var(--dark-2));
+      color: #fff;
+    }
+    .section--dark .section__lead,
+    .section--dark .section__intro,
+    .section--dark .card__text,
+    .section--dark .timeline__text,
+    .section--dark .city__text,
+    .section--dark .review__text,
+    .section--dark .contact-card__text {
+      color: rgba(255,255,255,0.72);
+    }
+    .section--dark::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(245,158,11,0.06), transparent 28%),
+        linear-gradient(315deg, rgba(251,191,36,0.04), transparent 24%);
+      pointer-events: none;
+    }
+    .section--split::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 12px;
+      background: linear-gradient(90deg, var(--accent), rgba(245,158,11,0.3), transparent);
+    }
+
+    .section__head {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 34px;
+      max-width: 760px;
+    }
+    .section__kicker {
+      width: fit-content;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: #b45309;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .section--dark .section__kicker {
+      background: rgba(245,158,11,0.12);
+      color: var(--accent-2);
+    }
+    .section__title {
+      margin: 0;
+      font-size: clamp(28px, 3.8vw, 52px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+    .section__lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 2;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .about-card,
+    .insight-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+    .about-card {
+      padding: 28px;
+      display: grid;
+      gap: 20px;
+    }
+    .about-card p { margin: 0; color: var(--muted); font-size: 16px; line-height: 2; }
+    .about-features {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .about-feature {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      display: grid;
+      gap: 4px;
+    }
+    .about-feature strong { font-size: 16px; color: var(--dark); }
+    .about-feature span { font-size: 13px; color: var(--muted); }
+
+    .insight-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    .insight-card__top {
+      padding: 26px;
+      background: linear-gradient(180deg, var(--dark), var(--dark-2));
+      color: #fff;
+      display: grid;
+      gap: 12px;
+    }
+    .insight-card__top strong {
+      font-size: 24px;
+      line-height: 1.4;
+    }
+    .insight-card__top p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.9;
+    }
+    .insight-list {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      background: #fff;
+    }
+    .insight-list__item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .insight-list__item strong { font-size: 15px; color: var(--dark); }
+    .insight-list__item span {
+      min-width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: #b45309;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid rgba(15,23,42,0.08);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      gap: 14px;
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), transparent 78%);
+    }
+    .service-card--wide { grid-column: span 6; }
+    .service-card--mid { grid-column: span 3; }
+    .service-card--tall { grid-column: span 3; min-height: 278px; }
+    .service-card__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--dark);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(245,158,11,0.18);
+    }
+    .service-card__title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.35;
+      color: var(--dark);
+    }
+    .service-card__text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+    .service-card__foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--dark);
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .service-card__badge {
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .reason-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+      min-height: 218px;
+    }
+    .reason-card__number {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(245,158,11,0.16);
+      color: var(--accent-2);
+      font-weight: 900;
+      font-size: 18px;
+    }
+    .reason-card h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.45;
+    }
+    .card__text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      inset: 32px 8% auto;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(245,158,11,0.14), rgba(245,158,11,0.8), rgba(245,158,11,0.14));
+      z-index: 0;
+    }
+    .timeline-card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+      min-height: 240px;
+    }
+    .timeline-card__step {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--dark);
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(245,158,11,0.2);
+    }
+    .timeline-card h3 { margin: 0; font-size: 21px; line-height: 1.45; }
+    .timeline__text { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.95; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .pricing-card {
+      position: relative;
+      border-radius: 28px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      gap: 14px;
+      min-height: 440px;
+      overflow: hidden;
+    }
+    .pricing-card--featured {
+      background: linear-gradient(180deg, var(--dark), var(--dark-2));
+      color: #fff;
+      transform: translateY(-10px);
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 28px 70px rgba(15, 23, 42, 0.28);
+    }
+    .pricing-card--featured .pricing-card__desc,
+    .pricing-card--featured .pricing-card__feature,
+    .pricing-card--featured .pricing-card__note {
+      color: rgba(255,255,255,0.75);
+    }
+    .pricing-card--featured .pricing-card__title,
+    .pricing-card--featured .pricing-card__price {
+      color: #fff;
+    }
+    .pricing-card__badge {
+      width: fit-content;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: #b45309;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .pricing-card--featured .pricing-card__badge {
+      background: rgba(245,158,11,0.12);
+      color: var(--accent-2);
+    }
+    .pricing-card__title {
+      margin: 0;
+      font-size: 28px;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+    .pricing-card__desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.95;
+    }
+    .pricing-card__price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      color: var(--dark);
+      font-weight: 900;
+    }
+    .pricing-card__price strong { font-size: 46px; line-height: 1; }
+    .pricing-card__price span { font-size: 15px; color: inherit; }
+    .pricing-card__features {
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .pricing-card__feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+    .pricing-card__feature b {
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: #b45309;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+    .pricing-card--featured .pricing-card__feature b {
+      background: rgba(245,158,11,0.12);
+      color: var(--accent-2);
+    }
+    .pricing-card__note {
+      margin-top: auto;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .pricing-card--featured .pricing-card__note {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .case {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      min-height: 280px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--dark);
+      display: grid;
+      align-items: end;
+    }
+    .case::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.92)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.24), transparent 20%),
+        linear-gradient(135deg, #334155, #0f172a);
+    }
+    .case--one { grid-column: span 5; min-height: 420px; }
+    .case--two { grid-column: span 7; }
+    .case--three { grid-column: span 4; }
+    .case--four { grid-column: span 4; }
+    .case--five { grid-column: span 4; }
+    .case__content {
+      position: relative;
+      z-index: 2;
+      padding: 22px;
+      display: grid;
+      gap: 10px;
+    }
+    .case__tag {
+      width: fit-content;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .case__title {
+      margin: 0;
+      color: #fff;
+      font-size: 24px;
+      line-height: 1.4;
+    }
+    .case__meta {
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .cities-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+    }
+    .coverage-panel,
+    .city-list {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 24px;
+      min-height: 100%;
+    }
+    .coverage-panel {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+    .coverage-map {
+      min-height: 280px;
+      border-radius: 24px;
+      border: 1px dashed rgba(255,255,255,0.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+        repeating-linear-gradient(90deg, transparent, transparent 54px, rgba(255,255,255,0.05) 54px, rgba(255,255,255,0.05) 55px),
+        repeating-linear-gradient(0deg, transparent, transparent 54px, rgba(255,255,255,0.05) 54px, rgba(255,255,255,0.05) 55px);
+      position: relative;
+      overflow: hidden;
+    }
+    .pin {
+      position: absolute;
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 16px 28px rgba(245,158,11,0.24);
+    }
+    .pin--1 { right: 18%; top: 18%; }
+    .pin--2 { right: 56%; top: 34%; }
+    .pin--3 { right: 28%; top: 58%; }
+    .pin--4 { right: 65%; top: 68%; }
+
+    .city-list {
+      display: grid;
+      gap: 12px;
+    }
+    .city {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .city strong {
+      color: #fff;
+      font-size: 16px;
+    }
+    .city__text {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+    }
+    .city__eta {
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(245,158,11,0.12);
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .review {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow-md);
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+      min-height: 250px;
+    }
+    .review__stars {
+      color: var(--accent);
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+    .review__text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 2;
+    }
+    .review__foot {
+      margin-top: auto;
+      display: grid;
+      gap: 4px;
+    }
+    .review__name {
+      font-size: 16px;
+      color: var(--dark);
+      font-weight: 800;
+    }
+    .review__service {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: 20px;
+      align-items: start;
+    }
+    .contact-card,
+    .contact-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .contact-card {
+      padding: 28px;
+      display: grid;
+      gap: 20px;
+    }
+    .contact-card__text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 2;
+    }
+    .contact-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .contact-point {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      display: grid;
+      gap: 6px;
+    }
+    .contact-point small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .contact-point strong {
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .contact-panel__top {
+      padding: 24px;
+      background: linear-gradient(180deg, var(--dark), var(--dark-2));
+      color: #fff;
+      display: grid;
+      gap: 8px;
+    }
+    .contact-panel__body {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+    .contact-line {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 4px;
+      background: #fff;
+    }
+    .contact-line small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .contact-line strong {
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .contact-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .site-footer {
+      background: var(--dark);
+      color: #fff;
+      padding: 24px 0 86px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .site-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .site-footer p {
+      margin: 0;
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+    .site-footer__links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: rgba(255,255,255,0.78);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .floating-wa {
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      z-index: 120;
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(22,163,74,0.28);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1120px) {
+      .hero__grid,
+      .about-grid,
+      .cities-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .trust-band__inner,
+      .reasons-grid,
+      .timeline,
+      .pricing-grid,
+      .reviews-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .services-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .service-card--wide { grid-column: span 6; }
+      .service-card--mid,
+      .service-card--tall { grid-column: span 3; }
+      .timeline::before { display: none; }
+      .case--one,
+      .case--two,
+      .case--three,
+      .case--four,
+      .case--five { grid-column: span 6; }
+    }
+
+    @media (max-width: 820px) {
+      .site-header__inner {
+        min-height: auto;
+        padding: 14px 0;
+        flex-wrap: wrap;
+      }
+      .nav {
+        order: 3;
+        width: 100%;
+        overflow: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+      }
+      .actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+      .actions .btn {
+        flex: 1 1 0;
+      }
+      .hero__grid {
+        min-height: auto;
+        padding-top: 28px;
+      }
+      .hero__stats,
+      .trust-band__inner,
+      .reasons-grid,
+      .timeline,
+      .pricing-grid,
+      .reviews-grid,
+      .contact-points,
+      .contact-actions {
+        grid-template-columns: 1fr;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .service-card--wide,
+      .service-card--mid,
+      .service-card--tall { grid-column: span 1; min-height: auto; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .case--one,
+      .case--two,
+      .case--three,
+      .case--four,
+      .case--five { grid-column: span 1; min-height: 260px; }
+      .pricing-card--featured { transform: none; }
+      .site-footer__inner { align-items: flex-start; }
+    }
+
+    @media (max-width: 620px) {
+      .btn { width: 100%; }
+      .hero__actions,
+      .actions { display: grid; grid-template-columns: 1fr; }
+      .hero h1 { font-size: 38px; }
+      .hero p,
+      .section__lead,
+      .contact-card__text { font-size: 15px; }
+      .about-features { grid-template-columns: 1fr; }
+      .brand__title { font-size: 22px; }
+      .brand__mark { width: 44px; height: 44px; font-size: 22px; }
+      .floating-wa {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="demo-topbar">
-    <div class="container demo-topbar-inner">
-      <span>أنت الآن تشاهد نموذجًا تجريبيًا كاملاً</span>
-      <div class="demo-topbar-actions">
-        <a href="../../models.html" class="demo-link">العودة إلى النماذج</a>
-        <a href="../../pricing.html?model=%D8%B1%D8%A7%D8%AD%D8%AA%D9%83&type=services" class="demo-link demo-link-primary">اختر هذا النموذج</a>
-      </div>
+  <div class="demo-bar">
+    <div class="container demo-bar__inner">
+      <span>قالب تجريبي مخصص للأنشطة الخدمية العامة</span>
+      <span class="demo-chip">مِهنة • mihna</span>
     </div>
   </div>
 
-  <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="index.html" aria-label="راحتك">
-        <span class="brand-badge" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 11.5L12 5L20 11.5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V11.5Z" fill="white"/>
-            <path d="M9.5 20V14.5C9.5 13.9477 9.94772 13.5 10.5 13.5H13.5C14.0523 13.5 14.5 13.9477 14.5 14.5V20" stroke="#1c8fff" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M3.5 11.5L12 4.5L20.5 11.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span style="display:flex;flex-direction:column;gap:2px;line-height:1.05;">
-          <strong style="font-size:24px;font-weight:800;color:var(--text);">راحتك</strong>
-          <small style="font-size:12px;font-weight:700;color:var(--muted);">تنظيف منازل</small>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#top" class="brand" aria-label="مِهنة">
+        <span class="brand__mark">م</span>
+        <span class="brand__text">
+          <span class="brand__title">مِهنة</span>
+          <span class="brand__subtitle">قالب خدمات احترافي عام</span>
         </span>
       </a>
 
-      <nav class="nav-links" aria-label="التنقل الرئيسي">
-        <a href="index.html">الرئيسية</a>
-        <a href="services.html">الخدمات</a>
-        <a href="about.html">من نحن</a>
-        <a href="pricing.html">الباقات</a>
-        <a href="contact.html">تواصل معنا</a>
+      <nav class="nav" aria-label="التنقل الرئيسي">
+        <a href="#about">من نحن</a>
+        <a href="#services">الخدمات</a>
+        <a href="#process">خطوات العمل</a>
+        <a href="#pricing">الأسعار</a>
+        <a href="#coverage">التغطية</a>
+        <a href="#contact">التواصل</a>
       </nav>
 
-      <div class="nav-actions">
-        <a class="btn btn-secondary" href="services.html">الخدمات</a>
-        <a class="btn btn-primary" href="contact.html">احجز الآن</a>
-        <button class="btn menu-toggle" data-menu-toggle type="button">القائمة</button>
-      </div>
-    </div>
-
-    <div class="container" data-mobile-menu hidden>
-      <div class="card mobile-menu-panel">
-        <a href="index.html">الرئيسية</a>
-        <a href="services.html">الخدمات</a>
-        <a href="about.html">من نحن</a>
-        <a href="pricing.html">الباقات</a>
-        <a href="contact.html">تواصل معنا</a>
+      <div class="actions">
+        <a class="btn btn--secondary" href="tel:+966533848224">اتصال مباشر</a>
+        <a class="btn btn--primary" href="https://wa.me/966533848224?text=السلام عليكم، أريد طلب خدمة من قالب مِهنة" target="_blank" rel="noopener">اطلب الخدمة الآن</a>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <section class="hero">
-      <div class="container hero-wrap" style="grid-template-columns:minmax(0, 860px);justify-content:center;">
-        <div class="hero-copy">
-          <span class="eyebrow">خدمة تنظيف منزلية في الرياض</span>
-          <h1>خدمة تنظيف منزلية مرتبة تريحك من أول زيارة</h1>
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <span class="eyebrow">حل بصري قوي لأنشطة الخدمات والصيانة والتنظيف والنقل</span>
+          <h1>
+            قالب خدمات
+            <span>واضح، مباشر،</span>
+            <span>ويقنع العميل بسرعة</span>
+          </h1>
           <p>
-            نوفر تنظيف منازل في الرياض بمواعيد مرنة وخدمة مناسبة للشقق والفلل، مع حجز سهل ونتيجة واضحة من أول مرة.
+            <strong>مِهنة</strong> صُمم ليخدم الأنشطة التي تحتاج الثقة قبل الزخرفة. واجهة بسيطة لكن قوية، أقسام واضحة، انتقالات مرئية صريحة بين كل جزء وآخر، وحجز مباشر يخدم التحويل بشكل فعلي.
           </p>
 
-          <div class="hero-visual card" aria-label="صورة رئيسية لخدمات راحتك" style="margin:28px 0 22px;min-height:clamp(360px, 62vw, 520px);">
-            <img src="assets/images/rahatak-hero.webp" alt="صالة منزل نظيفة ومرتبة ضمن خدمات راحتك لتنظيف المنازل" class="hero-main-image">
-
-            <div class="hero-note hero-note-top">
-              <strong>خدمة منزلية منظمة</strong>
-              <span>من الحجز حتى انتهاء الزيارة</span>
-            </div>
-
-            <div class="hero-note hero-note-bottom">
-              <strong>تغطية مرنة</strong>
-              <span>داخل الرياض والأحياء القريبة</span>
-            </div>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="https://wa.me/966533848224?text=السلام عليكم، أريد طلب خدمة من قالب مِهنة" target="_blank" rel="noopener">احجز عبر واتساب</a>
+            <a class="btn btn--dark" href="#services">استعرض الخدمات</a>
           </div>
 
-          <div class="hero-points">
-            <div class="hero-point">
-              <strong>حجز سريع وواضح</strong>
-              <span>تواصل مباشر عبر واتساب وتأكيد سريع للمواعيد.</span>
+          <div class="hero__stats">
+            <div class="stat">
+              <strong>24/7</strong>
+              <span>استجابة أسرع للطلبات والاستفسارات على مدار اليوم.</span>
             </div>
-            <div class="hero-point">
-              <strong>خدمة تناسب المنزل</strong>
-              <span>حلول مناسبة للشقق والفلل والزيارات الدورية.</span>
+            <div class="stat">
+              <strong>+12</strong>
+              <span>نوع نشاط يمكن تخصيص القالب له بسهولة ووضوح.</span>
             </div>
-            <div class="hero-point">
-              <strong>مواعيد مرنة</strong>
-              <span>إمكانية التنسيق صباحًا أو مساءً حسب المتاح.</span>
+            <div class="stat">
+              <strong>100%</strong>
+              <span>واجهة مرتبة تساعد العميل على اتخاذ القرار مباشرة.</span>
             </div>
-          </div>
-
-          <div class="btn-row">
-            <a class="btn btn-primary" href="contact.html">احجز خدمتك الآن</a>
-            <a class="btn btn-secondary" href="pricing.html">شاهد الباقات</a>
           </div>
         </div>
+
+        <aside class="hero-panel" aria-label="لوحة طلب سريع">
+          <div class="hero-panel__top">
+            <span class="hero-panel__label">لوحة طلب سريعة</span>
+            <div class="hero-panel__title">عرض يليق بشركات الخدمات: سريع، مرتب، ومهيأ للطلب المباشر</div>
+          </div>
+          <div class="hero-panel__body">
+            <div class="quick-field">
+              <small>نوع الخدمة</small>
+              <strong>تنظيف • صيانة • نقل • كهرباء • سباكة</strong>
+            </div>
+            <div class="quick-field">
+              <small>نطاق العمل</small>
+              <strong>منازل • شركات • مواقع • شقق • فلل</strong>
+            </div>
+            <div class="quick-field">
+              <small>آلية الطلب</small>
+              <strong>واتساب سريع + اتصال مباشر + تسعير مبدئي</strong>
+            </div>
+            <div class="quick-field">
+              <small>أفضل استخدام</small>
+              <strong>الأنشطة التي تريد واجهة قوية بدل موقع مزدحم</strong>
+            </div>
+            <div class="hero-panel__note">
+              هذا القالب مرن جدًا، ويمكن تحويله بسهولة إلى واجهة تنظيف، صيانة، مكافحة حشرات، نقل عفش، أو أي نشاط ميداني يحتاج عرضًا احترافيًا وواضحًا.
+            </div>
+            <a class="btn btn--primary" href="#contact">ابدأ الحجز الآن</a>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="section-sm intro-strip-section">
-      <div class="container">
-        <div class="intro-strip">
-          <div class="intro-strip-item">
-            <strong>حجز خلال دقائق</strong>
-            <span>ترسل التفاصيل الأساسية وننسق معك الموعد.</span>
-          </div>
-          <div class="intro-strip-item">
-            <strong>مناسب للشقق والفلل</strong>
-            <span>الخدمة تتحدد حسب حجم البيت ونطاق العمل.</span>
-          </div>
-          <div class="intro-strip-item">
-            <strong>زيارة واحدة أو دورية</strong>
-            <span>اختر ما يناسب احتياجك وجدولك اليومي.</span>
-          </div>
+    <div class="trust-band">
+      <div class="container trust-band__inner">
+        <div class="trust-item">
+          <strong>هوية مهنية قوية</strong>
+          <span>ألوان داكنة واضحة مع لون إبراز يلفت الانتباه دون تعقيد.</span>
+        </div>
+        <div class="trust-item">
+          <strong>ترتيب يسهّل القرار</strong>
+          <span>الخدمة، المزايا، الخطوات، الأسعار، والتواصل كلها في مكان واضح.</span>
+        </div>
+        <div class="trust-item">
+          <strong>يناسب أنشطة كثيرة</strong>
+          <span>قابل للتخصيص بسرعة لعدة قطاعات خدمية من نفس الأساس.</span>
+        </div>
+        <div class="trust-item">
+          <strong>فاصل بصري قوي</strong>
+          <span>كل قسم له حضور مستقل حتى لا يذوب المحتوى داخل بعضه.</span>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="section before-after-section">
+    <section class="section section--split" id="about">
       <div class="container">
-        <span class="eyebrow">قبل / بعد التنظيف</span>
-        <h2>نتيجة تظهر بصريًا من أول زيارة</h2>
-        <p>هذا القسم يختصر الفرق الحقيقي الذي يلمسه العميل: مساحة أهدأ، مظهر أنظف، وانطباع أوضح من أول نظرة.</p>
-
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;">
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">فرق بصري واضح</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">مناسب قبل المناسبات</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">يعكس مستوى الخدمة</span>
+        <div class="section__head">
+          <span class="section__kicker">من نحن</span>
+          <h2 class="section__title">واجهة خدمات مبنية على الثقة والوضوح، لا على الزخرفة المكررة</h2>
+          <p class="section__lead">في الأنشطة الخدمية، العميل يريد أن يفهم بسرعة: ماذا تقدم؟ لماذا يختارك؟ كم تبدأ الأسعار؟ وكيف يطلب الخدمة الآن؟ لذلك صُممت مِهنة لتكون عملية ومقنعة من أول قسم.</p>
         </div>
 
-        <div class="grid before-after-grid">
-          <article class="card compare-card">
-            <div class="compare-image-wrap">
-              <img src="assets/images/kitchen_before.png" alt="مطبخ قبل التنظيف" class="compare-image">
-              <span class="compare-badge">قبل</span>
-            </div>
-
-            <div class="compare-copy">
-              <h3>قبل الخدمة</h3>
-              <p>
-                تراكم بصري وعدم وضوح في الترتيب العام، مع إحساس أن المكان يحتاج عناية أوسع
-                خصوصًا في المساحات التي تُستخدم يوميًا.
-              </p>
-              <ul class="pricing-list" style="margin-top:16px;margin-bottom:0;">
-                <li>تكدس بصري في الأسطح والمساحات</li>
-                <li>إحساس أقل بالنظافة والهدوء</li>
-                <li>عدم جاهزية المكان بالشكل المطلوب</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="card compare-card">
-            <div class="compare-image-wrap">
-              <img src="assets/images/kitchen_after.png" alt="مطبخ بعد التنظيف" class="compare-image">
-              <span class="compare-badge compare-badge-after">بعد</span>
-            </div>
-
-            <div class="compare-copy">
-              <h3>بعد الخدمة</h3>
-              <p>
-                نتيجة أوضح وأكثر راحة بصريًا، مع ترتيب أنظف للمساحة وإحساس أفضل بجاهزية المكان
-                للاستخدام اليومي أو لاستقبال الضيوف.
-              </p>
-              <ul class="pricing-list" style="margin-top:16px;margin-bottom:0;">
-                <li>نظافة أوضح من أول نظرة</li>
-                <li>ترتيب أفضل للمشهد العام</li>
-                <li>مظهر أنسب للمطبخ والمساحات المهمة</li>
-              </ul>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-sm quick-booking-section">
-      <div class="container">
-        <div class="quick-booking-wrap">
-          <div class="quick-booking-copy">
-            <span class="eyebrow">طلب سريع</span>
-            <h2>اطلب الخدمة خلال أقل من دقيقة</h2>
+        <div class="about-grid">
+          <article class="about-card">
             <p>
-              أدخل البيانات الأساسية فقط، وسنجهز لك رسالة واتساب مرتبة تحتوي على تفاصيل الخدمة المطلوبة
-              حتى تبدأ الحجز بسرعة ووضوح.
+              <strong>مِهنة</strong> لا يشبه قوالب البراندات الهادئة، ولا يعتمد على الأسلوب الجمالي الناعم. هذا قالب للشركات والفرق الميدانية والأنشطة التي تحتاج عرضًا صريحًا، انتقالات قوية بين الأقسام، ومساحات تجعل العميل يشعر بالترتيب والاعتمادية.
+            </p>
+            <p>
+              لذلك ستجد هنا أقسامًا محددة وواضحة: مقدمة قوية، خدمات مرتبة، مزايا مقنعة، خطوات عمل، أسعار تقريبية، أمثلة تنفيذ، تغطية، وتواصل مباشر. كل شيء فيه لخدمة الهدف الأساسي: رفع الثقة وتسريع الطلب.
             </p>
 
-            <div class="quick-booking-points">
-              <div class="quick-point">
-                <strong>مناسب للحجز السريع</strong>
-                <span>خطوات قليلة بدون تعقيد أو نماذج طويلة.</span>
+            <div class="about-features">
+              <div class="about-feature">
+                <strong>مباشر جدًا</strong>
+                <span>بدون ازدحام بصري أو أقسام لا تخدم القرار.</span>
               </div>
-              <div class="quick-point">
-                <strong>مرونة في الموعد</strong>
-                <span>يمكنك كتابة اليوم أو الوقت المناسب لك.</span>
+              <div class="about-feature">
+                <strong>قابل للتعميم</strong>
+                <span>يناسب شركات الخدمات العامة والميدانية بسهولة.</span>
+              </div>
+              <div class="about-feature">
+                <strong>مرن في التخصيص</strong>
+                <span>يمكن تعديل النصوص والبطاقات لكل نشاط بسرعة.</span>
+              </div>
+              <div class="about-feature">
+                <strong>واضح من الجوال</strong>
+                <span>التسلسل والطلب المباشر ظاهرين بشكل قوي في الهاتف.</span>
               </div>
             </div>
+          </article>
+
+          <aside class="insight-card">
+            <div class="insight-card__top">
+              <strong>القالب يركز على 4 أشياء أساسية</strong>
+              <p>هذه هي النقاط التي تجعل أي موقع خدمات أقوى في الإقناع وأكثر نفعًا في الواقع.</p>
+            </div>
+            <div class="insight-list">
+              <div class="insight-list__item"><strong>شرح الخدمة بسرعة</strong><span>01</span></div>
+              <div class="insight-list__item"><strong>إبراز عناصر الثقة</strong><span>02</span></div>
+              <div class="insight-list__item"><strong>إظهار طريقة العمل</strong><span>03</span></div>
+              <div class="insight-list__item"><strong>تسهيل الطلب الآن</strong><span>04</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark section--split" id="services">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">الخدمات</span>
+          <h2 class="section__title">تقسيم قوي وواضح يليق بعرض الخدمات المختلفة</h2>
+          <p class="section__lead">تم تصميم بطاقات الخدمات لتكون صريحة ومباشرة مع اختلاف واضح في الحجم والتوزيع، حتى يكون الانتقال بين خدمة وأخرى واضحًا وقويًا بصريًا دون تعقيد.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card service-card--wide">
+            <div class="service-card__icon">ت</div>
+            <h3 class="service-card__title">خدمات التنظيف والعناية بالموقع</h3>
+            <p class="service-card__text">تنظيف منازل، شقق، مكاتب، واجهات، وتنظيف دوري أو شامل مع أسلوب عرض يجعل الخدمة الرئيسية تظهر أولًا بشكل واضح وقوي.</p>
+            <div class="service-card__foot">
+              <span>قابل للتحويل لنشاط تنظيف أو تعقيم</span>
+              <span class="service-card__badge">الأكثر مرونة</span>
+            </div>
+          </article>
+
+          <article class="service-card service-card--mid">
+            <div class="service-card__icon">ص</div>
+            <h3 class="service-card__title">الصيانة العامة</h3>
+            <p class="service-card__text">عرض مناسب للصيانة المنزلية أو التجارية بطريقة مختصرة واحترافية.</p>
+            <div class="service-card__foot">
+              <span>خدمة سريعة</span>
+              <span class="service-card__badge">جاهز للتخصيص</span>
+            </div>
+          </article>
+
+          <article class="service-card service-card--mid service-card--tall">
+            <div class="service-card__icon">ن</div>
+            <h3 class="service-card__title">النقل والتركيب</h3>
+            <p class="service-card__text">يناسب نقل العفش، الفك والتركيب، أو الخدمات التي تحتاج إبراز التنظيم والخطوات والثقة.</p>
+            <div class="service-card__foot">
+              <span>قبل وبعد</span>
+              <span class="service-card__badge">واضح بصريًا</span>
+            </div>
+          </article>
+
+          <article class="service-card service-card--mid">
+            <div class="service-card__icon">ك</div>
+            <h3 class="service-card__title">أعمال الكهرباء</h3>
+            <p class="service-card__text">يمكن عرضه كمجال متخصص أو ضمن خدمات عامة داخل نفس القالب.</p>
+            <div class="service-card__foot">
+              <span>متخصص</span>
+              <span class="service-card__badge">نشاط فرعي</span>
+            </div>
+          </article>
+
+          <article class="service-card service-card--mid">
+            <div class="service-card__icon">س</div>
+            <h3 class="service-card__title">خدمات السباكة</h3>
+            <p class="service-card__text">مساحة مناسبة لعرض الإصلاحات، التمديدات، أو الزيارات السريعة.</p>
+            <div class="service-card__foot">
+              <span>زيارة ميدانية</span>
+              <span class="service-card__badge">مباشر</span>
+            </div>
+          </article>
+
+          <article class="service-card service-card--wide">
+            <div class="service-card__icon">ع</div>
+            <h3 class="service-card__title">خدمات إضافية أو تخصصات فرعية</h3>
+            <p class="service-card__text">يمكن استخدام هذه البطاقة للعزل، مكافحة الحشرات، التكييف، الدهانات، النجارة، أو أي نشاط يحتاج مساحة واضحة ومرنة داخل نفس القالب.</p>
+            <div class="service-card__foot">
+              <span>مرونة كبيرة في التخصيص</span>
+              <span class="service-card__badge">عام لكل الخدمات</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--split">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">لماذا نحن</span>
+          <h2 class="section__title">عناصر الثقة هنا ليست نصوصًا مكررة، بل نقاط إقناع عملية</h2>
+          <p class="section__lead">قالب مِهنة يعطيك مساحة واضحة لإبراز ما يهم العميل فعليًا: سرعة الوصول، وضوح التعامل، كفاءة التنفيذ، والتزام المواعيد.</p>
+        </div>
+
+        <div class="reasons-grid">
+          <article class="reason-card">
+            <span class="reason-card__number">01</span>
+            <h3>استجابة واضحة وسريعة</h3>
+            <p class="card__text">دعوة الطلب واضحة في أعلى الصفحة وأسفلها، مما يجعل الحجز أسهل وأسرع من أول زيارة.</p>
+          </article>
+          <article class="reason-card">
+            <span class="reason-card__number">02</span>
+            <h3>أقسام نظيفة ومنظمة</h3>
+            <p class="card__text">كل قسم له حضور مستقل قوي، فلا يشعر المستخدم أن الصفحة كتلة واحدة متشابهة.</p>
+          </article>
+          <article class="reason-card">
+            <span class="reason-card__number">03</span>
+            <h3>مرونة للأنشطة المختلفة</h3>
+            <p class="card__text">يمكن تغيير الخدمة الأساسية والصور والنصوص مع بقاء الشخصية المهنية نفسها.</p>
+          </article>
+          <article class="reason-card">
+            <span class="reason-card__number">04</span>
+            <h3>مناسب جدًا للجوال</h3>
+            <p class="card__text">الأزرار، التسلسل، وأقسام الطلب تم ترتيبها لتعمل بشكل ممتاز على الهاتف.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark section--split" id="process">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">خطوات العمل</span>
+          <h2 class="section__title">طريقة واضحة ومطمئنة لعرض رحلة العميل من أول طلب إلى نهاية الخدمة</h2>
+          <p class="section__lead">هذا القسم مهم جدًا في الأنشطة الخدمية لأنه يحوّل الموقع من مجرد واجهة إلى تجربة واضحة يفهم منها العميل ماذا سيحدث بعد الضغط على زر الطلب.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="timeline-card">
+            <span class="timeline-card__step">1</span>
+            <h3>إرسال الطلب</h3>
+            <p class="timeline__text">يبدأ العميل بطلب واضح عبر واتساب أو اتصال مباشر مع ذكر نوع الخدمة والموقع.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-card__step">2</span>
+            <h3>مراجعة التفاصيل</h3>
+            <p class="timeline__text">يتم توضيح المتطلبات، نطاق العمل، والوقت المناسب قبل تأكيد الموعد.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-card__step">3</span>
+            <h3>الوصول والتنفيذ</h3>
+            <p class="timeline__text">فريق العمل يصل في الموعد المحدد ويبدأ التنفيذ وفق الخدمة المطلوبة.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-card__step">4</span>
+            <h3>التسليم والمتابعة</h3>
+            <p class="timeline__text">بعد الانتهاء يتم توضيح النتيجة، وإغلاق الطلب بطريقة احترافية وواضحة.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--split" id="pricing">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">الأسعار التقريبية</span>
+          <h2 class="section__title">باقات واضحة تساعد العميل على فهم المستوى المناسب قبل التواصل</h2>
+          <p class="section__lead">لأن كثيرًا من أنشطة الخدمات تحتاج مرونة في التسعير، تم تقديم هذه الباقات كعرض تقريبي يعطي صورة أولية واضحة دون أن يقيد النشاط الحقيقي.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <span class="pricing-card__badge">المدخل الأسرع</span>
+            <h3 class="pricing-card__title">زيارة سريعة</h3>
+            <p class="pricing-card__desc">تصلح للزيارات الخفيفة، الفحص، أو المهام المحدودة التي تحتاج قرارًا سريعًا.</p>
+            <div class="pricing-card__price">
+              <strong>150</strong>
+              <span>ر.س تقريبًا</span>
+            </div>
+            <div class="pricing-card__features">
+              <div class="pricing-card__feature"><b>✓</b><span>خدمة مختصرة وواضحة</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>مناسبة للطلب السريع</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>تصلح للأنشطة اليومية</span></div>
+            </div>
+            <div class="pricing-card__note">يتم تخصيص هذه الباقة حسب النشاط: تنظيف، صيانة، كشف، أو زيارة أولية.</div>
+          </article>
+
+          <article class="pricing-card pricing-card--featured">
+            <span class="pricing-card__badge">الأكثر طلبًا</span>
+            <h3 class="pricing-card__title">خدمة شاملة</h3>
+            <p class="pricing-card__desc">أفضل اختيار للأنشطة التي تريد عرضًا متوازنًا بين القيمة، الوضوح، والمخرجات المتوقعة.</p>
+            <div class="pricing-card__price">
+              <strong>350</strong>
+              <span>ر.س تقريبًا</span>
+            </div>
+            <div class="pricing-card__features">
+              <div class="pricing-card__feature"><b>✓</b><span>نطاق عمل أوسع</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>وقت تنفيذ أكبر</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>أنسب باقة للإبراز داخل الموقع</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>قابلة للتحويل لباقات متنوعة</span></div>
+            </div>
+            <div class="pricing-card__note">هذه الباقة تمثل القلب التجاري للقالب، لذلك أعطيت حضورًا أقوى بصريًا.</div>
+          </article>
+
+          <article class="pricing-card">
+            <span class="pricing-card__badge">للأعمال الكبيرة</span>
+            <h3 class="pricing-card__title">خدمة متقدمة</h3>
+            <p class="pricing-card__desc">للطلبات الأكبر، المشاريع، أو الخدمات التي تحتاج فريقًا ونطاق تنفيذ أوضح.</p>
+            <div class="pricing-card__price">
+              <strong>650</strong>
+              <span>ر.س تقريبًا</span>
+            </div>
+            <div class="pricing-card__features">
+              <div class="pricing-card__feature"><b>✓</b><span>مناسبة للأعمال الموسعة</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>مرنة حسب الموقع والمتطلبات</span></div>
+              <div class="pricing-card__feature"><b>✓</b><span>تدعم الأنشطة الاحترافية الأكبر</span></div>
+            </div>
+            <div class="pricing-card__note">يمكن استبدال هذه الباقة باسم يناسب النشاط مثل خدمة عميقة أو مشروع متكامل.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark section--split">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">أعمال ونماذج</span>
+          <h2 class="section__title">قسم أعمال مبني بشكل أبسط لكن قوي ويخدم الأنشطة الميدانية جدًا</h2>
+          <p class="section__lead">استخدم هذا القسم لعرض صور قبل وبعد، مواقع تم تنفيذها، أو أمثلة سريعة تبني الثقة وتدعم قرار العميل.</p>
+        </div>
+
+        <div class="cases-grid">
+          <article class="case case--one">
+            <div class="case__content">
+              <span class="case__tag">قبل / بعد</span>
+              <h3 class="case__title">مثال عمل واضح يبرز النتيجة النهائية بشكل مقنع</h3>
+              <p class="case__meta">مثالي للتنظيف، الدهانات، العزل، أو أي خدمة تظهر نتيجتها بصريًا.</p>
+            </div>
+          </article>
+          <article class="case case--two">
+            <div class="case__content">
+              <span class="case__tag">تنفيذ ميداني</span>
+              <h3 class="case__title">عرض عمل داخل موقع حقيقي يمنح الواجهة مصداقية أكبر</h3>
+              <p class="case__meta">هذا الحجم مناسب لعرض الخدمات الأكبر أو المشاريع المميزة.</p>
+            </div>
+          </article>
+          <article class="case case--three">
+            <div class="case__content">
+              <span class="case__tag">خدمة متخصصة</span>
+              <h3 class="case__title">مثال قصير</h3>
+              <p class="case__meta">مساحة مرنة للقطاعات المتخصصة.</p>
+            </div>
+          </article>
+          <article class="case case--four">
+            <div class="case__content">
+              <span class="case__tag">موقع عميل</span>
+              <h3 class="case__title">نتيجة موثقة</h3>
+              <p class="case__meta">يمكن ربطها بتقييم أو تعليق.</p>
+            </div>
+          </article>
+          <article class="case case--five">
+            <div class="case__content">
+              <span class="case__tag">مشروع منجز</span>
+              <h3 class="case__title">مثال جاهز</h3>
+              <p class="case__meta">قسم عملي ومباشر دون تعقيد.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--split" id="coverage">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__kicker">نطاق التغطية</span>
+          <h2 class="section__title">قسم واضح يحدد المدن أو الأحياء التي تخدمها المنشأة</h2>
+          <p class="section__lead">إظهار نطاق التغطية من أكثر الأشياء التي تقوي الثقة في مواقع الخدمات، لأنه يجاوب سؤالًا مهمًا مباشرة: هل هذه الخدمة تصلني أم لا؟</p>
+        </div>
+
+        <div class="cities-grid">
+          <div class="coverage-panel">
+            <div class="coverage-map" aria-label="خريطة توضيحية للتغطية">
+              <span class="pin pin--1">جدة</span>
+              <span class="pin pin--2">مكة</span>
+              <span class="pin pin--3">الطائف</span>
+              <span class="pin pin--4">رابغ</span>
+            </div>
+            <p class="section__lead">يمكن استبدال هذا الجزء بخريطة حقيقية، أو الاكتفاء بقائمة المدن والأحياء إذا كان النشاط يفضل عرضًا أبسط.</p>
           </div>
 
-          <div class="card quick-booking-card">
-            <form class="quick-booking-form" data-quick-booking-form>
-              <div class="form-row">
-                <input class="input" type="text" name="name" placeholder="الاسم">
-                <input class="input" type="tel" name="phone" placeholder="رقم الجوال">
+          <div class="city-list">
+            <div class="city">
+              <div>
+                <strong>جدة</strong>
+                <p class="city__text">خدمة يومية، استجابة أسرع، وتغطية قوية للمناطق الرئيسية.</p>
               </div>
-
-              <div class="form-row">
-                <select class="select" name="service">
-                  <option value="">نوع الخدمة</option>
-                  <option value="تنظيف شامل">تنظيف شامل</option>
-                  <option value="تنظيف مجالس">تنظيف مجالس</option>
-                  <option value="تنظيف مطابخ">تنظيف مطابخ</option>
-                  <option value="تنظيف حمامات">تنظيف حمامات</option>
-                  <option value="تنظيف دوري">تنظيف دوري</option>
-                </select>
-
-                <input class="input" type="text" name="district" placeholder="الحي / الموقع">
+              <span class="city__eta">خلال اليوم</span>
+            </div>
+            <div class="city">
+              <div>
+                <strong>مكة</strong>
+                <p class="city__text">طلبات ميدانية منظمة مع تحديد المواعيد المسبقة بوضوح.</p>
               </div>
-
-              <div class="form-row">
-                <input class="input" type="text" name="rooms" placeholder="عدد الغرف">
-                <input class="input" type="text" name="date" placeholder="الموعد المفضل">
+              <span class="city__eta">بحسب الموعد</span>
+            </div>
+            <div class="city">
+              <div>
+                <strong>الطائف</strong>
+                <p class="city__text">مناسب للزيارات المجدولة أو الخدمات التي تتطلب تنسيقًا أكبر.</p>
               </div>
-
-              <textarea class="textarea quick-booking-textarea" name="notes" placeholder="ملاحظات إضافية (اختياري)"></textarea>
-
-              <button class="btn btn-primary quick-booking-submit" type="submit">إرسال الطلب عبر واتساب</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-sm">
-      <div class="container">
-        <span class="eyebrow">لماذا راحتك؟</span>
-        <h2>خدمة تركز على راحة البيت لا على الشكل فقط</h2>
-        <p>اعتمدنا أسلوب خدمة مناسب للحياة اليومية، بحيث تكون التجربة أسهل والنتيجة أوضح.</p>
-
-        <div class="grid feature-grid">
-          <article class="card feature-card">
-            <div class="icon">١</div>
-            <h3>مواعيد مرنة</h3>
-            <p>يمكن التنسيق صباحًا أو مساءً حسب المتاح، مع تأكيد واضح للوقت قبل الزيارة.</p>
-          </article>
-
-          <article class="card feature-card">
-            <div class="icon">٢</div>
-            <h3>تنفيذ مرتب</h3>
-            <p>نبدأ بفهم المطلوب، ثم ننفذ الخدمة بطريقة منظمة تراعي المساحات المهمة داخل المنزل.</p>
-          </article>
-
-          <article class="card feature-card">
-            <div class="icon">٣</div>
-            <h3>حلول مختلفة</h3>
-            <p>زيارة واحدة، خدمة أوسع، أو تنظيف دوري حسب حجم البيت والنتيجة التي تبحث عنها.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section pricing-highlight-section">
-      <div class="container">
-        <span class="eyebrow">الباقات</span>
-        <h2>ثلاث باقات أوضح تناسب طبيعة التنظيف</h2>
-        <p>الأسعار تقريبية وقد تختلف حسب حجم المنزل ونطاق العمل المطلوب.</p>
-
-        <div class="pricing-highlight-grid">
-          <article class="card pricing-highlight-card">
-            <span class="pricing-chip">زيارة سريعة</span>
-            <h3>زيارة سريعة</h3>
-            <div class="pricing-value">500 ريال</div>
-            <p class="pricing-desc">مناسبة للتنظيف الخفيف والترتيب السريع للمساحات الأساسية داخل المنزل.</p>
-            <ul class="pricing-list">
-              <li>تنظيف الغرف الرئيسية والمجالس</li>
-              <li>العناية بالمطبخ والحمامات</li>
-              <li>خيار عملي للزيارة السريعة</li>
-            </ul>
-            <a class="btn btn-primary" href="https://wa.me/966551232480?text=السلام عليكم، أرغب في الاستفسار عن باقة زيارة سريعة" target="_blank" rel="noopener">اطلب هذه الباقة</a>
-          </article>
-
-          <article class="card pricing-highlight-card featured-pricing-card">
-            <span class="pricing-chip pricing-chip-featured">الأكثر طلبًا</span>
-            <h3>تنظيف شامل</h3>
-            <div class="pricing-value">900 ريال</div>
-            <p class="pricing-desc">الخيار الأنسب لمن يريد نتيجة أوضح وعناية أكبر بالتفاصيل في زيارة واحدة.</p>
-            <ul class="pricing-list">
-              <li>كل ما في زيارة سريعة</li>
-              <li>تركيز أكبر على التفاصيل والزوايا</li>
-              <li>مناسبة قبل المناسبات أو بعد الزيارات</li>
-            </ul>
-            <a class="btn btn-primary" href="https://wa.me/966551232480?text=السلام عليكم، أرغب في الاستفسار عن باقة تنظيف شامل" target="_blank" rel="noopener">اطلب هذه الباقة</a>
-          </article>
-
-          <article class="card pricing-highlight-card">
-            <span class="pricing-chip">تنظيف عميق</span>
-            <h3>تنظيف عميق</h3>
-            <div class="pricing-value">1300 ريال</div>
-            <p class="pricing-desc">مناسبة للحالات التي تحتاج وقتًا أطول ونطاق عمل أوسع وعناية أعمق.</p>
-            <ul class="pricing-list">
-              <li>تنظيف واسع النطاق للمساحات المهمة</li>
-              <li>مناسبة للمنازل الكبيرة</li>
-              <li>خيار مناسب لما بعد الصيانة أو الأعمال</li>
-            </ul>
-            <a class="btn btn-primary" href="https://wa.me/966551232480?text=السلام عليكم، أرغب في الاستفسار عن باقة تنظيف عميق" target="_blank" rel="noopener">اطلب هذه الباقة</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section coverage-section">
-      <div class="container">
-        <span class="eyebrow">نطاق الخدمة</span>
-        <h2>خدمتنا تغطي عددًا من أحياء الرياض مع تأكيد سريع قبل الحجز</h2>
-        <p>نعمل داخل أحياء متعددة في الرياض، وإذا لم تجد حيّك ضمن القائمة فمجرد رسالة واحدة تكفي لنتأكد لك من التغطية وننسق أقرب موعد مناسب.</p>
-
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;">
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">تغطية داخل الرياض</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">تأكيد سريع للموقع</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">تنسيق مرن للمواعيد</span>
-        </div>
-
-        <div class="coverage-layout">
-          <div class="card coverage-card">
-            <h3>أحياء نخدمها بشكل مستمر</h3>
-            <p style="margin-bottom:16px;">هذه من أكثر الأحياء التي نستقبل منها طلبات بشكل متكرر، ويمكن دائمًا التأكد من الأحياء المجاورة عبر واتساب.</p>
-            <div class="coverage-tags">
-              <span>الياسمين</span>
-              <span>النرجس</span>
-              <span>الصحافة</span>
-              <span>الربيع</span>
-              <span>العقيق</span>
-              <span>الملقا</span>
-              <span>حطين</span>
-              <span>الندى</span>
-              <span>الازدهار</span>
-              <span>الروضة</span>
-              <span>الرحمانية</span>
-              <span>المحمدية</span>
+              <span class="city__eta">مجدول</span>
             </div>
-          </div>
-
-          <div class="card coverage-note-card">
-            <div class="coverage-note-box">
-              <strong>هل حيّك غير موجود؟</strong>
-              <p>هذا لا يعني أننا لا نخدمه. أرسل اسم الحي أو الموقع التقريبي، وسنؤكد لك التغطية بسرعة قبل أي خطوة أخرى.</p>
-            </div>
-
-            <div class="coverage-note-box">
-              <strong>كيف نحدد الموعد؟</strong>
-              <p>بعد معرفة الحي ونوع الخدمة، نرتب معك الوقت الأنسب ونوضح لك تفاصيل الزيارة بشكل مختصر وواضح.</p>
-            </div>
-
-            <div class="coverage-note-box">
-              <strong>ما الذي نحتاجه منك؟</strong>
-              <p>يكفي اسم الحي، نوع الخدمة، وعدد الغرف أو حجم المنزل بشكل تقريبي حتى نعطيك تصورًا أوليًا مناسبًا.</p>
-            </div>
-
-            <div class="coverage-actions">
-              <a class="btn btn-primary" href="https://wa.me/966551232480?text=السلام عليكم، أريد التأكد من تغطية الحي قبل الحجز" target="_blank" rel="noopener">تحقق من التغطية الآن</a>
+            <div class="city">
+              <div>
+                <strong>مناطق إضافية</strong>
+                <p class="city__text">يمكن إضافة أحياء أو مدن جديدة حسب النشاط ونطاق التوسع.</p>
+              </div>
+              <span class="city__eta">مرن</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section-sm testimonials-section">
+    <section class="section section--split">
       <div class="container">
-        <span class="eyebrow">آراء العملاء</span>
-        <h2>انطباعات تعكس راحة الخدمة بعد الزيارة</h2>
-        <p>أكثر ما يلفت العملاء بعد الخدمة هو وضوح النتيجة، الالتزام بالوقت، وسهولة التواصل من أول رسالة حتى نهاية الزيارة.</p>
-
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;">
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">تقييمات إيجابية متكررة</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">التزام بالمواعيد</span>
-          <span style="display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:#eef7ff;border:1px solid var(--line);color:#3773b0;font-weight:700;font-size:14px;">فرق واضح بعد التنظيف</span>
+        <div class="section__head">
+          <span class="section__kicker">التقييمات</span>
+          <h2 class="section__title">تقييمات مختصرة ومباشرة تدعم القرار بدل إرباك الصفحة</h2>
+          <p class="section__lead">تم إبقاء هذا القسم واضحًا وبسيطًا حتى ينسجم مع شخصية مِهنة العملية، دون مبالغة في الحركة أو الزخرفة.</p>
         </div>
 
-        <div class="grid testimonials-grid">
-          <article class="card testimonial-card">
-            <div class="testimonial-top">
-              <strong>أم عبدالعزيز</strong>
-              <span>حي الياسمين</span>
-            </div>
-            <div class="stars" aria-label="5 من 5">★★★★★</div>
-            <p>طلبت تنظيفًا شاملًا قبل زيارة عائلية، وكان أكثر شيء أعجبني هو وضوح الفرق في المطبخ والمجالس، مع التزام ممتاز بالوقت.</p>
-            <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;">
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">تنظيف شامل</span>
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">قبل مناسبة</span>
+        <div class="reviews-grid">
+          <article class="review">
+            <div class="review__stars">★★★★★</div>
+            <p class="review__text">واجهة واضحة جدًا، العميل يعرف ماذا تقدم الشركة وكيف يتواصل معها خلال ثوانٍ من دخول الموقع.</p>
+            <div class="review__foot">
+              <span class="review__name">عميل سابق</span>
+              <span class="review__service">خدمة تنظيف شاملة</span>
             </div>
           </article>
-
-          <article class="card testimonial-card">
-            <div class="testimonial-top">
-              <strong>أبو خالد</strong>
-              <span>حي النرجس</span>
-            </div>
-            <div class="stars" aria-label="5 من 5">★★★★★</div>
-            <p>التجربة كانت مريحة من أول تواصل، والنتيجة النهائية كانت مرتبة جدًا. الخدمة مناسبة فعلًا لمن يريد فرقًا بصريًا واضحًا بدون تعقيد.</p>
-            <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;">
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">حجز سهل</span>
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">التزام بالموعد</span>
+          <article class="review">
+            <div class="review__stars">★★★★★</div>
+            <p class="review__text">الباقات والخدمات معروضة بشكل مرتب، والنطاق الجغرافي ظاهر، وهذا أعطى الموقع احترافية وثقة واضحة.</p>
+            <div class="review__foot">
+              <span class="review__name">صاحب نشاط</span>
+              <span class="review__service">شركة صيانة منزلية</span>
             </div>
           </article>
-
-          <article class="card testimonial-card">
-            <div class="testimonial-top">
-              <strong>سارة</strong>
-              <span>حي الصحافة</span>
-            </div>
-            <div class="stars" aria-label="5 من 5">★★★★★</div>
-            <p>جربت معهم زيارة دورية، والجميل أن مستوى الخدمة ظل ثابتًا من زيارة لأخرى، مع سهولة في التنسيق وسرعة في الرد عند تغيير الموعد.</p>
-            <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;">
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">خدمة دورية</span>
-              <span style="display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f9ff;border:1px solid var(--line);font-size:13px;color:var(--muted);font-weight:700;">ثبات في الجودة</span>
+          <article class="review">
+            <div class="review__stars">★★★★★</div>
+            <p class="review__text">من أفضل ما في القالب أنه بسيط لكنه قوي، ويصلح لعدة خدمات بدون أن يفقد هويته.</p>
+            <div class="review__foot">
+              <span class="review__name">مستخدم جديد</span>
+              <span class="review__service">نشاط خدمات عامة</span>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section faq-section">
+    <section class="section section--dark section--split" id="contact">
       <div class="container">
-        <span class="eyebrow">الأسئلة الشائعة</span>
-        <h2>3 أسئلة سريعة قبل الحجز</h2>
-        <p>أهم ما قد يسأل عنه العميل قبل إرسال الطلب أو تأكيد الموعد.</p>
-
-        <div class="faq-accordion">
-          <article class="card faq-accordion-item active">
-            <button class="faq-question" type="button">
-              <span>هل أدوات التنظيف من عندكم؟</span>
-              <span class="faq-toggle-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>نعم، في العادة يتم تجهيز أدوات ومستلزمات العمل المناسبة للخدمة المطلوبة.</p>
-            </div>
-          </article>
-
-          <article class="card faq-accordion-item">
-            <button class="faq-question" type="button">
-              <span>هل يمكن طلب زيارة واحدة فقط؟</span>
-              <span class="faq-toggle-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>نعم، يمكنك طلب زيارة واحدة، كما يمكن تنسيق زيارات دورية أسبوعية أو شهرية.</p>
-            </div>
-          </article>
-
-          <article class="card faq-accordion-item">
-            <button class="faq-question" type="button">
-              <span>ما أفضل طريقة للتواصل السريع؟</span>
-              <span class="faq-toggle-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>أفضل وأسرع طريقة تكون عبر واتساب لأنه يسهّل شرح التفاصيل وتأكيد الموعد بسرعة.</p>
-            </div>
-          </article>
+        <div class="section__head">
+          <span class="section__kicker">التواصل والحجز</span>
+          <h2 class="section__title">نهاية قوية جدًا ومباشرة، لأن موقع الخدمات يجب أن يُنهي الصفحة بزر طلب واضح</h2>
+          <p class="section__lead">هنا ينتهي المسار الطبيعي للعميل: فهم الخدمة، الاطمئنان، معرفة السعر المبدئي، ثم التواصل المباشر بأقصر طريق ممكن.</p>
         </div>
-      </div>
-    </section>
 
-    <section class="section-sm">
-      <div class="container">
-        <div class="cta-band">
-          <div>
-            <h2 style="color:#fff;margin-bottom:8px;">جاهز تحجز أول زيارة تنظيف؟</h2>
-            <p>اطلب الخدمة الآن وسننسق معك الموعد المناسب ونساعدك في اختيار الباقة الأنسب لمنزلك.</p>
-          </div>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="pricing.html">شاهد الباقات</a>
-            <a class="btn btn-secondary" href="contact.html" style="background:transparent;border-color:rgba(255,255,255,.28);color:#fff;">تواصل معنا</a>
-          </div>
+        <div class="contact-grid">
+          <article class="contact-card">
+            <p class="contact-card__text">
+              استخدم هذا القسم كختام حاسم للواجهة. لا حاجة لتعقيد نموذج طويل؛ يكفي زر واتساب واضح، معلومات العمل الأساسية، وطريقة اتصال مباشرة تجعل العميل يتحرك فورًا.
+            </p>
+
+            <div class="contact-points">
+              <div class="contact-point">
+                <small>واتساب</small>
+                <strong>966533848224+</strong>
+              </div>
+              <div class="contact-point">
+                <small>الهاتف</small>
+                <strong>966533848224+</strong>
+              </div>
+              <div class="contact-point">
+                <small>أوقات العمل</small>
+                <strong>يوميًا من 8:00 ص إلى 10:00 م</strong>
+              </div>
+              <div class="contact-point">
+                <small>البريد</small>
+                <strong>service@example.com</strong>
+              </div>
+            </div>
+          </article>
+
+          <aside class="contact-panel">
+            <div class="contact-panel__top">
+              <strong style="font-size:24px;line-height:1.4;">جاهز لتفعيل القالب على نشاطك</strong>
+              <span style="color:rgba(255,255,255,0.74);font-size:14px;line-height:1.9;">بدّل النصوص والصور والخدمات، وسيصبح لديك موقع خدمات احترافي جاهز للنشر.</span>
+            </div>
+            <div class="contact-panel__body">
+              <div class="contact-line">
+                <small>عنوان مختصر</small>
+                <strong>شركة خدمات عامة • جدة • المملكة العربية السعودية</strong>
+              </div>
+              <div class="contact-line">
+                <small>طريقة الطلب</small>
+                <strong>أرسل نوع الخدمة + المدينة + الموعد المناسب</strong>
+              </div>
+              <div class="contact-line">
+                <small>تنبيه</small>
+                <strong>الأسعار المعروضة تقريبية وتختلف حسب الطلب الفعلي</strong>
+              </div>
+              <div class="contact-actions">
+                <a class="btn btn--primary" href="https://wa.me/966533848224?text=السلام عليكم، أريد طلب خدمة من قالب مِهنة" target="_blank" rel="noopener">واتساب</a>
+                <a class="btn btn--secondary" href="tel:+966533848224">اتصال</a>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container footer-wrap">
+  <a class="floating-wa" href="https://wa.me/966533848224?text=السلام عليكم، أريد طلب خدمة من قالب مِهنة" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">واتساب مباشر</a>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
       <div>
-        <strong>راحتك</strong>
-        <p style="margin:6px 0 0;">خدمات تنظيف منازل مرتبة وموثوقة تهتم براحة البيت وتفاصيله.</p>
+        <strong style="display:block;font-size:18px;margin-bottom:4px;">مِهنة</strong>
+        <p>قالب خدمات احترافي عام، مبني من الصفر بأسلوب أبسط وأوضح وأقوى للأنشطة الخدمية.</p>
       </div>
-      <div class="footer-links">
-        <a href="services.html">الخدمات</a>
-        <a href="pricing.html">الباقات</a>
-        <a href="about.html">من نحن</a>
-        <a href="contact.html">تواصل</a>
+      <div class="site-footer__links">
+        <a href="#about">من نحن</a>
+        <a href="#services">الخدمات</a>
+        <a href="#pricing">الأسعار</a>
+        <a href="#contact">التواصل</a>
       </div>
     </div>
   </footer>
-
-  <a class="floating-whatsapp" href="https://wa.me/966551232480" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
-    <span class="floating-whatsapp-icon">✆</span>
-    <span class="floating-whatsapp-text">واتساب</span>
-  </a>
-
-  <script src="assets/script.js"></script>
 </body>
 </html>
