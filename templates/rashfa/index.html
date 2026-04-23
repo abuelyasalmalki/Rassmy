@@ -81,18 +81,8 @@
           </p>
 
           <div class="hero-actions">
-            <a
-              href="#menu"
-              class="btn btn-primary"
-            >
-              استكشف المنيو
-            </a>
-            <a
-              href="#visit"
-              class="btn btn-secondary"
-            >
-              شاهد أوقات العمل
-            </a>
+            <a href="#menu" class="btn btn-primary">استكشف المنيو</a>
+            <a href="#visit" class="btn btn-secondary">شاهد أوقات العمل</a>
           </div>
 
           <div class="hero-points">
@@ -112,14 +102,18 @@
         </div>
 
         <div class="hero-stage">
-          <div class="hero-card main-cup">
-            <div class="cup-ring"></div>
-            <div class="cup-center">
-              <span class="cup-label">Special Brew</span>
-              <strong>Flat White</strong>
-              <small>قوام ناعم • توازن واضح • مذاق مريح</small>
+          <article class="hero-photo hero-card">
+            <img
+              src="./assets/images/rashfa/hero-main.webp"
+              alt="مشهد رئيسي داخل مقهى رشفة"
+              loading="eager"
+            />
+            <div class="hero-photo-overlay">
+              <span class="hero-photo-tag">Special Brew</span>
+              <strong>أجواء كوفي راقية</strong>
+              <small>دفء بصري • تقديم جميل • حضور يشبه البراند الحقيقي</small>
             </div>
-          </div>
+          </article>
 
           <div class="hero-card side-card card-a">
             <span>قهوة اليوم</span>
@@ -162,12 +156,19 @@
           </p>
         </div>
 
-        <div class="story-panel quote-panel">
-          <p class="quote-text">
-            “الكوفي الناجح لا يبيع القهوة فقط، بل يبيع لحظة يريد العميل أن
-            يعود إليها.”
-          </p>
-          <span class="quote-tag">تصميم مخصص لنشاط الكوفي</span>
+        <div class="story-panel about-image-panel">
+          <img
+            src="./assets/images/rashfa/about-main.webp"
+            alt="زاوية داخلية أنيقة داخل مقهى رشفة"
+            loading="lazy"
+          />
+          <div class="about-image-overlay">
+            <p class="quote-text">
+              “الكوفي الناجح لا يبيع القهوة فقط، بل يبيع لحظة يريد العميل أن
+              يعود إليها.”
+            </p>
+            <span class="quote-tag">تصميم مخصص لنشاط الكوفي</span>
+          </div>
         </div>
 
         <div class="story-panel features-panel">
@@ -207,6 +208,9 @@
 
         <div class="menu-grid">
           <article class="menu-card featured">
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-01.webp" alt="لاتيه كلاسيك" loading="lazy" />
+            </div>
             <div class="menu-card-top">
               <span class="menu-tag">الأكثر طلبًا</span>
               <strong class="menu-price">18 ر.س</strong>
@@ -220,6 +224,9 @@
           </article>
 
           <article class="menu-card">
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-02.webp" alt="كورتادو" loading="lazy" />
+            </div>
             <div class="menu-card-top">
               <span class="menu-tag">قهوة مختصة</span>
               <strong class="menu-price">16 ر.س</strong>
@@ -233,6 +240,9 @@
           </article>
 
           <article class="menu-card">
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-03.webp" alt="آيس سبانش" loading="lazy" />
+            </div>
             <div class="menu-card-top">
               <span class="menu-tag">بارد</span>
               <strong class="menu-price">19 ر.س</strong>
@@ -246,6 +256,9 @@
           </article>
 
           <article class="menu-card">
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-04.webp" alt="سان سباستيان" loading="lazy" />
+            </div>
             <div class="menu-card-top">
               <span class="menu-tag">حلى</span>
               <strong class="menu-price">15 ر.س</strong>
@@ -289,10 +302,18 @@
         </div>
 
         <div class="visual-board">
-          <div class="board-tall board-a"></div>
-          <div class="board-card board-b"></div>
-          <div class="board-card board-c"></div>
-          <div class="board-wide board-d"></div>
+          <div class="board-tall board-a">
+            <img src="./assets/images/rashfa/gallery-01.webp" alt="جلسات داخلية أنيقة" loading="lazy" />
+          </div>
+          <div class="board-card board-b">
+            <img src="./assets/images/rashfa/gallery-02.webp" alt="زاوية مقهى جميلة" loading="lazy" />
+          </div>
+          <div class="board-card board-c">
+            <img src="./assets/images/rashfa/gallery-03.webp" alt="تفاصيل جمالية داخل المقهى" loading="lazy" />
+          </div>
+          <div class="board-wide board-d">
+            <img src="./assets/images/rashfa/gallery-04.webp" alt="تفاصيل تقديم داخل المقهى" loading="lazy" />
+          </div>
         </div>
       </div>
     </section>
@@ -300,13 +321,24 @@
     <section class="section specialties-section">
       <div class="container">
         <div class="specialties-shell">
-          <div class="specialties-copy">
-            <span class="eyebrow eyebrow-dark">ماذا يميز رشفة؟</span>
-            <h2>قالب يعطي الكوفي حضورًا قويًا حتى قبل إضافة الصور الحقيقية</h2>
-            <p>
-              تم بناء هذا النموذج بحيث يظهر أن النشاط قائم وله طابع مميز،
-              ويمكن بعد ذلك تطويره بسهولة بإضافة الصور والأصناف والمحتوى الحقيقي.
-            </p>
+          <div class="specialties-top">
+            <div class="specialties-copy">
+              <span class="eyebrow eyebrow-dark">ماذا يميز رشفة؟</span>
+              <h2>قالب يعطي الكوفي حضورًا قويًا حتى قبل إضافة الصور الحقيقية</h2>
+              <p>
+                تم بناء هذا النموذج بحيث يظهر أن النشاط قائم وله طابع مميز،
+                ويمكن بعد ذلك تطويره بسهولة بإضافة الصور والأصناف والمحتوى الحقيقي.
+              </p>
+            </div>
+
+            <div class="specialties-visuals">
+              <div class="detail-card detail-a">
+                <img src="./assets/images/rashfa/detail-01.webp" alt="باريستا أثناء تحضير القهوة" loading="lazy" />
+              </div>
+              <div class="detail-card detail-b">
+                <img src="./assets/images/rashfa/detail-02.webp" alt="حلى مع القهوة على طاولة أنيقة" loading="lazy" />
+              </div>
+            </div>
           </div>
 
           <div class="specialties-grid">
