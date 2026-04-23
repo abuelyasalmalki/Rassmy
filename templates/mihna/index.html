@@ -963,36 +963,68 @@
 
     .cities-grid {
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap: 20px;
+      align-items: start;
     }
     .coverage-panel,
     .city-list {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--surface);
+      border: 1px solid var(--line);
       border-radius: 28px;
       padding: 24px;
       min-height: 100%;
+      box-shadow: var(--shadow-md);
     }
     .coverage-panel {
       display: grid;
-      gap: 18px;
+      gap: 16px;
       align-content: start;
     }
+    .coverage-panel__head {
+      display: grid;
+      gap: 8px;
+    }
+    .coverage-panel__title {
+      margin: 0;
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1.4;
+    }
+    .coverage-panel__text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.9;
+    }
     .coverage-map {
-      min-height: 280px;
+      min-height: 300px;
       border-radius: 24px;
-      border: 1px dashed rgba(255,255,255,0.12);
+      border: 1px solid rgba(15,23,42,0.08);
       background:
-        linear-gradient(180deg, rgba(15,23,42,0.18), rgba(15,23,42,0.58)),
-        url('./assets/images/mihna/coverage-map.webp') center/cover no-repeat;
+        radial-gradient(circle at 18% 22%, rgba(245,158,11,0.16), transparent 16%),
+        radial-gradient(circle at 76% 28%, rgba(245,158,11,0.12), transparent 14%),
+        linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
       position: relative;
       overflow: hidden;
+      isolation: isolate;
+    }
+    .coverage-map::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 20px;
+      background:
+        linear-gradient(rgba(15,23,42,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,23,42,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.35));
+      z-index: -1;
     }
     .pin {
       position: absolute;
-      min-height: 36px;
-      padding: 0 12px;
+      min-height: 40px;
+      padding: 0 14px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
@@ -1003,33 +1035,47 @@
       font-weight: 900;
       box-shadow: 0 16px 28px rgba(245,158,11,0.24);
     }
-    .pin--1 { right: 18%; top: 18%; }
-    .pin--2 { right: 56%; top: 34%; }
-    .pin--3 { right: 28%; top: 58%; }
-    .pin--4 { right: 65%; top: 68%; }
+    .pin::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 3px solid var(--accent);
+      box-shadow: 0 6px 12px rgba(15,23,42,0.16);
+    }
+    .pin--1 { right: 16%; top: 18%; }
+    .pin--2 { right: 52%; top: 36%; }
+    .pin--3 { right: 27%; top: 61%; }
+    .pin--4 { right: 63%; top: 68%; }
 
     .city-list {
       display: grid;
       gap: 12px;
     }
     .city {
-      padding: 14px 16px;
+      padding: 16px 18px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #f8fafc;
+      border: 1px solid rgba(15,23,42,0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
     .city strong {
-      color: #fff;
+      color: var(--text);
       font-size: 16px;
     }
     .city__text {
-      margin: 0;
-      color: rgba(255,255,255,0.72);
+      margin: 4px 0 0;
+      color: var(--muted);
       font-size: 13px;
+      line-height: 1.85;
     }
     .city__eta {
       min-height: 34px;
@@ -1038,11 +1084,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: rgba(245,158,11,0.12);
-      color: var(--accent-2);
+      background: var(--accent-soft);
+      color: #b45309;
       font-size: 12px;
       font-weight: 800;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .reviews-grid {
@@ -1755,13 +1802,17 @@
 
         <div class="cities-grid">
           <div class="coverage-panel">
-            <div class="coverage-map" aria-label="خريطة توضيحية للتغطية">
+            <div class="coverage-panel__head">
+              <h3 class="coverage-panel__title">لوحة تغطية واضحة بدل صورة مبهمة أو خريطة معقدة</h3>
+              <p class="coverage-panel__text">هذا الجزء ليس صورة فوتوغرافية، بل مساحة بصرية مبسطة لتوضيح المدن أو الأحياء التي تصل إليها الخدمة بشكل سريع وواضح.</p>
+            </div>
+            <div class="coverage-map" aria-label="لوحة توضيحية للمدن التي تشملها التغطية">
               <span class="pin pin--1">جدة</span>
               <span class="pin pin--2">مكة</span>
               <span class="pin pin--3">الطائف</span>
               <span class="pin pin--4">رابغ</span>
             </div>
-            <p class="section__lead">يمكن استبدال هذا الجزء بخريطة حقيقية، أو الاكتفاء بقائمة المدن والأحياء إذا كان النشاط يفضل عرضًا أبسط.</p>
+            <p class="coverage-panel__text">يمكن لاحقًا استبدال هذه اللوحة بخريطة فعلية أو إضافة أحياء جديدة حسب نطاق التوسع، لكن النسخة الحالية أبسط وأوضح بصريًا.</p>
           </div>
 
           <div class="city-list">
