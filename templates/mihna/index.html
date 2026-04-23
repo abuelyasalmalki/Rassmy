@@ -302,6 +302,13 @@
       overflow: hidden;
       backdrop-filter: blur(10px);
     }
+    .hero-panel__media {
+      min-height: 240px;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.52)),
+        url('./assets/images/mihna/hero-main.webp') center/cover no-repeat;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
     .hero-panel__top {
       padding: 22px 22px 18px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -497,7 +504,15 @@
     .insight-card {
       overflow: hidden;
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto 1fr;
+    }
+    .insight-card__media {
+      min-height: 240px;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.42)),
+        url('./assets/images/mihna/about-main.webp') center/cover no-repeat;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid var(--line);
     }
     .insight-card__top {
       padding: 26px;
@@ -573,6 +588,24 @@
     .service-card--wide { grid-column: span 6; }
     .service-card--mid { grid-column: span 3; }
     .service-card--tall { grid-column: span 3; min-height: 278px; }
+    .service-card__media {
+      height: 150px;
+      border-radius: 18px;
+      overflow: hidden;
+      background-color: var(--dark);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .service-card__media--01 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-01.webp'); }
+    .service-card__media--02 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-02.webp'); }
+    .service-card__media--03 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-03.webp'); }
+    .service-card__media--04 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-04.webp'); }
+    .service-card__media--05 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-05.webp'); }
+    .service-card__media--06 { background-image: linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.36)), url('./assets/images/mihna/service-06.webp'); }
+    .service-card--wide .service-card__media { height: 190px; }
+    .service-card--tall .service-card__media { height: 220px; }
     .service-card__icon {
       width: 56px;
       height: 56px;
@@ -835,16 +868,45 @@
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(180deg, rgba(15,23,42,0.08), rgba(15,23,42,0.92)),
-        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.24), transparent 20%),
-        linear-gradient(135deg, #334155, #0f172a);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
     .case--one { grid-column: span 5; min-height: 420px; }
     .case--two { grid-column: span 7; }
     .case--three { grid-column: span 4; }
     .case--four { grid-column: span 4; }
     .case--five { grid-column: span 4; }
+    .case--one::before {
+      background-image:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.88)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.18), transparent 20%),
+        url('./assets/images/mihna/case-01.webp');
+    }
+    .case--two::before {
+      background-image:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.88)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.18), transparent 20%),
+        url('./assets/images/mihna/case-02.webp');
+    }
+    .case--three::before {
+      background-image:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.88)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.18), transparent 20%),
+        url('./assets/images/mihna/case-03.webp');
+    }
+    .case--four::before {
+      background-image:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.88)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.18), transparent 20%),
+        url('./assets/images/mihna/case-04.webp');
+    }
+    .case--five::before {
+      background-image:
+        linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.88)),
+        radial-gradient(circle at 20% 20%, rgba(245,158,11,0.18), transparent 20%),
+        url('./assets/images/mihna/case-05.webp');
+    }
     .case__content {
       position: relative;
       z-index: 2;
@@ -902,9 +964,8 @@
       border-radius: 24px;
       border: 1px dashed rgba(255,255,255,0.12);
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
-        repeating-linear-gradient(90deg, transparent, transparent 54px, rgba(255,255,255,0.05) 54px, rgba(255,255,255,0.05) 55px),
-        repeating-linear-gradient(0deg, transparent, transparent 54px, rgba(255,255,255,0.05) 54px, rgba(255,255,255,0.05) 55px);
+        linear-gradient(180deg, rgba(15,23,42,0.18), rgba(15,23,42,0.58)),
+        url('./assets/images/mihna/coverage-map.webp') center/cover no-repeat;
       position: relative;
       overflow: hidden;
     }
@@ -1305,6 +1366,7 @@
         </div>
 
         <aside class="hero-panel" aria-label="لوحة طلب سريع">
+          <div class="hero-panel__media" aria-hidden="true"></div>
           <div class="hero-panel__top">
             <span class="hero-panel__label">لوحة طلب سريعة</span>
             <div class="hero-panel__title">عرض يليق بشركات الخدمات: سريع، مرتب، ومهيأ للطلب المباشر</div>
@@ -1398,6 +1460,7 @@
               <strong>القالب يركز على 4 أشياء أساسية</strong>
               <p>هذه هي النقاط التي تجعل أي موقع خدمات أقوى في الإقناع وأكثر نفعًا في الواقع.</p>
             </div>
+            <div class="insight-card__media" aria-hidden="true"></div>
             <div class="insight-list">
               <div class="insight-list__item"><strong>شرح الخدمة بسرعة</strong><span>01</span></div>
               <div class="insight-list__item"><strong>إبراز عناصر الثقة</strong><span>02</span></div>
@@ -1419,6 +1482,7 @@
 
         <div class="services-grid">
           <article class="service-card service-card--wide">
+            <div class="service-card__media service-card__media--01" aria-hidden="true"></div>
             <div class="service-card__icon">ت</div>
             <h3 class="service-card__title">خدمات التنظيف والعناية بالموقع</h3>
             <p class="service-card__text">تنظيف منازل، شقق، مكاتب، واجهات، وتنظيف دوري أو شامل مع أسلوب عرض يجعل الخدمة الرئيسية تظهر أولًا بشكل واضح وقوي.</p>
@@ -1429,6 +1493,7 @@
           </article>
 
           <article class="service-card service-card--mid">
+            <div class="service-card__media service-card__media--02" aria-hidden="true"></div>
             <div class="service-card__icon">ص</div>
             <h3 class="service-card__title">الصيانة العامة</h3>
             <p class="service-card__text">عرض مناسب للصيانة المنزلية أو التجارية بطريقة مختصرة واحترافية.</p>
@@ -1439,6 +1504,7 @@
           </article>
 
           <article class="service-card service-card--mid service-card--tall">
+            <div class="service-card__media service-card__media--03" aria-hidden="true"></div>
             <div class="service-card__icon">ن</div>
             <h3 class="service-card__title">النقل والتركيب</h3>
             <p class="service-card__text">يناسب نقل العفش، الفك والتركيب، أو الخدمات التي تحتاج إبراز التنظيم والخطوات والثقة.</p>
@@ -1449,6 +1515,7 @@
           </article>
 
           <article class="service-card service-card--mid">
+            <div class="service-card__media service-card__media--04" aria-hidden="true"></div>
             <div class="service-card__icon">ك</div>
             <h3 class="service-card__title">أعمال الكهرباء</h3>
             <p class="service-card__text">يمكن عرضه كمجال متخصص أو ضمن خدمات عامة داخل نفس القالب.</p>
@@ -1459,6 +1526,7 @@
           </article>
 
           <article class="service-card service-card--mid">
+            <div class="service-card__media service-card__media--05" aria-hidden="true"></div>
             <div class="service-card__icon">س</div>
             <h3 class="service-card__title">خدمات السباكة</h3>
             <p class="service-card__text">مساحة مناسبة لعرض الإصلاحات، التمديدات، أو الزيارات السريعة.</p>
@@ -1469,6 +1537,7 @@
           </article>
 
           <article class="service-card service-card--wide">
+            <div class="service-card__media service-card__media--06" aria-hidden="true"></div>
             <div class="service-card__icon">ع</div>
             <h3 class="service-card__title">خدمات إضافية أو تخصصات فرعية</h3>
             <p class="service-card__text">يمكن استخدام هذه البطاقة للعزل، مكافحة الحشرات، التكييف، الدهانات، النجارة، أو أي نشاط يحتاج مساحة واضحة ومرنة داخل نفس القالب.</p>
