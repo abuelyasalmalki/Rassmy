@@ -693,13 +693,14 @@
     .timeline {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      gap: 18px;
       position: relative;
+      align-items: stretch;
     }
     .timeline::before {
       content: "";
       position: absolute;
-      inset: 32px 8% auto;
+      inset: 34px 8% auto;
       height: 2px;
       background: linear-gradient(90deg, rgba(245,158,11,0.14), rgba(245,158,11,0.8), rgba(245,158,11,0.14));
       z-index: 0;
@@ -707,29 +708,48 @@
     .timeline-card {
       position: relative;
       z-index: 1;
-      background: var(--surface);
-      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 24px;
-      box-shadow: var(--shadow-md);
-      padding: 22px;
+      box-shadow: none;
+      padding: 20px 18px 18px;
       display: grid;
-      gap: 12px;
-      min-height: 240px;
+      gap: 10px;
+      min-height: auto;
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+    }
+    .timeline-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), rgba(245,158,11,0.18));
     }
     .timeline-card__step {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
       display: grid;
       place-items: center;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: var(--dark);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
-      box-shadow: 0 14px 28px rgba(245,158,11,0.2);
+      box-shadow: 0 14px 28px rgba(245,158,11,0.18);
     }
-    .timeline-card h3 { margin: 0; font-size: 21px; line-height: 1.45; }
-    .timeline__text { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.95; }
+    .timeline-card h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.45;
+    }
+    .timeline__text {
+      margin: 0;
+      color: rgba(255,255,255,0.74);
+      font-size: 14px;
+      line-height: 1.95;
+    }
 
     .pricing-grid {
       display: grid;
@@ -1587,30 +1607,30 @@
       <div class="container">
         <div class="section__head">
           <span class="section__kicker">خطوات العمل</span>
-          <h2 class="section__title">طريقة واضحة ومطمئنة لعرض رحلة العميل من أول طلب إلى نهاية الخدمة</h2>
-          <p class="section__lead">هذا القسم مهم جدًا في الأنشطة الخدمية لأنه يحوّل الموقع من مجرد واجهة إلى تجربة واضحة يفهم منها العميل ماذا سيحدث بعد الضغط على زر الطلب.</p>
+          <h2 class="section__title">قسم أوضح وأبسط يشرح للعميل ما الذي سيحدث بعد إرسال الطلب</h2>
+          <p class="section__lead">في الأنشطة الخدمية العميل لا يريد شرحًا طويلًا، بل يريد تسلسلًا مختصرًا ومفهومًا يطمئنه من أول تواصل حتى نهاية التنفيذ.</p>
         </div>
 
         <div class="timeline">
           <article class="timeline-card">
             <span class="timeline-card__step">1</span>
-            <h3>إرسال الطلب</h3>
-            <p class="timeline__text">يبدأ العميل بطلب واضح عبر واتساب أو اتصال مباشر مع ذكر نوع الخدمة والموقع.</p>
+            <h3>أرسل طلبك</h3>
+            <p class="timeline__text">عبر واتساب أو الاتصال المباشر مع تحديد نوع الخدمة والموقع.</p>
           </article>
           <article class="timeline-card">
             <span class="timeline-card__step">2</span>
-            <h3>مراجعة التفاصيل</h3>
-            <p class="timeline__text">يتم توضيح المتطلبات، نطاق العمل، والوقت المناسب قبل تأكيد الموعد.</p>
+            <h3>نراجع التفاصيل</h3>
+            <p class="timeline__text">نوضح المتطلبات ونحدد الموعد المناسب قبل تأكيد الزيارة.</p>
           </article>
           <article class="timeline-card">
             <span class="timeline-card__step">3</span>
-            <h3>الوصول والتنفيذ</h3>
-            <p class="timeline__text">فريق العمل يصل في الموعد المحدد ويبدأ التنفيذ وفق الخدمة المطلوبة.</p>
+            <h3>نصل وننفذ</h3>
+            <p class="timeline__text">فريقنا يبدأ العمل باحترافية ووضوح حسب الخدمة المطلوبة.</p>
           </article>
           <article class="timeline-card">
             <span class="timeline-card__step">4</span>
-            <h3>التسليم والمتابعة</h3>
-            <p class="timeline__text">بعد الانتهاء يتم توضيح النتيجة، وإغلاق الطلب بطريقة احترافية وواضحة.</p>
+            <h3>تسليم ومتابعة</h3>
+            <p class="timeline__text">نتأكد من النتيجة النهائية ورضاك بعد انتهاء التنفيذ.</p>
           </article>
         </div>
       </div>
