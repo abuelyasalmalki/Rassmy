@@ -246,46 +246,119 @@
           </p>
         </div>
 
-        <div class="menu-tabs">
-          <span class="tab active">الأطباق الرئيسية</span>
-          <span class="tab">المقبلات</span>
-          <span class="tab">الحلى</span>
-          <span class="tab">طلبات العوائل</span>
+        <div class="menu-tabs" role="tablist" aria-label="تصنيفات المنيو">
+          <button type="button" class="tab tab-button active" data-tab="main" role="tab" aria-selected="true">الأطباق الرئيسية</button>
+          <button type="button" class="tab tab-button" data-tab="sides" role="tab" aria-selected="false">المقبلات</button>
+          <button type="button" class="tab tab-button" data-tab="sweets" role="tab" aria-selected="false">الحلى</button>
+          <button type="button" class="tab tab-button" data-tab="family" role="tab" aria-selected="false">طلبات العوائل</button>
         </div>
 
-        <div class="menu-grid">
-          <article class="menu-card image-menu-card featured">
-            <div class="menu-card-image image-fill"><img src="./assets/images/safrah/dish-04.webp" alt="طبق شعبي منزلي" /></div>
-            <div class="menu-card-body">
-              <div class="menu-card-top">
-                <span class="menu-tag">رئيسي</span>
-                <strong class="menu-price">45 ر.س</strong>
-              </div>
-              <h3>طبق شعبي</h3>
-              <p>طبق بطابع تقليدي محبوب، مناسب للطلبات المنزلية والعائلية.</p>
-              <div class="menu-meta"><span>شعبي</span><span>منزلي</span></div>
-            </div>
-          </article>
+        <div class="menu-panels">
+          <div class="menu-panel active" data-panel="main">
+            <div class="menu-grid interactive-grid">
+              <article class="menu-card image-menu-card featured">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-01.webp" alt="طبق رئيسي منزلي" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">رئيسي</span><strong class="menu-price">42 ر.س</strong></div>
+                  <h3>كبسة يومية</h3>
+                  <p>طبق رئيسي شهي وواضح بصريًا، مناسب لعرض الوجبة الأكثر طلبًا داخل المنيو.</p>
+                  <div class="menu-meta"><span>مطلوب كثيرًا</span><span>مناسب للغداء</span></div>
+                </div>
+              </article>
 
-          <article class="menu-card">
-            <div class="menu-card-top">
-              <span class="menu-tag">رئيسي</span>
-              <strong class="menu-price">39 ر.س</strong>
-            </div>
-            <h3>طلبات يومية</h3>
-            <p>يمكن استبدال هذا النص بالأطباق الفعلية مثل المرقوق أو الجريش أو الملوخية.</p>
-            <div class="menu-meta"><span>يومي</span><span>مناسب للغداء</span></div>
-          </article>
+              <article class="menu-card image-menu-card">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-02.webp" alt="طبق شعبي منزلي" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">رئيسي</span><strong class="menu-price">39 ر.س</strong></div>
+                  <h3>طبق شعبي</h3>
+                  <p>مساحة مناسبة لطبق مثل الجريش أو المرقوق أو أي وجبة منزلية بطابع تقليدي محبوب.</p>
+                  <div class="menu-meta"><span>شعبي</span><span>منزلي</span></div>
+                </div>
+              </article>
 
-          <article class="menu-card">
-            <div class="menu-card-top">
-              <span class="menu-tag">عائلي</span>
-              <strong class="menu-price">120 ر.س</strong>
+              <article class="menu-card image-menu-card">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-03.webp" alt="طلب يومي من سُفرة" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">رئيسي</span><strong class="menu-price">36 ر.س</strong></div>
+                  <h3>وجبة اليوم</h3>
+                  <p>بطاقة مرنة لعرض الطلب اليومي أو الوجبة المتغيرة بحسب المتاح في ذلك اليوم.</p>
+                  <div class="menu-meta"><span>متجدد</span><span>جاهز للحجز</span></div>
+                </div>
+              </article>
             </div>
-            <h3>صينية عائلية</h3>
-            <p>خيار مناسب للعائلة أو الضيوف، ويصلح للطلبات الأكبر والحجوزات المسبقة.</p>
-            <div class="menu-meta"><span>عائلي</span><span>اقتصادي</span></div>
-          </article>
+          </div>
+
+          <div class="menu-panel is-hidden" data-panel="sides">
+            <div class="menu-grid interactive-grid two-cards">
+              <article class="menu-card image-menu-card featured">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-03.webp" alt="مقبلات منزلية" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">مقبلات</span><strong class="menu-price">18 ر.س</strong></div>
+                  <h3>سمبوسة مشكلة</h3>
+                  <p>صنف جانبي سهل الإضافة إلى الطلب، ويظهر بصورة شهية تجذب العميل بسرعة.</p>
+                  <div class="menu-meta"><span>خفيف</span><span>مناسب للعزائم</span></div>
+                </div>
+              </article>
+
+              <article class="menu-card image-menu-card">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-04.webp" alt="ورق عنب أو مقبلات منزلية" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">مقبلات</span><strong class="menu-price">22 ر.س</strong></div>
+                  <h3>ورق عنب</h3>
+                  <p>بطاقة واضحة لصنف جانبي محبوب، ويمكن استبدالها بأي مقبلات منزلية أخرى بسهولة.</p>
+                  <div class="menu-meta"><span>محبوب</span><span>سهل الطلب</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-panel is-hidden" data-panel="sweets">
+            <div class="menu-grid interactive-grid two-cards">
+              <article class="menu-card image-menu-card featured">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-05.webp" alt="حلى منزلي" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">حلى</span><strong class="menu-price">24 ر.س</strong></div>
+                  <h3>حلى يومي</h3>
+                  <p>مساحة مناسبة لعرض السينابون أو البسبوسة أو أي حلى منزلي ترغب الأسرة المنتجة في إبرازِه.</p>
+                  <div class="menu-meta"><span>شهي</span><span>إضافة جميلة</span></div>
+                </div>
+              </article>
+
+              <article class="menu-card image-menu-card">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-04.webp" alt="قطعة حلى منزلية" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">حلى</span><strong class="menu-price">19 ر.س</strong></div>
+                  <h3>صنف تحلية</h3>
+                  <p>بطاقة ثانية لحلى خلية النحل أو أي صنف منزلي مشهور يكمّل الطلب الأساسي.</p>
+                  <div class="menu-meta"><span>مناسب مع القهوة</span><span>منزلي</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-panel is-hidden" data-panel="family">
+            <div class="menu-grid interactive-grid two-cards">
+              <article class="menu-card image-menu-card featured">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-06.webp" alt="طلب عائلي منزلي" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">عائلي</span><strong class="menu-price">120 ر.س</strong></div>
+                  <h3>طلب عائلي</h3>
+                  <p>صورة مناسبة للطلبات الكبيرة أو العزائم المنزلية، مع مساحة لوصف الكمية وطريقة الحجز.</p>
+                  <div class="menu-meta"><span>حجز مسبق</span><span>يكفي عدة أشخاص</span></div>
+                </div>
+              </article>
+
+              <article class="menu-card image-menu-card">
+                <div class="menu-card-image image-fill"><img src="./assets/images/safrah/menu-02.webp" alt="صينية عائلية" /></div>
+                <div class="menu-card-body">
+                  <div class="menu-card-top"><span class="menu-tag">عائلي</span><strong class="menu-price">145 ر.س</strong></div>
+                  <h3>صينية مناسبة</h3>
+                  <p>بطاقة ثانية للطلبات الأكبر، ويمكن تخصيصها للمناسبات أو لطلبات نهاية الأسبوع.</p>
+                  <div class="menu-meta"><span>اقتصادي</span><span>مرتب للتسليم</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -445,5 +518,32 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (() => {
+      const tabButtons = document.querySelectorAll('.menu-tabs .tab-button');
+      const panels = document.querySelectorAll('.menu-panel');
+      if (!tabButtons.length || !panels.length) return;
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+
+          tabButtons.forEach((btn) => {
+            const isActive = btn === button;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', String(isActive));
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel.dataset.panel === target;
+            panel.classList.toggle('active', isActive);
+            panel.classList.toggle('is-hidden', !isActive);
+          });
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
