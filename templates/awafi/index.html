@@ -4,46 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>عوافي | مجمع عيادات حديث</title>
-  <meta
-    name="description"
-    content="عوافي قالب حديث لمجمع عيادات أو مركز طبي، يعرض الخدمات والبيئة الطبية والحجز السريع بأسلوب أنيق ومطمئن ومناسب للجوال."
-  />
+  <meta name="description" content="عوافي نموذج موقع لمجمع عيادات حديث، يعرض التخصصات والأطباء وأجواء العيادة والحجز بطريقة طبية مريحة وواضحة." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="demo-topbar">
-    <div class="container demo-topbar-inner">
-      <span>أنت الآن تشاهد نموذجًا تجريبيًا حديثًا لقالب طبي</span>
-      <div class="demo-topbar-actions">
-        <a href="../../models.html" class="demo-link">العودة إلى النماذج</a>
-        <a href="../../pricing.html?model=%D8%B9%D9%88%D8%A7%D9%81%D9%8A&type=medical" class="demo-link demo-link-primary">اختر هذا النموذج</a>
+  <div class="demo-bar">
+    <div class="container demo-bar__inner">
+      <span>أنت الآن تشاهد نموذجًا تجريبيًا لقالب طبي</span>
+      <div class="demo-bar__actions">
+        <a href="../../models.html" class="pill-link">العودة إلى النماذج</a>
+        <a href="../../pricing.html?model=%D8%B9%D9%88%D8%A7%D9%81%D9%8A&type=medical" class="pill-link pill-link--primary">اختر هذا النموذج</a>
       </div>
     </div>
   </div>
 
   <header class="site-header">
-    <div class="container nav">
+    <div class="container nav-shell">
       <a href="#top" class="brand" aria-label="عوافي">
-        <span class="brand-mark">ع</span>
-        <span class="brand-text">
+        <span class="brand__mark">ع</span>
+        <span class="brand__text">
           <strong>عوافي</strong>
           <small>مجمع عيادات حديث</small>
         </span>
       </a>
 
-      <nav class="nav-links" aria-label="التنقل الرئيسي">
-        <a href="#about">عن عوافي</a>
-        <a href="#services">الخدمات</a>
-        <a href="#space">البيئة الطبية</a>
-        <a href="#steps">خطوات الحجز</a>
+      <nav class="main-nav" aria-label="التنقل الرئيسي">
+        <a href="#specialties">التخصصات</a>
+        <a href="#about">عن العيادة</a>
+        <a href="#doctors">الأطباء</a>
+        <a href="#features">لماذا عوافي</a>
         <a href="#contact">التواصل</a>
       </nav>
 
       <div class="nav-actions">
-        <a href="https://wa.me/966533848224?text=السلام عليكم، أريد الحجز في عوافي" class="btn btn-primary" target="_blank" rel="noopener">احجز الآن</a>
+        <a href="https://wa.me/966533848224?text=السلام عليكم، أريد حجز موعد في عوافي" target="_blank" rel="noopener" class="btn btn--primary">احجز الآن</a>
       </div>
     </div>
   </header>
@@ -52,310 +49,311 @@
     <section class="hero-section">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow">هدوء بصري • ثقة طبية • تجربة أوضح</span>
-          <h1>واجهة طبية حديثة تجعل الحجز أسهل والانطباع أقوى</h1>
+          <span class="eyebrow">رعاية أوضح • تجربة أهدأ • حضور طبي واثق</span>
+          <h1>واجهة طبية مطمئنة تعكس الثقة من أول نظرة</h1>
           <p class="hero-text">
-            <strong>عوافي</strong> صُمم من الصفر ليعكس صورة مجمع عيادات حديث: بيئة مرتبة،
-            عرض خدمات واضح، أقسام تدعم الثقة، ومسار حجز مباشر ومريح من أول زيارة.
+            <strong>عوافي</strong> قالب حديث لمجمع عيادات أو مركز طبي، مبني ليظهر
+            التخصصات والخدمات والأطباء وأجواء المكان بأسلوب هادئ ومهني، مع وصول
+            سريع للحجز من الجوال.
           </p>
 
           <div class="hero-actions">
-            <a href="https://wa.me/966533848224?text=السلام عليكم، أريد الحجز في عوافي" class="btn btn-primary" target="_blank" rel="noopener">احجز عبر واتساب</a>
-            <a href="#services" class="btn btn-secondary">استكشف الخدمات</a>
+            <a href="https://wa.me/966533848224?text=السلام عليكم، أريد حجز موعد في عوافي" target="_blank" rel="noopener" class="btn btn--primary">احجز عبر واتساب</a>
+            <a href="#specialties" class="btn btn--secondary">شاهد التخصصات</a>
           </div>
 
-          <div class="hero-pills">
-            <span>مناسب للجوال</span>
-            <span>هوية طبية هادئة</span>
-            <span>عرض خدمات واضح</span>
-            <span>حجز مباشر</span>
+          <div class="hero-metrics">
+            <article class="metric-card">
+              <strong>حجز سريع</strong>
+              <span>وصول مباشر للحجز والاستفسار</span>
+            </article>
+            <article class="metric-card">
+              <strong>تخصصات متعددة</strong>
+              <span>عرض واضح للخدمات الأساسية</span>
+            </article>
+            <article class="metric-card">
+              <strong>بيئة مطمئنة</strong>
+              <span>واجهة هادئة تناسب النشاط الطبي</span>
+            </article>
           </div>
         </div>
 
         <div class="hero-visual">
-          <div class="hero-image-card">
-            <img src="./assets/images/awafi/hero-main.webp" alt="واجهة طبية حديثة داخل عيادة عوافي" />
-            <div class="hero-overlay-card main-overlay">
-              <strong>استقبال مريح وواضح</strong>
-              <span>انطباع أول يساعد على الطمأنينة والثقة</span>
+          <article class="hero-main-photo card-surface">
+            <img src="./assets/images/awafi/hero-main.webp" alt="أجواء طبية حديثة داخل عيادة عوافي" />
+            <div class="hero-main-photo__overlay">
+              <strong>رعاية تبدأ بالوضوح</strong>
+              <span>تصميم يبرز الطمأنينة والتنظيم من أول زيارة</span>
             </div>
-          </div>
+          </article>
 
-          <div class="hero-side-cards">
-            <article class="hero-side-card">
-              <strong>خدمات متعددة</strong>
-              <span>أقسام علاجية مرتبة وسهلة الوصول</span>
-            </article>
-            <article class="hero-side-card accent-card">
-              <strong>استجابة أسرع</strong>
-              <span>الحجز يبدأ من الصفحة الرئيسية مباشرة</span>
-            </article>
-          </div>
+          <article class="floating-note note-top">
+            <span>الاستقبال</span>
+            <strong>منظم وهادئ</strong>
+          </article>
+
+          <article class="floating-note note-middle">
+            <span>التخصصات</span>
+            <strong>عرض واضح ومباشر</strong>
+          </article>
+
+          <article class="floating-note note-bottom">
+            <span>الحجز</span>
+            <strong>زر ظاهر في كل الأماكن المهمة</strong>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="trust-bar">
-      <div class="container trust-bar-inner">
-        <div class="trust-item">
-          <strong>واجهة مطمئنة</strong>
-          <span>تمنح الزائر شعورًا بالنظافة والاحتراف</span>
+    <section class="trust-row">
+      <div class="container trust-row__inner">
+        <span>واجهة مطمئنة</span>
+        <span>خدمات واضحة</span>
+        <span>مناسب للجوال</span>
+        <span>حجز مباشر</span>
+        <span>أسلوب طبي حديث</span>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="specialties">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="eyebrow">التخصصات</span>
+          <h2>قسم يعرّف بالخدمات الطبية بسرعة ووضوح</h2>
+          <p>في المواقع الطبية، الزائر يريد فهم التخصصات بسرعة، لذلك بُني هذا القسم بصور واضحة وعناوين مباشرة ومساحة مريحة للقراءة.</p>
         </div>
-        <div class="trust-item">
-          <strong>خدمات واضحة</strong>
-          <span>عرض سريع يساعد على فهم التخصصات</span>
-        </div>
-        <div class="trust-item">
-          <strong>حجز مباشر</strong>
-          <span>وصول سريع إلى الواتساب أو الاتصال</span>
+
+        <div class="specialty-grid">
+          <article class="specialty-card">
+            <div class="specialty-card__media">
+              <img src="./assets/images/awafi/service-01.webp" alt="خدمة طبية عامة في عوافي" />
+            </div>
+            <div class="specialty-card__body">
+              <span class="card-number">01</span>
+              <h3>الطب العام</h3>
+              <p>استشارات أولية ومتابعات صحية وفحوصات أساسية ضمن بيئة واضحة ومطمئنة.</p>
+            </div>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-card__media">
+              <img src="./assets/images/awafi/service-02.webp" alt="خدمة فحص أو متابعة طبية" />
+            </div>
+            <div class="specialty-card__body">
+              <span class="card-number">02</span>
+              <h3>الأسنان</h3>
+              <p>فحوصات وعناية علاجية وتجميلية مع عرض مهني يناسب العيادات الحديثة.</p>
+            </div>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-card__media">
+              <img src="./assets/images/awafi/service-03.webp" alt="استشارة جلدية داخل العيادة" />
+            </div>
+            <div class="specialty-card__body">
+              <span class="card-number">03</span>
+              <h3>الجلدية</h3>
+              <p>خدمات جلدية وتجميلية ضمن هوية هادئة وواضحة تساعد في بناء الثقة.</p>
+            </div>
+          </article>
+
+          <article class="specialty-card">
+            <div class="specialty-card__media">
+              <img src="./assets/images/awafi/service-04.webp" alt="خدمة طبية للأطفال أو المتابعة الأسرية" />
+            </div>
+            <div class="specialty-card__body">
+              <span class="card-number">04</span>
+              <h3>الأطفال</h3>
+              <p>متابعة صحية لطيفة وواجهة مناسبة للعائلة ضمن قالب مريح وقابل للتخصيص.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section about-section" id="about">
+    <section class="section" id="about">
       <div class="container about-grid">
-        <div class="about-visual">
-          <div class="about-main-image card-shell">
-            <img src="./assets/images/awafi/about-main.webp" alt="بيئة داخلية مريحة داخل مجمع عوافي" />
-          </div>
-          <div class="about-mini-card card-shell">
-            <img src="./assets/images/awafi/detail-01.webp" alt="تفاصيل احترافية داخل العيادة" />
+        <div class="about-media-col">
+          <article class="about-main-photo card-surface">
+            <img src="./assets/images/awafi/about-main.webp" alt="صورة داخلية تعريفية لعيادة عوافي" />
+          </article>
+          <div class="about-secondary-grid">
+            <article class="mini-photo card-surface">
+              <img src="./assets/images/awafi/clinic-01.webp" alt="منطقة استقبال داخل العيادة" />
+            </article>
+            <article class="mini-photo card-surface">
+              <img src="./assets/images/awafi/clinic-02.webp" alt="غرفة فحص أو علاج داخل العيادة" />
+            </article>
           </div>
         </div>
 
         <div class="about-copy">
-          <span class="eyebrow">عن عوافي</span>
-          <h2>قالب طبي يبني الثقة من التنظيم والوضوح قبل أي شيء آخر</h2>
+          <span class="eyebrow">عن العيادة</span>
+          <h2>بنية بصرية تشبه العيادات الحديثة أكثر من كونها صفحة عامة فقط</h2>
           <p>
-            في القوالب الطبية، التشابه يضعف الإحساس بالهوية. لذلك بُني <strong>عوافي</strong>
-            بأسلوب مختلف: تقسيمات مريحة، مناطق بصرية مدروسة، بطاقات خدمات واضحة،
-            وأقسام تدعم فكرة المجمع الطبي الحديث بدل الشكل التقليدي المكرر.
+            صُمم <strong>عوافي</strong> ليكون أقرب إلى حضور مجمع عيادات حقيقي:
+            استقبال منظم، صور داخلية، خدمات واضحة، مساحة للأطباء، وحجز ظاهر في
+            كل الأماكن المهمة.
           </p>
 
-          <div class="about-features">
-            <article class="about-feature">
-              <strong>هوية مهنية هادئة</strong>
-              <span>ألوان نظيفة وتكوين بصري مطمئن ومناسب للقطاع الطبي.</span>
+          <div class="about-points">
+            <article class="about-point">
+              <strong>هوية طبية عربية</strong>
+              <span>ألوان مريحة ولمسات مؤسسية تعطي وضوحًا وهدوءًا.</span>
             </article>
-            <article class="about-feature">
-              <strong>مرن للعيادة أو المجمع</strong>
-              <span>يمكن تخصيصه لعيادة عامة أو أسنان أو جلدية أو مجمع متعدد التخصصات.</span>
+            <article class="about-point">
+              <strong>قابل للتوسع</strong>
+              <span>يمكن إضافة صفحات الأطباء والخدمات والأسعار والحجز لاحقًا.</span>
             </article>
-            <article class="about-feature">
-              <strong>معد للحجز السريع</strong>
-              <span>كل الأقسام تدفع الزائر إلى خطوة واضحة بدل التشتت.</span>
+            <article class="about-point">
+              <strong>صور حقيقية تدعم الثقة</strong>
+              <span>بنية القالب تعتمد على الصور الطبية المنظمة أكثر من الزخرفة.</span>
             </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section services-section" id="services">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">الخدمات</span>
-          <h2>أربع بطاقات خدمات بصورة واضحة وتقديم أنسب للنشاط الطبي</h2>
+    <section class="section section--soft" id="doctors">
+      <div class="container doctors-shell">
+        <div class="section-head section-head--center">
+          <span class="eyebrow">الأطباء</span>
+          <h2>قسم واضح لتعزيز الثقة وبناء حضور مهني للطاقم الطبي</h2>
+          <p>حتى إن لم تكن كل الصور النهائية جاهزة الآن، فإن الهيكل هنا يعطي شعورًا حقيقيًا لمجمع طبي منظم وقابل للتطوير.</p>
+        </div>
+
+        <div class="doctors-grid">
+          <article class="doctor-card card-surface">
+            <div class="doctor-card__photo">
+              <img src="./assets/images/awafi/detail-01.webp" alt="طبيب أو طبيبة في عوافي" />
+            </div>
+            <div class="doctor-card__body">
+              <h3>د. أحمد</h3>
+              <span>الطب العام</span>
+              <p>متابعة واستشارات أولية بأسلوب واضح ومريح، مع طابع مهني حديث.</p>
+            </div>
+          </article>
+
+          <article class="doctor-card card-surface">
+            <div class="doctor-card__photo">
+              <img src="./assets/images/awafi/detail-02.webp" alt="مشهد طبي احترافي داخل عوافي" />
+            </div>
+            <div class="doctor-card__body">
+              <h3>د. سارة</h3>
+              <span>الجلدية</span>
+              <p>قسم مرتب لتعريف الزائر بالطبيب والتخصص مع مساحة مناسبة لإضافة الخبرات لاحقًا.</p>
+            </div>
+          </article>
+
+          <article class="doctor-card doctor-card--text card-surface">
+            <div class="doctor-card__body doctor-card__body--text-only">
+              <span class="doctor-badge">طاقم طبي متكامل</span>
+              <h3>قسم مرن للأطباء والتخصصات</h3>
+              <p>يمكن زيادة عدد البطاقات أو تحويل هذا القسم إلى سلايدر أطباء أو صفحة مستقلة لاحقًا، بدون الحاجة لإعادة بناء القالب من جديد.</p>
+              <a href="https://wa.me/966533848224?text=السلام عليكم، أريد تخصيص قالب عوافي" target="_blank" rel="noopener" class="inline-link">اطلب تخصيص القالب</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container features-grid">
+        <div class="features-copy">
+          <span class="eyebrow">لماذا عوافي</span>
+          <h2>قالب طبي مختلف عن القوالب السابقة في التوزيع والطابع البصري</h2>
           <p>
-            هذا القسم صُمم ليعطي انطباعًا أكثر واقعية واحترافًا، بحيث تظهر الخدمات
-            كخيارات واضحة وليست مجرد نصوص جامدة.
+            هذه النسخة مبنية من الصفر بطابع طبي أوضح، وتعتمد على الصور والبطاقات
+            والفراغات المريحة بدل الأسلوب المتقارب مع القوالب الأخرى.
           </p>
         </div>
 
-        <div class="services-grid">
-          <article class="service-card card-shell">
-            <div class="service-image-wrap">
-              <img src="./assets/images/awafi/service-01.webp" alt="خدمة طبية أولى في عوافي" />
-            </div>
-            <div class="service-content">
-              <span class="service-index">01</span>
-              <h3>الاستشارات العامة</h3>
-              <p>استقبال وتشخيص أولي ومتابعة منظمة ضمن بيئة مريحة وواضحة للمراجع.</p>
-            </div>
+        <div class="feature-cards">
+          <article class="feature-card card-surface">
+            <strong>هدوء بصري</strong>
+            <span>ألوان مدروسة تعكس النظافة والثقة دون برود مبالغ.</span>
           </article>
-
-          <article class="service-card card-shell">
-            <div class="service-image-wrap">
-              <img src="./assets/images/awafi/service-02.webp" alt="خدمة طبية ثانية في عوافي" />
-            </div>
-            <div class="service-content">
-              <span class="service-index">02</span>
-              <h3>الفحوصات والمتابعة</h3>
-              <p>غرف مهيأة وتنظيم أفضل للزيارة مع تجربة أكثر هدوءًا للمريض.</p>
-            </div>
+          <article class="feature-card card-surface">
+            <strong>توزيع أوضح</strong>
+            <span>فصل واضح بين التخصصات والعيادة والأطباء والحجز.</span>
           </article>
-
-          <article class="service-card card-shell">
-            <div class="service-image-wrap">
-              <img src="./assets/images/awafi/service-03.webp" alt="خدمة طبية ثالثة في عوافي" />
-            </div>
-            <div class="service-content">
-              <span class="service-index">03</span>
-              <h3>التخصصات الدقيقة</h3>
-              <p>يمكن تخصيص البطاقة لأي تخصص مثل الأسنان أو الجلدية أو الأطفال.</p>
-            </div>
+          <article class="feature-card card-surface">
+            <strong>قابل للتخصيص</strong>
+            <span>يناسب مجمعًا طبيًا عامًا أو تخصصًا محددًا بسهولة.</span>
           </article>
-
-          <article class="service-card card-shell">
-            <div class="service-image-wrap">
-              <img src="./assets/images/awafi/service-04.webp" alt="خدمة طبية رابعة في عوافي" />
-            </div>
-            <div class="service-content">
-              <span class="service-index">04</span>
-              <h3>الرعاية المستمرة</h3>
-              <p>قسم مناسب لعرض المتابعة الطبية أو الخطط العلاجية أو خدمات الوقاية.</p>
-            </div>
+          <article class="feature-card card-surface">
+            <strong>مناسب للجوال</strong>
+            <span>تمت مراعاة العرض من الهاتف في كل الأقسام الأساسية.</span>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section clinic-section" id="space">
-      <div class="container clinic-layout">
-        <div class="clinic-copy">
-          <span class="eyebrow">البيئة الطبية</span>
-          <h2>أجواء داخلية مرتبة تدعم إحساس الاحتراف والنظافة</h2>
-          <p>
-            بدل الأقسام التقليدية، يعرض هذا الجزء صور البيئة الطبية بشكل واضح ومريح،
-            لأن الزائر يحتاج أن يرى المكان والتنظيم، لا أن يكتفي بقراءة النص فقط.
-          </p>
-
-          <div class="clinic-stats">
-            <div class="clinic-stat">
-              <strong>مريح</strong>
-              <span>أسلوب عرض متوازن وغير مزدحم</span>
-            </div>
-            <div class="clinic-stat">
-              <strong>مرتب</strong>
-              <span>صور ومعلومات تخدم الانطباع الطبي الصحيح</span>
-            </div>
-            <div class="clinic-stat">
-              <strong>واضح</strong>
-              <span>كل قسم له وظيفة بصرية مباشرة ومفهومة</span>
-            </div>
-          </div>
+    <section class="section booking-strip-section">
+      <div class="container booking-strip card-surface">
+        <div class="booking-strip__copy">
+          <span class="eyebrow">الحجز</span>
+          <h2>كلما كان الوصول إلى الحجز أوضح، زادت فرصة تحول الزيارة إلى موعد فعلي</h2>
+          <p>لهذا جعلنا الحجز عنصرًا بارزًا داخل الصفحة بدل أن يكون خيارًا ثانويًا أو مخفيًا.</p>
         </div>
-
-        <div class="clinic-gallery">
-          <div class="gallery-card large card-shell">
-            <img src="./assets/images/awafi/clinic-01.webp" alt="الاستقبال أو بيئة داخلية داخل عيادة عوافي" />
-          </div>
-          <div class="gallery-card tall card-shell">
-            <img src="./assets/images/awafi/clinic-02.webp" alt="غرفة فحص أو علاج داخل عيادة عوافي" />
-          </div>
-          <div class="gallery-card small card-shell">
-            <img src="./assets/images/awafi/detail-02.webp" alt="تفاصيل طبية احترافية داخل عيادة عوافي" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section process-section" id="steps">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">طريقة الحجز</span>
-          <h2>رحلة مبسطة وواضحة من أول اهتمام حتى الموعد</h2>
-        </div>
-
-        <div class="process-grid">
-          <article class="process-card">
-            <span class="process-number">1</span>
-            <strong>اختر الخدمة</strong>
-            <p>يتصفح الزائر الخدمات الأساسية بسرعة ويفهم طبيعة الجهة الطبية.</p>
-          </article>
-          <article class="process-card">
-            <span class="process-number">2</span>
-            <strong>تواصل مباشرة</strong>
-            <p>زر الحجز ظاهر بوضوح ويختصر المسافة بين الاهتمام والموعد.</p>
-          </article>
-          <article class="process-card">
-            <span class="process-number">3</span>
-            <strong>حدد وقتك</strong>
-            <p>يمكن ترتيب الموعد عبر واتساب أو الاتصال حسب آلية العمل الفعلية.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section reasons-section">
-      <div class="container reasons-shell">
-        <div class="section-head compact-head">
-          <span class="eyebrow">لماذا ينجح هذا القالب؟</span>
-          <h2>لأنه مختلف عن القوالب السابقة ولا يكرر منطقها البصري</h2>
-        </div>
-
-        <div class="reasons-grid">
-          <article class="reason-card">
-            <strong>واجهة طبية حقيقية</strong>
-            <span>ليست مجرد بطاقات عامة، بل أقسام مبنية على احتياج النشاط الطبي.</span>
-          </article>
-          <article class="reason-card">
-            <strong>صور في أماكنها الصحيحة</strong>
-            <span>الصورة هنا تدعم الثقة والبيئة، وليست مجرد زخرفة.</span>
-          </article>
-          <article class="reason-card">
-            <strong>مرونة في التخصيص</strong>
-            <span>يمكن تغيير النصوص والخدمات والتخصصات بسهولة لاحقًا.</span>
-          </article>
-          <article class="reason-card">
-            <strong>أقرب للاعتماد النهائي</strong>
-            <span>بعد تركيب الصور يصبح القالب أقرب كثيرًا من النسخة الجاهزة للنشر.</span>
-          </article>
+        <div class="booking-strip__actions">
+          <a href="https://wa.me/966533848224?text=السلام عليكم، أريد حجز موعد في عوافي" target="_blank" rel="noopener" class="btn btn--primary">احجز عبر واتساب</a>
+          <a href="tel:+966533848224" class="btn btn--secondary">اتصل الآن</a>
         </div>
       </div>
     </section>
 
     <section class="section faq-section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">أسئلة شائعة</span>
-          <h2>أسئلة طبيعية لأي مجمع عيادات أو مركز طبي</h2>
+      <div class="container faq-shell">
+        <div class="section-head section-head--center">
+          <span class="eyebrow">الأسئلة الشائعة</span>
+          <h2>أسئلة تساعد الزائر على فهم الموقع والخدمات بسرعة</h2>
         </div>
 
         <div class="faq-list">
           <details class="faq-item" open>
-            <summary>هل يناسب هذا القالب عيادة واحدة أم مجمعًا طبيًا؟</summary>
-            <p>يناسب الاثنين، لكنه مهيأ أكثر ليظهر بصورة قوية عند استخدامه لمجمع عيادات حديث.</p>
+            <summary>هل هذا القالب مناسب لمجمع عيادات أم لعيادة واحدة؟</summary>
+            <p>مناسب للاثنين، ويمكن تخصيص النصوص والخدمات والتخصصات حسب النشاط الحقيقي بسهولة.</p>
           </details>
+
           <details class="faq-item">
-            <summary>هل يمكن تغيير التخصصات وإضافة أقسام لاحقًا؟</summary>
-            <p>نعم، البنية مرنة ويمكن توسيعها لاحقًا بصفحات الأطباء والخدمات والحجز.</p>
+            <summary>هل يمكن إضافة صفحات مستقلة لاحقًا؟</summary>
+            <p>نعم، القالب مبني بطريقة تسمح بإضافة صفحات الأطباء والخدمات والحجز والأقسام الفرعية لاحقًا.</p>
           </details>
+
           <details class="faq-item">
-            <summary>هل القالب مناسب للجوال؟</summary>
-            <p>نعم، وقد روعي فيه الوضوح وسهولة الحجز من الهاتف بشكل أساسي.</p>
+            <summary>هل يمكن استبدال الصور الحالية بصور حقيقية للعيادة؟</summary>
+            <p>نعم، وهذا هو الاستخدام الأمثل، لأن بنية القالب أصلًا تعتمد على الصور لدعم الثقة والانطباع المهني.</p>
           </details>
         </div>
       </div>
     </section>
 
-    <section class="section final-cta" id="contact">
-      <div class="container final-card">
-        <span class="eyebrow">الحجز والتواصل</span>
-        <h2>اجعل الوصول إلى الموعد واضحًا ومريحًا من أول زيارة</h2>
-        <p>
-          هذا القالب مناسب جدًا إذا كنت تريد جهة طبية تبدو حديثة ومطمئنة وسهلة الوصول،
-          بدون تشابه بصري مع القوالب السابقة.
-        </p>
+    <section class="section final-cta-section" id="contact">
+      <div class="container final-cta card-surface">
+        <span class="eyebrow">جاهز للانطلاق</span>
+        <h2>ابدأ بعرض طبي أنيق يليق باسم عوافي ويعكس الثقة من أول زيارة</h2>
+        <p>هذه النسخة مبنية من الصفر لتكون أقرب إلى هوية طبية واضحة ومقنعة، مع بنية سهلة التطوير لاحقًا.</p>
         <div class="cta-actions">
-          <a href="https://wa.me/966533848224?text=السلام عليكم، أريد نموذج عوافي" class="btn btn-primary" target="_blank" rel="noopener">اطلب هذا النموذج</a>
-          <a href="../../pricing.html?model=%D8%B9%D9%88%D8%A7%D9%81%D9%8A&type=medical" class="btn btn-secondary">اختر هذا النموذج</a>
+          <a href="https://wa.me/966533848224?text=السلام عليكم، أريد قالب عوافي" target="_blank" rel="noopener" class="btn btn--primary">اطلب هذا النموذج</a>
+          <a href="../../pricing.html?model=%D8%B9%D9%88%D8%A7%D9%81%D9%8A&type=medical" class="btn btn--secondary">اختر هذا النموذج</a>
         </div>
       </div>
     </section>
   </main>
 
-  <a class="floating-whatsapp" href="https://wa.me/966533848224?text=السلام عليكم، أريد الاستفسار عن قالب عوافي" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">واتساب</a>
+  <a class="floating-whatsapp" href="https://wa.me/966533848224?text=السلام عليكم، أريد الاستفسار عن نموذج عوافي" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">واتساب</a>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
+    <div class="container footer-shell">
       <div>
         <strong>عوافي</strong>
-        <p>واجهة حديثة لمجمع عيادات أو مركز طبي بهوية أوضح ومسار حجز أسهل.</p>
+        <p>قالب طبي حديث بواجهة هادئة وتوزيع واضح وصور تدعم الثقة والانطباع المهني.</p>
       </div>
       <div class="footer-links">
-        <a href="#about">عن عوافي</a>
-        <a href="#services">الخدمات</a>
-        <a href="#space">البيئة الطبية</a>
+        <a href="#specialties">التخصصات</a>
+        <a href="#about">عن العيادة</a>
+        <a href="#doctors">الأطباء</a>
         <a href="#contact">التواصل</a>
       </div>
     </div>
