@@ -184,15 +184,46 @@
           </p>
         </div>
 
-        <div class="menu-tabs">
-          <span class="tab active">الأكثر طلبًا</span>
-          <span class="tab">القهوة</span>
-          <span class="tab">المشروبات الباردة</span>
-          <span class="tab">الحلى</span>
+        <div class="menu-tabs" role="tablist" aria-label="تصنيفات المنيو">
+          <span
+            class="tab active"
+            role="tab"
+            tabindex="0"
+            aria-selected="true"
+            data-menu-filter="popular"
+            style="cursor:pointer"
+          >الأكثر طلبًا</span>
+
+          <span
+            class="tab"
+            role="tab"
+            tabindex="0"
+            aria-selected="false"
+            data-menu-filter="coffee"
+            style="cursor:pointer"
+          >القهوة</span>
+
+          <span
+            class="tab"
+            role="tab"
+            tabindex="0"
+            aria-selected="false"
+            data-menu-filter="cold"
+            style="cursor:pointer"
+          >المشروبات الباردة</span>
+
+          <span
+            class="tab"
+            role="tab"
+            tabindex="0"
+            aria-selected="false"
+            data-menu-filter="sweets"
+            style="cursor:pointer"
+          >الحلى</span>
         </div>
 
         <div class="menu-grid">
-          <article class="menu-card featured">
+          <article class="menu-card featured" data-menu-categories="popular coffee">
             <div class="menu-image">
               <img src="./assets/images/rashfa/menu-01.webp" alt="لاتيه كلاسيك" loading="lazy" />
             </div>
@@ -208,7 +239,7 @@
             </div>
           </article>
 
-          <article class="menu-card">
+          <article class="menu-card" data-menu-categories="popular coffee">
             <div class="menu-image">
               <img src="./assets/images/rashfa/menu-02.webp" alt="كورتادو" loading="lazy" />
             </div>
@@ -224,7 +255,7 @@
             </div>
           </article>
 
-          <article class="menu-card">
+          <article class="menu-card" data-menu-categories="popular cold">
             <div class="menu-image">
               <img src="./assets/images/rashfa/menu-03.webp" alt="آيس سبانش" loading="lazy" />
             </div>
@@ -240,7 +271,7 @@
             </div>
           </article>
 
-          <article class="menu-card">
+          <article class="menu-card" data-menu-categories="popular sweets">
             <div class="menu-image">
               <img src="./assets/images/rashfa/menu-04.webp" alt="سان سباستيان" loading="lazy" />
             </div>
@@ -253,6 +284,102 @@
             <div class="menu-meta">
               <span>يومي</span>
               <span>مناسب مع القهوة</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="coffee" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-01.webp" alt="فلات وايت" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">قهوة</span>
+              <strong class="menu-price">17 ر.س</strong>
+            </div>
+            <h3>فلات وايت</h3>
+            <p>مذاق غني وقوام ناعم يناسب محبي القهوة المتوازنة.</p>
+            <div class="menu-meta">
+              <span>غني</span>
+              <span>ناعم</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="coffee" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-02.webp" alt="قهوة مقطرة" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">مختصة</span>
+              <strong class="menu-price">20 ر.س</strong>
+            </div>
+            <h3>قهوة مقطرة</h3>
+            <p>تحضير هادئ يبرز نكهات البن ويعطي تجربة قهوة أوضح.</p>
+            <div class="menu-meta">
+              <span>مقطرة</span>
+              <span>نكهة واضحة</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="cold" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-03.webp" alt="كولد برو" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">بارد</span>
+              <strong class="menu-price">21 ر.س</strong>
+            </div>
+            <h3>كولد برو</h3>
+            <p>مشروب بارد مركز بطابع قهوة واضح ومذاق منعش.</p>
+            <div class="menu-meta">
+              <span>منعش</span>
+              <span>مركز</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="cold" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-01.webp" alt="آيس لاتيه" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">بارد</span>
+              <strong class="menu-price">18 ر.س</strong>
+            </div>
+            <h3>آيس لاتيه</h3>
+            <p>قهوة باردة بالحليب، مناسبة للطلب اليومي السريع.</p>
+            <div class="menu-meta">
+              <span>خفيف</span>
+              <span>يومي</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="sweets" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-04.webp" alt="تشيز كيك" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">حلى</span>
+              <strong class="menu-price">17 ر.س</strong>
+            </div>
+            <h3>تشيز كيك</h3>
+            <p>قطعة حلى ناعمة تناسب القهوة وتضيف خيارًا محبوبًا للمنيو.</p>
+            <div class="menu-meta">
+              <span>ناعم</span>
+              <span>مع القهوة</span>
+            </div>
+          </article>
+
+          <article class="menu-card" data-menu-categories="sweets" hidden>
+            <div class="menu-image">
+              <img src="./assets/images/rashfa/menu-02.webp" alt="براوني" loading="lazy" />
+            </div>
+            <div class="menu-card-top">
+              <span class="menu-tag">حلى</span>
+              <strong class="menu-price">14 ر.س</strong>
+            </div>
+            <h3>براوني</h3>
+            <p>حلى شوكولاتة غني مناسب للطلبات السريعة مع المشروبات.</p>
+            <div class="menu-meta">
+              <span>شوكولاتة</span>
+              <span>غني</span>
             </div>
           </article>
         </div>
@@ -463,5 +590,38 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const menuTabs = Array.from(document.querySelectorAll("[data-menu-filter]"));
+    const menuCards = Array.from(document.querySelectorAll("[data-menu-categories]"));
+
+    function setMenuFilter(filterKey) {
+      menuTabs.forEach((tab) => {
+        const isActive = tab.dataset.menuFilter === filterKey;
+        tab.classList.toggle("active", isActive);
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      menuCards.forEach((card) => {
+        const categories = (card.dataset.menuCategories || "").split(" ");
+        card.hidden = !categories.includes(filterKey);
+      });
+    }
+
+    menuTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        setMenuFilter(tab.dataset.menuFilter || "popular");
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setMenuFilter(tab.dataset.menuFilter || "popular");
+        }
+      });
+    });
+
+    setMenuFilter("popular");
+  </script>
 </body>
 </html>
