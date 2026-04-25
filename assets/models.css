@@ -119,6 +119,10 @@
   object-fit:cover;
 }
 
+.model-thumb-image[hidden]{
+  display:none !important;
+}
+
 .model-thumb-placeholder{
   position:absolute;
   inset:0;
@@ -128,6 +132,10 @@
   background:
     radial-gradient(circle at top right, rgba(209,221,245,.20), transparent 26%),
     linear-gradient(180deg,#fbfcfe 0%, #eef3f8 100%);
+}
+
+.model-thumb-placeholder[hidden]{
+  display:none !important;
 }
 
 .model-thumb-placeholder span{
@@ -286,6 +294,10 @@
   object-fit:cover;
 }
 
+.models-preview-image[hidden]{
+  display:none !important;
+}
+
 .models-preview-placeholder{
   position:absolute;
   inset:0;
@@ -295,6 +307,10 @@
   background:
     radial-gradient(circle at top right, rgba(209,221,245,.20), transparent 26%),
     linear-gradient(180deg,#fbfcfe 0%, #eef3f8 100%);
+}
+
+.models-preview-placeholder[hidden]{
+  display:none !important;
 }
 
 .models-preview-placeholder span{
