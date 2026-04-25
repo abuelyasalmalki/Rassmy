@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>القوالب | رسمي</title>
+  <meta name="description" content="استعرض قوالب رسمي الجاهزة واختر القالب المناسب لنشاطك، مع معاينة سريعة لكل قالب وطلب مباشر للتنفيذ." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f1f3f6;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: rgba(17, 24, 39, 0.08);
+      --shadow: 0 18px 50px rgba(17, 24, 39, 0.08);
+      --shadow-soft: 0 8px 24px rgba(17, 24, 39, 0.06);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --container: 1180px;
+      --primary: #111827;
+      --primary-hover: #000000;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Cairo", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(17,24,39,0.035), transparent 18%),
+        radial-gradient(circle at bottom left, rgba(17,24,39,0.03), transparent 18%),
+        var(--bg);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .page-shell {
+      padding: 24px 0 60px;
+    }
+
+    .topbar {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      padding: 8px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn,
+    .btn-secondary {
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: .2s ease;
+      white-space: nowrap;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(17,24,39,0.14);
+    }
+
+    .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover { background: var(--surface-soft); transform: translateY(-1px); }
+
+    .hero {
+      background: linear-gradient(135deg, #ffffff, #f2f4f7);
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      margin-bottom: 32px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 220px;
+      height: 220px;
+      top: -60px;
+      left: -50px;
+      background: rgba(17,24,39,0.05);
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      bottom: -50px;
+      right: -30px;
+      background: rgba(17,24,39,0.045);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(17,24,39,0.06);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .hero h2 {
+      margin: 16px 0 12px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.18;
+      max-width: 760px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 760px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .template-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      transition: .22s ease;
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(17,24,39,0.12);
+    }
+
+    .template-cover {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #eef1f5;
+    }
+
+    .template-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .template-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.94);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(17,24,39,0.08);
+      border: 1px solid rgba(17,24,39,0.06);
+    }
+
+    .template-content {
+      padding: 22px;
+    }
+
+    .template-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .template-title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    .template-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-pill {
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(17,24,39,0.06);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .template-description {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .template-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .template-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--surface-soft);
+      border-radius: 14px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .template-features li::before {
+      content: "✓";
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(17,24,39,0.08);
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .template-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .template-actions .btn,
+    .template-actions .btn-secondary {
+      flex: 1 1 180px;
+    }
+
+    @media (max-width: 900px) {
+      .templates-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(100% - 24px, var(--container)); }
+      .hero { padding: 24px; border-radius: 26px; }
+      .hero h2 { font-size: 30px; }
+      .template-title { font-size: 24px; }
+      .topbar { padding: 14px; }
+      .nav-actions,
+      .hero-actions,
+      .template-actions { display: grid; grid-template-columns: 1fr; width: 100%; }
+      .nav-actions a,
+      .hero-actions a,
+      .template-actions a { width: 100%; }
+      .brand { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="container">
+      <header class="topbar">
+        <a href="index.html" class="brand" aria-label="رسمي">
+          <img src="logo.png" alt="شعار رسمي" />
+          <div>
+            <h1>رسمي</h1>
+            <p>صفحة القوالب الجاهزة</p>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <a href="index.html" class="btn-secondary">العودة للرئيسية</a>
+          <a href="request.html" class="btn">ابدأ طلبك</a>
+        </div>
+      </header>
+
+      <section class="hero">
+        <span class="eyebrow">قوالب جاهزة قابلة للتخصيص</span>
+        <h2>اختر القالب الأقرب لنشاطك، ثم نخصصه لك بسرعة وهوية واضحة</h2>
+        <p>
+          هذه صفحة عرض القوالب المعتمدة حاليًا. أضفنا الآن تجربتين أوليتين لقالب <strong>رشفة</strong>
+          وقالب <strong>مِهنة</strong> كمرحلة أولى، ويمكن توسيعها لاحقًا لبقية القوالب بنفس الأسلوب.
+        </p>
+        <div class="hero-actions">
+          <a href="request.html" class="btn">اطلب قالبك الآن</a>
+          <a href="#templates" class="btn-secondary">استعرض القوالب</a>
+        </div>
+      </section>
+
+      <section id="templates">
+        <div class="section-head">
+          <div>
+            <h3>القوالب المتاحة الآن</h3>
+            <p>كل بطاقة تعرض صورة الغلاف، وصفًا مختصرًا، وزرًا لمعاينة القالب قبل اعتماد الطلب.</p>
+          </div>
+        </div>
+
+        <div class="templates-grid">
+          <article class="template-card">
+            <div class="template-cover">
+              <img src="rashfa-template-cover.webp" alt="صورة عرض قالب رشفة" />
+              <span class="template-badge">قالب كوفي</span>
+            </div>
+            <div class="template-content">
+              <div class="template-header">
+                <div>
+                  <h4 class="template-title">رشفة</h4>
+                  <p class="template-subtitle">قالب قهوة مختصة ومنيو حديث</p>
+                </div>
+                <span class="status-pill">جاهز للمعاينة</span>
+              </div>
+
+              <p class="template-description">
+                مناسب لمشاريع القهوة المختصة والكوفيهات، مع هوية دافئة، أقسام واضحة، ومنيو مرتب يعرض المنتجات بطريقة جذابة.
+              </p>
+
+              <ul class="template-features">
+                <li>صورة عرض مرتبطة بروح القالب الفعلية</li>
+                <li>عرض مناسب للجوال والكمبيوتر</li>
+                <li>يمكن تخصيص الهوية والمحتوى لاحقًا</li>
+              </ul>
+
+              <div class="template-actions">
+                <a href="rashfa-index-updated.html" class="btn">معاينة القالب</a>
+                <a href="request.html" class="btn-secondary">اطلب هذا القالب</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="template-card">
+            <div class="template-cover">
+              <img src="mihna-template-cover.webp" alt="صورة عرض قالب مِهنة" />
+              <span class="template-badge">قالب خدمات</span>
+            </div>
+            <div class="template-content">
+              <div class="template-header">
+                <div>
+                  <h4 class="template-title">مِهنة</h4>
+                  <p class="template-subtitle">قالب خدمات احترافي عام</p>
+                </div>
+                <span class="status-pill">جاهز للمعاينة</span>
+              </div>
+
+              <p class="template-description">
+                مناسب لشركات الخدمات العامة مثل التنظيف والصيانة والنقل والعزل، مع طابع عملي قوي وأزرار واضحة لطلب الخدمة والحجز السريع.
+              </p>
+
+              <ul class="template-features">
+                <li>هوية بصرية عملية وواضحة</li>
+                <li>عرض خدمات مناسب للأنشطة الميدانية</li>
+                <li>قابل للتخصيص حسب نوع الخدمة</li>
+              </ul>
+
+              <div class="template-actions">
+                <a href="mihna-fixed-v2.html" class="btn">معاينة القالب</a>
+                <a href="request.html" class="btn-secondary">اطلب هذا القالب</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
