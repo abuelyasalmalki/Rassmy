@@ -981,8 +981,9 @@ img{
   .brand-text strong{font-size:21px}
   .brand-text small{font-size:11px}
 
-  .nav-actions{width:100%}
-  .nav-actions .btn{width:100%}
+  .nav-actions{
+    display:none;
+  }
 
   .hero-copy h1{font-size:38px}
 
@@ -1039,8 +1040,6 @@ img{
   }
 
   .floating-whatsapp{
-    left:12px;
-    right:12px;
-    bottom:12px;
+    display:none;
   }
 }
