@@ -18,7 +18,62 @@ const filterLabelMap = {
   profile: "نماذج المواقع التعريفية"
 };
 
+const modelImageMap = {
+  "رشفة": [
+    "assets/images/template-covers/rashfa-template-cover.webp",
+    "assets/images/template-covers/rashfa-template-cover.png",
+    "assets/images/models/رشفة.webp",
+    "assets/images/models/رشفة.png"
+  ],
+  "كافورا": [
+    "assets/images/template-covers/kafora-template-cover.webp",
+    "assets/images/template-covers/kafora-template-cover.png",
+    "assets/images/models/كافورا.webp",
+    "assets/images/models/كافورا.png"
+  ],
+  "سفرة": [
+    "assets/images/template-covers/sufrah-template-cover.webp",
+    "assets/images/template-covers/sufrah-template-cover.png",
+    "assets/images/template-covers/sufra-template-cover.webp",
+    "assets/images/template-covers/sufra-template-cover.png",
+    "assets/images/models/سفرة.webp",
+    "assets/images/models/سفرة.png"
+  ],
+  "مِهنة": [
+    "assets/images/template-covers/mihna-template-cover.webp",
+    "assets/images/template-covers/mihna-template-cover.png",
+    "assets/images/models/مِهنة.webp",
+    "assets/images/models/مِهنة.png",
+    "assets/images/models/مهنة.webp",
+    "assets/images/models/مهنة.png"
+  ],
+  "مهنة": [
+    "assets/images/template-covers/mihna-template-cover.webp",
+    "assets/images/template-covers/mihna-template-cover.png",
+    "assets/images/models/مِهنة.webp",
+    "assets/images/models/مِهنة.png",
+    "assets/images/models/مهنة.webp",
+    "assets/images/models/مهنة.png"
+  ],
+  "عوافي": [
+    "assets/images/template-covers/awafi-template-cover.webp",
+    "assets/images/template-covers/awafi-template-cover.png",
+    "assets/images/models/عوافي.webp",
+    "assets/images/models/عوافي.png"
+  ],
+  "جمالك": [
+    "assets/images/template-covers/jamalak-template-cover.webp",
+    "assets/images/template-covers/jamalak-template-cover.png",
+    "assets/images/models/جمالك.webp",
+    "assets/images/models/جمالك.png"
+  ]
+};
+
 function buildImageCandidates(modelName) {
+  if (modelImageMap[modelName]) {
+    return modelImageMap[modelName];
+  }
+
   const extensions = ["webp", "png", "jpg", "jpeg"];
   const bases = [
     `images/models/${modelName}`,
