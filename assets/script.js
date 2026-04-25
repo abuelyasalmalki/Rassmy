@@ -1,230 +1,111 @@
-const filterButtons = Array.from(document.querySelectorAll("[data-model-filter]"));
-const modelCards = Array.from(document.querySelectorAll(".model-card-simple"));
-const currentLabelEl = document.querySelector("[data-models-current]");
+const selectedModelNameEl = document.querySelector("[data-selected-model-name]");
+const changeModelLinkEl = document.querySelector("[data-change-model-link]");
+const billingTabs = Array.from(document.querySelectorAll("[data-billing-tab]"));
+const planLinks = Array.from(document.querySelectorAll("[data-plan-link]"));
+const priceValues = Array.from(document.querySelectorAll("[data-price-yearly]"));
+const cycleLabels = Array.from(document.querySelectorAll("[data-cycle-label]"));
+const planSubnotes = Array.from(document.querySelectorAll("[data-plan-subnote]"));
+const planSavings = Array.from(document.querySelectorAll("[data-plan-saving]"));
 
-const previewModal = document.querySelector("[data-preview-modal]");
-const previewTitle = document.querySelector("[data-preview-title]");
-const previewImage = document.querySelector("[data-preview-image]");
-const previewPlaceholder = document.querySelector("[data-preview-placeholder]");
-const previewPlaceholderName = document.querySelector("[data-preview-placeholder-name]");
-const previewCloseTargets = Array.from(document.querySelectorAll("[data-preview-close]"));
-const previewButtons = Array.from(document.querySelectorAll("[data-model-preview]"));
-const thumbWrappers = Array.from(document.querySelectorAll("[data-model-image]"));
+const params = new URLSearchParams(window.location.search);
 
-const filterLabelMap = {
-  all: "كل النماذج",
-  services: "نماذج الخدمات",
-  products: "نماذج عرض المنتجات",
-  profile: "نماذج المواقع التعريفية"
-};
+const selectedModel = (params.get("model") || "").trim();
+const selectedType = (params.get("type") || "").trim();
+let selectedCycle = (params.get("cycle") || "yearly").trim().toLowerCase();
 
-const modelImageMap = {
-  "رشفة": [
-    "assets/images/template-covers/rashfa-template-cover.webp",
-    "assets/images/template-covers/rashfa-template-cover.png",
-    "assets/images/models/رشفة.webp",
-    "assets/images/models/رشفة.png"
-  ],
-  "كافورا": [
-    "assets/images/template-covers/kafora-template-cover.webp",
-    "assets/images/template-covers/kafora-template-cover.png",
-    "assets/images/models/كافورا.webp",
-    "assets/images/models/كافورا.png"
-  ],
-  "سفرة": [
-    "assets/images/template-covers/sufrah-template-cover.webp",
-    "assets/images/template-covers/sufrah-template-cover.png",
-    "assets/images/template-covers/sufra-template-cover.webp",
-    "assets/images/template-covers/sufra-template-cover.png",
-    "assets/images/models/سفرة.webp",
-    "assets/images/models/سفرة.png"
-  ],
-  "مِهنة": [
-    "assets/images/template-covers/mihna-template-cover.webp",
-    "assets/images/template-covers/mihna-template-cover.png",
-    "assets/images/models/مِهنة.webp",
-    "assets/images/models/مِهنة.png",
-    "assets/images/models/مهنة.webp",
-    "assets/images/models/مهنة.png"
-  ],
-  "مهنة": [
-    "assets/images/template-covers/mihna-template-cover.webp",
-    "assets/images/template-covers/mihna-template-cover.png",
-    "assets/images/models/مِهنة.webp",
-    "assets/images/models/مِهنة.png",
-    "assets/images/models/مهنة.webp",
-    "assets/images/models/مهنة.png"
-  ],
-  "عوافي": [
-    "assets/images/template-covers/awafi-template-cover.webp",
-    "assets/images/template-covers/awafi-template-cover.png",
-    "assets/images/models/عوافي.webp",
-    "assets/images/models/عوافي.png"
-  ],
-  "جمالك": [
-    "assets/images/template-covers/jamalak-template-cover.webp",
-    "assets/images/template-covers/jamalak-template-cover.png",
-    "assets/images/models/جمالك.webp",
-    "assets/images/models/جمالك.png"
-  ]
-};
+const validCycles = ["monthly", "yearly"];
+if (!validCycles.includes(selectedCycle)) {
+  selectedCycle = "yearly";
+}
 
-function buildImageCandidates(modelName) {
-  if (modelImageMap[modelName]) {
-    return modelImageMap[modelName];
+function updateSelectedModel() {
+  if (selectedModelNameEl) {
+    selectedModelNameEl.textContent = selectedModel || "---";
   }
 
-  const extensions = ["webp", "png", "jpg", "jpeg"];
-  const bases = [
-    `images/models/${modelName}`,
-    `images/${modelName}`,
-    `assets/images/models/${modelName}`,
-    `assets/images/${modelName}`,
-    `${modelName}`
-  ];
-
-  return bases.flatMap((base) => extensions.map((ext) => `${base}.${ext}`));
+  if (changeModelLinkEl) {
+    changeModelLinkEl.href = selectedType
+      ? `models.html?type=${encodeURIComponent(selectedType)}`
+      : "models.html";
+  }
 }
 
-function loadFirstExistingImage(candidates) {
-  return new Promise((resolve) => {
-    let index = 0;
+function updatePlanLinks() {
+  planLinks.forEach((linkEl) => {
+    const planKey = linkEl.dataset.planLink;
 
-    const tryNext = () => {
-      if (index >= candidates.length) {
-        resolve(null);
-        return;
-      }
-
-      const src = candidates[index++];
-      const img = new Image();
-
-      img.onload = () => resolve(src);
-      img.onerror = tryNext;
-      img.src = src;
-    };
-
-    tryNext();
-  });
-}
-
-async function applyCardImage(modelName, imageEl, placeholderEl) {
-  const src = await loadFirstExistingImage(buildImageCandidates(modelName));
-
-  if (src) {
-    imageEl.src = src;
-    imageEl.hidden = false;
-    if (placeholderEl) {
-      placeholderEl.hidden = true;
+    if (!selectedModel) {
+      linkEl.href = "models.html";
+      return;
     }
-  } else {
-    imageEl.removeAttribute("src");
-    imageEl.hidden = true;
-    if (placeholderEl) {
-      placeholderEl.hidden = false;
+
+    const requestParams = new URLSearchParams();
+    requestParams.set("model", selectedModel);
+    requestParams.set("plan", planKey);
+    requestParams.set("cycle", selectedCycle);
+
+    if (selectedType) {
+      requestParams.set("type", selectedType);
     }
-  }
+
+    linkEl.href = `request.html?${requestParams.toString()}`;
+  });
 }
 
-function setFilter(filterKey) {
-  const validFilter = filterLabelMap[filterKey] ? filterKey : "all";
+function updatePrices() {
+  const isMonthly = selectedCycle === "monthly";
 
-  filterButtons.forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.modelFilter === validFilter);
+  billingTabs.forEach((tab) => {
+    tab.classList.toggle("is-active", tab.dataset.billingTab === selectedCycle);
   });
 
-  modelCards.forEach((card) => {
-    const category = card.dataset.modelCategory;
-    const shouldShow = validFilter === "all" || category === validFilter;
-    card.hidden = !shouldShow;
+  priceValues.forEach((priceEl) => {
+    priceEl.textContent = isMonthly
+      ? priceEl.dataset.priceMonthly
+      : priceEl.dataset.priceYearly;
   });
 
-  if (currentLabelEl) {
-    currentLabelEl.textContent = `يعرض الآن: ${filterLabelMap[validFilter]}`;
-  }
+  cycleLabels.forEach((labelEl) => {
+    labelEl.textContent = isMonthly ? "ريال شهريًا" : "ريال سنويًا";
+  });
 
-  const url = new URL(window.location.href);
-  if (validFilter === "all") {
-    url.searchParams.delete("type");
-  } else {
-    url.searchParams.set("type", validFilter);
-  }
-  window.history.replaceState({}, "", url);
-}
-
-async function openPreview(modelName) {
-  if (!previewModal) return;
-
-  if (previewTitle) {
-    previewTitle.textContent = modelName;
-  }
-
-  if (previewPlaceholderName) {
-    previewPlaceholderName.textContent = modelName;
-  }
-
-  if (previewImage) {
-    const src = await loadFirstExistingImage(buildImageCandidates(modelName));
-
-    if (src) {
-      previewImage.src = src;
-      previewImage.alt = `معاينة نموذج ${modelName}`;
-      previewImage.hidden = false;
-      if (previewPlaceholder) {
-        previewPlaceholder.hidden = true;
-      }
-    } else {
-      previewImage.removeAttribute("src");
-      previewImage.hidden = true;
-      if (previewPlaceholder) {
-        previewPlaceholder.hidden = false;
-      }
+  planSubnotes.forEach((noteEl) => {
+    if (!noteEl.dataset.yearlyText) {
+      noteEl.dataset.yearlyText = noteEl.textContent;
     }
-  }
 
-  previewModal.hidden = false;
-  document.body.style.overflow = "hidden";
+    noteEl.textContent = isMonthly ? "رسوم تخصيص أولية" : noteEl.dataset.yearlyText;
+  });
+
+  planSavings.forEach((savingEl) => {
+    if (!savingEl.dataset.originalText) {
+      savingEl.dataset.originalText = savingEl.textContent;
+    }
+
+    savingEl.textContent = isMonthly ? "" : savingEl.dataset.originalText;
+  });
+
+  updatePlanLinks();
 }
 
-function closePreview() {
-  if (!previewModal) return;
-
-  previewModal.hidden = true;
-  document.body.style.overflow = "";
-}
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    setFilter(button.dataset.modelFilter || "all");
+billingTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    selectedCycle = tab.dataset.billingTab;
+    updatePrices();
   });
 });
 
-previewButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    openPreview(button.dataset.modelPreview || "");
+planLinks.forEach((linkEl) => {
+  linkEl.addEventListener("click", (event) => {
+    if (!selectedModel) {
+      event.preventDefault();
+      alert("اختر نموذجًا أولًا");
+      window.location.href = selectedType
+        ? `models.html?type=${encodeURIComponent(selectedType)}`
+        : "models.html";
+    }
   });
 });
 
-previewCloseTargets.forEach((element) => {
-  element.addEventListener("click", closePreview);
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closePreview();
-  }
-});
-
-thumbWrappers.forEach((wrapper) => {
-  const modelName = wrapper.dataset.modelImage || "";
-  const imageEl = wrapper.querySelector(".model-thumb-image");
-  const placeholderEl = wrapper.querySelector(".model-thumb-placeholder");
-
-  if (modelName && imageEl) {
-    applyCardImage(modelName, imageEl, placeholderEl);
-  }
-});
-
-const initialParams = new URLSearchParams(window.location.search);
-const initialType = (initialParams.get("type") || "all").trim();
-setFilter(initialType);
+updateSelectedModel();
+updatePrices();
