@@ -501,6 +501,9 @@ img{
 }
 
 .tab{
+  appearance:none;
+  font-family:inherit;
+  cursor:pointer;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -535,6 +538,10 @@ img{
   min-height:260px;
   display:grid;
   align-content:start;
+}
+
+.menu-card[hidden]{
+  display:none !important;
 }
 
 .menu-card.featured{
@@ -704,6 +711,13 @@ img{
   margin:16px 0 10px;
   font-size:clamp(28px,4vw,42px);
   line-height:1.14;
+}
+
+specialties-copy p{
+  margin:0;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.95;
 }
 
 .specialties-copy p{
