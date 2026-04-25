@@ -20,52 +20,52 @@ const filterLabelMap = {
 
 const modelImageMap = {
   "رشفة": [
-    "assets/images/template-covers/rashfa-template-cover.webp",
     "assets/images/template-covers/rashfa-template-cover.png",
-    "assets/images/models/رشفة.webp",
-    "assets/images/models/رشفة.png"
+    "assets/images/template-covers/rashfa-template-cover.webp",
+    "assets/images/models/رشفة.png",
+    "assets/images/models/رشفة.webp"
   ],
   "كافورا": [
-    "assets/images/template-covers/kafora-template-cover.webp",
     "assets/images/template-covers/kafora-template-cover.png",
-    "assets/images/models/كافورا.webp",
-    "assets/images/models/كافورا.png"
+    "assets/images/template-covers/kafora-template-cover.webp",
+    "assets/images/models/كافورا.png",
+    "assets/images/models/كافورا.webp"
   ],
   "سفرة": [
-    "assets/images/template-covers/sufrah-template-cover.webp",
     "assets/images/template-covers/sufrah-template-cover.png",
-    "assets/images/template-covers/sufra-template-cover.webp",
+    "assets/images/template-covers/sufrah-template-cover.webp",
     "assets/images/template-covers/sufra-template-cover.png",
-    "assets/images/models/سفرة.webp",
-    "assets/images/models/سفرة.png"
+    "assets/images/template-covers/sufra-template-cover.webp",
+    "assets/images/models/سفرة.png",
+    "assets/images/models/سفرة.webp"
   ],
   "مِهنة": [
-    "assets/images/template-covers/mihna-template-cover.webp",
     "assets/images/template-covers/mihna-template-cover.png",
-    "assets/images/models/مِهنة.webp",
+    "assets/images/template-covers/mihna-template-cover.webp",
     "assets/images/models/مِهنة.png",
-    "assets/images/models/مهنة.webp",
-    "assets/images/models/مهنة.png"
+    "assets/images/models/مِهنة.webp",
+    "assets/images/models/مهنة.png",
+    "assets/images/models/مهنة.webp"
   ],
   "مهنة": [
-    "assets/images/template-covers/mihna-template-cover.webp",
     "assets/images/template-covers/mihna-template-cover.png",
-    "assets/images/models/مِهنة.webp",
+    "assets/images/template-covers/mihna-template-cover.webp",
     "assets/images/models/مِهنة.png",
-    "assets/images/models/مهنة.webp",
-    "assets/images/models/مهنة.png"
+    "assets/images/models/مِهنة.webp",
+    "assets/images/models/مهنة.png",
+    "assets/images/models/مهنة.webp"
   ],
   "عوافي": [
-    "assets/images/template-covers/awafi-template-cover.webp",
     "assets/images/template-covers/awafi-template-cover.png",
-    "assets/images/models/عوافي.webp",
-    "assets/images/models/عوافي.png"
+    "assets/images/template-covers/awafi-template-cover.webp",
+    "assets/images/models/عوافي.png",
+    "assets/images/models/عوافي.webp"
   ],
   "جمالك": [
-    "assets/images/template-covers/jamalak-template-cover.webp",
     "assets/images/template-covers/jamalak-template-cover.png",
-    "assets/images/models/جمالك.webp",
-    "assets/images/models/جمالك.png"
+    "assets/images/template-covers/jamalak-template-cover.webp",
+    "assets/images/models/جمالك.png",
+    "assets/images/models/جمالك.webp"
   ]
 };
 
@@ -74,8 +74,9 @@ function buildImageCandidates(modelName) {
     return modelImageMap[modelName];
   }
 
-  const extensions = ["webp", "png", "jpg", "jpeg"];
+  const extensions = ["png", "webp", "jpg", "jpeg"];
   const bases = [
+    `assets/images/template-covers/${modelName}`,
     `images/models/${modelName}`,
     `images/${modelName}`,
     `assets/images/models/${modelName}`,
@@ -114,12 +115,14 @@ async function applyCardImage(modelName, imageEl, placeholderEl) {
   if (src) {
     imageEl.src = src;
     imageEl.hidden = false;
+
     if (placeholderEl) {
       placeholderEl.hidden = true;
     }
   } else {
     imageEl.removeAttribute("src");
     imageEl.hidden = true;
+
     if (placeholderEl) {
       placeholderEl.hidden = false;
     }
@@ -149,6 +152,7 @@ function setFilter(filterKey) {
   } else {
     url.searchParams.set("type", validFilter);
   }
+
   window.history.replaceState({}, "", url);
 }
 
@@ -170,12 +174,14 @@ async function openPreview(modelName) {
       previewImage.src = src;
       previewImage.alt = `معاينة نموذج ${modelName}`;
       previewImage.hidden = false;
+
       if (previewPlaceholder) {
         previewPlaceholder.hidden = true;
       }
     } else {
       previewImage.removeAttribute("src");
       previewImage.hidden = true;
+
       if (previewPlaceholder) {
         previewPlaceholder.hidden = false;
       }
