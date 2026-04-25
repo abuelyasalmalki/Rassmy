@@ -185,41 +185,45 @@
         </div>
 
         <div class="menu-tabs" role="tablist" aria-label="تصنيفات المنيو">
-          <span
+          <button
+            type="button"
             class="tab active"
             role="tab"
-            tabindex="0"
             aria-selected="true"
             data-menu-filter="popular"
-            style="cursor:pointer"
-          >الأكثر طلبًا</span>
+          >
+            الأكثر طلبًا
+          </button>
 
-          <span
+          <button
+            type="button"
             class="tab"
             role="tab"
-            tabindex="0"
             aria-selected="false"
             data-menu-filter="coffee"
-            style="cursor:pointer"
-          >القهوة</span>
+          >
+            القهوة
+          </button>
 
-          <span
+          <button
+            type="button"
             class="tab"
             role="tab"
-            tabindex="0"
             aria-selected="false"
             data-menu-filter="cold"
-            style="cursor:pointer"
-          >المشروبات الباردة</span>
+          >
+            المشروبات الباردة
+          </button>
 
-          <span
+          <button
+            type="button"
             class="tab"
             role="tab"
-            tabindex="0"
             aria-selected="false"
             data-menu-filter="sweets"
-            style="cursor:pointer"
-          >الحلى</span>
+          >
+            الحلى
+          </button>
         </div>
 
         <div class="menu-grid">
@@ -611,13 +615,6 @@
     menuTabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         setMenuFilter(tab.dataset.menuFilter || "popular");
-      });
-
-      tab.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          setMenuFilter(tab.dataset.menuFilter || "popular");
-        }
       });
     });
 
