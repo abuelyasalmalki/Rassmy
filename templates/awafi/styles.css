@@ -607,3 +607,39 @@ footer h6{
   .single-counter .counter{font-size:32px}
   .go-top{left:12px;bottom:12px}
 }
+
+/* =========================
+   Clean preview capture
+   تنظيف واجهة عوافي للتصوير
+========================= */
+
+.go-top{
+  display:none !important;
+}
+
+@media (max-width:768px){
+  .top-nav{
+    display:none !important;
+  }
+
+  .header-actions{
+    display:none !important;
+  }
+
+  .hero-floating-card{
+    display:none !important;
+  }
+
+  .hero-buttons{
+    display:none !important;
+  }
+
+  .single-hero-slide{
+    min-height:520px;
+  }
+
+  .slide-caption .titles{
+    background:rgba(255,255,255,.84);
+    box-shadow:0 14px 34px rgba(15,143,150,.14);
+  }
+}
