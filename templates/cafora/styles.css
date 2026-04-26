@@ -693,3 +693,24 @@ small.mono{
     font-size:.78rem;
   }
 }
+
+/* =========================
+   Desktop hero height fix
+   ضبط ارتفاع صورة الهيرو في الكمبيوتر فقط
+========================= */
+
+@media (min-width:721px){
+  .hero-visual{
+    max-height:620px;
+    overflow:hidden;
+    background:#0b1d2a;
+  }
+
+  .hero-visual picture,
+  .hero-visual img{
+    width:100%;
+    height:clamp(430px, 50vw, 620px);
+    object-fit:cover;
+    object-position:center;
+  }
+}
