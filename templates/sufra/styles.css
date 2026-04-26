@@ -178,3 +178,32 @@ img{max-width:100%;display:block}
   .about-media{min-height:280px}.sweet-media{min-height:240px}
   .floating-whatsapp{left:12px;right:12px;bottom:12px}
 }
+
+/* =========================
+   Clean preview capture
+   تنظيف واجهة سُفرة للتصوير
+========================= */
+
+.demo-topbar,
+.floating-whatsapp{
+  display:none !important;
+}
+
+@media (max-width:760px){
+  .nav-actions{
+    display:none !important;
+  }
+
+  .hero-actions{
+    display:none !important;
+  }
+
+  .hero-stage{
+    min-height:450px;
+  }
+
+  .hero-image-card{
+    max-width:320px;
+    min-height:420px;
+  }
+}
