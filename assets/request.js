@@ -317,9 +317,9 @@ async function checkDomainAvailability() {
     };
 
     if (domainAvailabilityState.available) {
-      setDomainCheckResult("available", "✅ الدومين متاح — يمكنك المتابعة");
+      setDomainCheckResult("available", "✓ ممتاز. الدومين متاح تقدر تكمل");
     } else {
-      setDomainCheckResult("unavailable", "❌ الدومين غير متاح — جرّب اسمًا آخر");
+      setDomainCheckResult("unavailable", "× الدومين غير متاح جرب اسم ثاني");
     }
 
   } catch (error) {
@@ -452,7 +452,13 @@ if (domainInput) {
 
 domainChoiceBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    updateDomainMode(btn.dataset.domainOption);
+    const option = btn.dataset.domainOption;
+
+    updateDomainMode(option);
+
+    if (option === "later") {
+      showStage(3);
+    }
   });
 });
 
