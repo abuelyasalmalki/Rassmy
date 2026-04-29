@@ -71,6 +71,7 @@ function normalizePlanParam(value) {
     "باقة بلس": "باقة بلس",
     "باقة برو": "باقة برو"
   };
+
   return map[value] || value || "";
 }
 
@@ -84,6 +85,7 @@ function normalizeCycleParam(value) {
     "شهري": "شهري",
     "سنوي": "سنوي"
   };
+
   return map[value] || value || "";
 }
 
@@ -154,6 +156,24 @@ function normalizeDomainInput(value) {
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
     .split("/")[0];
+}
+
+function normalizePhoneInput(value) {
+  let digits = String(value || "")
+    .trim()
+    .replace(/[٠-٩]/g, (d) => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)])
+    .replace(/[۰-۹]/g, (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)])
+    .replace(/\D/g, "");
+
+  if (digits.startsWith("009665")) {
+    digits = "0" + digits.slice(5);
+  } else if (digits.startsWith("9665")) {
+    digits = "0" + digits.slice(3);
+  } else if (digits.startsWith("5") && digits.length === 9) {
+    digits = "0" + digits;
+  }
+
+  return digits;
 }
 
 function updateDomainMode(option) {
@@ -237,8 +257,13 @@ if (togglePasswordBtn && passwordEl) {
   });
 }
 
-if (packageEl) packageEl.addEventListener("change", updatePlanNote);
-if (cycleEl) cycleEl.addEventListener("change", updatePlanNote);
+if (packageEl) {
+  packageEl.addEventListener("change", updatePlanNote);
+}
+
+if (cycleEl) {
+  cycleEl.addEventListener("change", updatePlanNote);
+}
 
 if (nextStepBtn) {
   nextStepBtn.addEventListener("click", () => {
@@ -340,7 +365,8 @@ if (submitBtn) {
       const selectedPackage = packageEl.value;
       const cycle = cycleEl.value;
       const template = templateEl.value;
-      const phone = document.getElementById("phone").value.trim();
+      const phoneRaw = document.getElementById("phone").value.trim();
+      const phone = normalizePhoneInput(phoneRaw);
       const password = passwordEl.value;
 
       if (activityType === "أخرى") {
@@ -353,7 +379,11 @@ if (submitBtn) {
       if (!selectedPackage) throw "اختر الباقة";
       if (!cycle) throw "اختر نوع الاشتراك";
       if (!template) throw "اختر النموذج";
-      if (!/^\\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
+
+      if (!/^05\d{8}$/.test(phone)) {
+        throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
+      }
+
       if (password.length < 6) throw "كلمة المرور ضعيفة";
 
       const email = phone + "@user.com";
@@ -456,7 +486,7 @@ if (submitBtn) {
 
       const msg = document.createElement("div");
       msg.className = "request-success-toast";
-      msg.innerText = "✅ تم إرسال الطلب بنجاح\\nجاري تحويلك...";
+      msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
       document.body.appendChild(msg);
 
       setTimeout(() => {
