@@ -353,7 +353,7 @@ if (submitBtn) {
       if (!selectedPackage) throw "اختر الباقة";
       if (!cycle) throw "اختر نوع الاشتراك";
       if (!template) throw "اختر النموذج";
-      if (!/^\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
+      if (!/^\\d{10}$/.test(phone)) throw "رقم الجوال غير صحيح";
       if (password.length < 6) throw "كلمة المرور ضعيفة";
 
       const email = phone + "@user.com";
@@ -456,7 +456,7 @@ if (submitBtn) {
 
       const msg = document.createElement("div");
       msg.className = "request-success-toast";
-      msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
+      msg.innerText = "✅ تم إرسال الطلب بنجاح\\nجاري تحويلك...";
       document.body.appendChild(msg);
 
       setTimeout(() => {
