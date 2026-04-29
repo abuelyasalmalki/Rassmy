@@ -66,7 +66,10 @@
 
         <div class="request-card request-form-card">
           <form class="request-form" id="requestForm">
+
             <div class="request-stage is-active" data-stage="1">
+              <div class="request-step-label">الخطوة 1 من 3</div>
+
               <div class="request-form-row">
                 <div class="request-field">
                   <label for="package">الباقة</label>
@@ -112,6 +115,50 @@
             </div>
 
             <div class="request-stage" data-stage="2" hidden>
+              <div class="request-step-label">الخطوة 2 من 3</div>
+
+              <div class="domain-simple-card">
+                <h2>الرابط الخاص لموقعك يعزز الثقة</h2>
+                <p>
+                  اختر الدومين الذي ترغب به، أو أخبرنا أن لديك دومينًا حاليًا، أو أكمل الطلب الآن ونرتب الدومين لاحقًا.
+                </p>
+
+                <div class="request-field domain-main-field">
+                  <label for="domainInput">الدومين:</label>
+                  <input id="domainInput" inputmode="url" placeholder="example.com">
+                  <div class="request-small-text" id="domainHelpText">
+                    اكتب الدومين المطلوب مثل: lamasatalanood.com
+                  </div>
+                </div>
+
+                <div class="domain-choice-buttons" aria-label="اختيار طريقة الدومين">
+                  <button type="button" class="domain-choice-btn is-selected" data-domain-option="new_domain">
+                    اختيار
+                  </button>
+
+                  <button type="button" class="domain-choice-btn" data-domain-option="client_has_domain">
+                    عندي دومين حالي
+                  </button>
+
+                  <button type="button" class="domain-choice-btn" data-domain-option="later">
+                    نخليها بعدين
+                  </button>
+                </div>
+
+                <div class="domain-note" id="domainNote">
+                  ظهور الدومين كمتاح لاحقًا لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.
+                </div>
+              </div>
+
+              <div class="request-stage-actions request-stage-actions-split">
+                <button id="domainPrevBtn" class="request-back-btn" type="button">السابق</button>
+                <button id="domainNextBtn" class="request-submit-btn" type="button">التالي</button>
+              </div>
+            </div>
+
+            <div class="request-stage" data-stage="3" hidden>
+              <div class="request-step-label">الخطوة 3 من 3</div>
+
               <div class="request-form-row">
                 <div class="request-field">
                   <label for="name">اسم التاجر</label>
@@ -172,6 +219,7 @@
                 <button id="submitBtn" class="request-submit-btn" type="button">إتمام طلب الموقع</button>
               </div>
             </div>
+
           </form>
 
           <div class="request-link">
