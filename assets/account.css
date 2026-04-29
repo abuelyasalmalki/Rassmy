@@ -279,6 +279,11 @@ textarea{
   color:#b42318;
 }
 
+.badge-yellow{
+  background:#fff7ed;
+  color:#9a3412;
+}
+
 .link{
   color:#111827;
   font-weight:700;
