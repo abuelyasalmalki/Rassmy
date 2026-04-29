@@ -15,6 +15,11 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 /* =========================
+   Domain checker
+========================= */
+const DOMAIN_CHECK_ENDPOINT = "https://api.rasmi.app/domain-check";
+
+/* =========================
    Header account button
 ========================= */
 const accountBtn = document.getElementById("accountBtn");
@@ -56,8 +61,16 @@ const domainInput = document.getElementById("domainInput");
 const domainHelpText = document.getElementById("domainHelpText");
 const domainNote = document.getElementById("domainNote");
 const domainChoiceBtns = document.querySelectorAll(".domain-choice-btn");
+const domainCheckBtn = document.getElementById("domainCheckBtn");
+const domainCheckResult = document.getElementById("domainCheckResult");
 
 let selectedDomainOption = "new_domain";
+
+let domainAvailabilityState = {
+  checked: false,
+  domain: "",
+  available: null
+};
 
 /* =========================
    Helpers
@@ -176,8 +189,50 @@ function normalizePhoneInput(value) {
   return digits;
 }
 
+function isValidDomain(domain) {
+  return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain);
+}
+
+function resetDomainCheckState(clearMessage = true) {
+  domainAvailabilityState = {
+    checked: false,
+    domain: "",
+    available: null
+  };
+
+  if (clearMessage && domainCheckResult) {
+    domainCheckResult.hidden = true;
+    domainCheckResult.textContent = "";
+    domainCheckResult.classList.remove("is-available", "is-unavailable", "is-error");
+  }
+}
+
+function setDomainCheckResult(type, message) {
+  if (!domainCheckResult) return;
+
+  domainCheckResult.hidden = false;
+  domainCheckResult.textContent = message;
+  domainCheckResult.classList.remove("is-available", "is-unavailable", "is-error");
+
+  if (type === "available") {
+    domainCheckResult.classList.add("is-available");
+  } else if (type === "unavailable") {
+    domainCheckResult.classList.add("is-unavailable");
+  } else {
+    domainCheckResult.classList.add("is-error");
+  }
+}
+
+function setDomainCheckLoading(isLoading) {
+  if (!domainCheckBtn) return;
+
+  domainCheckBtn.disabled = isLoading;
+  domainCheckBtn.textContent = isLoading ? "جاري التحقق..." : "تحقق من التوفر";
+}
+
 function updateDomainMode(option) {
   selectedDomainOption = option;
+  resetDomainCheckState(true);
 
   domainChoiceBtns.forEach((btn) => {
     btn.classList.toggle("is-selected", btn.dataset.domainOption === option);
@@ -187,7 +242,12 @@ function updateDomainMode(option) {
     domainInput.disabled = false;
     domainInput.placeholder = "example.com";
     domainHelpText.textContent = "اكتب الدومين المطلوب مثل: lamasatalanood.com";
-    domainNote.textContent = "ظهور الدومين كمتاح لاحقًا لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.";
+    domainNote.textContent = "ظهور الدومين كمتاح لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.";
+
+    if (domainCheckBtn) {
+      domainCheckBtn.hidden = false;
+    }
+
     return;
   }
 
@@ -196,6 +256,11 @@ function updateDomainMode(option) {
     domainInput.placeholder = "example.com";
     domainHelpText.textContent = "اكتب الدومين الحالي الذي تملكه، وسنراجع طريقة ربطه بالموقع.";
     domainNote.textContent = "قد نحتاج منك لاحقًا تعديل إعدادات DNS أو تزويدنا بطريقة الدخول لمزود الدومين.";
+
+    if (domainCheckBtn) {
+      domainCheckBtn.hidden = true;
+    }
+
     return;
   }
 
@@ -205,6 +270,66 @@ function updateDomainMode(option) {
     domainInput.placeholder = "سيتم اختياره لاحقًا";
     domainHelpText.textContent = "لا مشكلة، يمكنك إكمال الطلب الآن واختيار الدومين لاحقًا.";
     domainNote.textContent = "سيظهر في حسابك أن الدومين بانتظار الاختيار.";
+
+    if (domainCheckBtn) {
+      domainCheckBtn.hidden = true;
+    }
+  }
+}
+
+async function checkDomainAvailability() {
+  const domain = normalizeDomainInput(domainInput.value);
+
+  resetDomainCheckState(false);
+
+  if (!domain) {
+    setDomainCheckResult("error", "اكتب الدومين أولًا");
+    return;
+  }
+
+  if (!isValidDomain(domain)) {
+    setDomainCheckResult("error", "اكتب الدومين بصيغة صحيحة مثل example.com");
+    return;
+  }
+
+  setDomainCheckLoading(true);
+  setDomainCheckResult("error", "جاري فحص توفر الدومين...");
+
+  try {
+    const response = await fetch(DOMAIN_CHECK_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ domain })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.message || "تعذر فحص الدومين حاليًا");
+    }
+
+    domainAvailabilityState = {
+      checked: true,
+      domain: data.domain || domain,
+      available: data.available === true
+    };
+
+    if (domainAvailabilityState.available) {
+      setDomainCheckResult("available", "✅ الدومين متاح — يمكنك المتابعة");
+    } else {
+      setDomainCheckResult("unavailable", "❌ الدومين غير متاح — جرّب اسمًا آخر");
+    }
+
+  } catch (error) {
+    resetDomainCheckState(false);
+    setDomainCheckResult(
+      "error",
+      error.message || "تعذر فحص الدومين حاليًا، حاول مرة أخرى"
+    );
+  } finally {
+    setDomainCheckLoading(false);
   }
 }
 
@@ -213,7 +338,9 @@ function validateDomainStep() {
     return {
       domainOption: "later",
       domain: null,
-      domainStatus: "domain_later"
+      domainStatus: "domain_later",
+      domainAvailabilityChecked: false,
+      domainAvailable: null
     };
   }
 
@@ -223,7 +350,7 @@ function validateDomainStep() {
     throw "اكتب الدومين";
   }
 
-  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) {
+  if (!isValidDomain(domain)) {
     throw "اكتب الدومين بصيغة صحيحة مثل example.com";
   }
 
@@ -231,14 +358,26 @@ function validateDomainStep() {
     return {
       domainOption: "client_has_domain",
       domain,
-      domainStatus: "needs_review"
+      domainStatus: "needs_review",
+      domainAvailabilityChecked: false,
+      domainAvailable: null
     };
+  }
+
+  if (!domainAvailabilityState.checked || domainAvailabilityState.domain !== domain) {
+    throw "تحقق من توفر الدومين أولًا";
+  }
+
+  if (domainAvailabilityState.available !== true) {
+    throw "الدومين غير متاح، جرّب اسمًا آخر";
   }
 
   return {
     domainOption: "new_domain",
     domain,
-    domainStatus: "pending_purchase"
+    domainStatus: "pending_purchase",
+    domainAvailabilityChecked: true,
+    domainAvailable: true
   };
 }
 
@@ -296,6 +435,18 @@ if (domainNextBtn) {
 if (prevStepBtn) {
   prevStepBtn.addEventListener("click", () => {
     showStage(2);
+  });
+}
+
+if (domainCheckBtn) {
+  domainCheckBtn.addEventListener("click", checkDomainAvailability);
+}
+
+if (domainInput) {
+  domainInput.addEventListener("input", () => {
+    if (selectedDomainOption === "new_domain") {
+      resetDomainCheckState(true);
+    }
   });
 }
 
@@ -419,7 +570,9 @@ if (submitBtn) {
 
         domainOption: domainInfo.domainOption,
         domain: domainInfo.domain,
-        domainStatus: domainInfo.domainStatus
+        domainStatus: domainInfo.domainStatus,
+        domainAvailabilityChecked: domainInfo.domainAvailabilityChecked,
+        domainAvailable: domainInfo.domainAvailable
       };
 
       if (!orderSnap.exists()) {
@@ -470,6 +623,8 @@ if (submitBtn) {
         domainOption: domainInfo.domainOption,
         domain: domainInfo.domain,
         domainStatus: domainInfo.domainStatus,
+        domainAvailabilityChecked: domainInfo.domainAvailabilityChecked,
+        domainAvailable: domainInfo.domainAvailable,
 
         updatedAt: serverTimestamp()
       };
