@@ -1,6 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 /* =========================
    Firebase
@@ -14,6 +21,12 @@ const app = initializeApp({
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+auth.languageCode = "ar";
+
+const authPersistenceReady = setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Persistence error:", error);
+});
+
 /* =========================
    Domain checker
 ========================= */
@@ -24,14 +37,22 @@ const DOMAIN_CHECK_ENDPOINT = "https://api.rasmi.app/domain-check";
 ========================= */
 const accountBtn = document.getElementById("accountBtn");
 
+let currentUserPhoneE164 = "";
+
 if (accountBtn) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       accountBtn.textContent = "حسابي";
       accountBtn.href = "account.html";
+
+      if (user.phoneNumber) {
+        currentUserPhoneE164 = user.phoneNumber;
+        syncPhoneVerificationFromCurrentUser();
+      }
     } else {
       accountBtn.textContent = "دخول";
       accountBtn.href = "login.html";
+      currentUserPhoneE164 = "";
     }
   });
 }
@@ -44,8 +65,6 @@ const customTypeEl = document.getElementById("customType");
 const packageEl = document.getElementById("package");
 const templateEl = document.getElementById("template");
 const cycleEl = document.getElementById("cycle");
-const passwordEl = document.getElementById("password");
-const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 const submitBtn = document.getElementById("submitBtn");
 const planNoteEl = document.getElementById("planNote");
 
@@ -64,12 +83,30 @@ const domainChoiceBtns = document.querySelectorAll(".domain-choice-btn");
 const domainCheckBtn = document.getElementById("domainCheckBtn");
 const domainCheckResult = document.getElementById("domainCheckResult");
 
+const phoneInput = document.getElementById("phone");
+const phoneCodeInput = document.getElementById("phoneCode");
+const sendPhoneCodeBtn = document.getElementById("sendPhoneCodeBtn");
+const verifyPhoneCodeBtn = document.getElementById("verifyPhoneCodeBtn");
+const phoneVerifyResult = document.getElementById("phoneVerifyResult");
+
 let selectedDomainOption = "new_domain";
 
 let domainAvailabilityState = {
   checked: false,
   domain: "",
   available: null
+};
+
+let recaptchaVerifier = null;
+let confirmationResult = null;
+let phoneCodeCooldownTimer = null;
+
+let phoneVerificationState = {
+  codeSent: false,
+  verified: false,
+  phone: "",
+  phoneE164: "",
+  uid: ""
 };
 
 /* =========================
@@ -189,6 +226,16 @@ function normalizePhoneInput(value) {
   return digits;
 }
 
+function toSaudiE164(phone) {
+  const normalized = normalizePhoneInput(phone);
+
+  if (!/^05\d{8}$/.test(normalized)) {
+    return "";
+  }
+
+  return "+966" + normalized.slice(1);
+}
+
 function isValidDomain(domain) {
   return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain);
 }
@@ -228,6 +275,138 @@ function setDomainCheckLoading(isLoading) {
 
   domainCheckBtn.disabled = isLoading;
   domainCheckBtn.textContent = isLoading ? "جاري التحقق..." : "تحقق من التوفر";
+}
+
+function resetPhoneVerificationState(clearMessage = true) {
+  phoneVerificationState = {
+    codeSent: false,
+    verified: false,
+    phone: "",
+    phoneE164: "",
+    uid: ""
+  };
+
+  confirmationResult = null;
+
+  if (clearMessage && phoneVerifyResult) {
+    phoneVerifyResult.hidden = true;
+    phoneVerifyResult.textContent = "";
+    phoneVerifyResult.classList.remove("is-success", "is-error", "is-loading");
+  }
+}
+
+function setPhoneVerifyResult(type, message) {
+  if (!phoneVerifyResult) return;
+
+  phoneVerifyResult.hidden = false;
+  phoneVerifyResult.textContent = message;
+  phoneVerifyResult.classList.remove("is-success", "is-error", "is-loading");
+
+  if (type === "success") {
+    phoneVerifyResult.classList.add("is-success");
+  } else if (type === "loading") {
+    phoneVerifyResult.classList.add("is-loading");
+  } else {
+    phoneVerifyResult.classList.add("is-error");
+  }
+}
+
+function setPhoneButtonsLoading(isLoading) {
+  if (sendPhoneCodeBtn) {
+    sendPhoneCodeBtn.disabled = isLoading;
+    sendPhoneCodeBtn.textContent = isLoading ? "جاري الإرسال..." : "إرسال الرمز";
+  }
+
+  if (verifyPhoneCodeBtn) {
+    verifyPhoneCodeBtn.disabled = isLoading;
+  }
+}
+
+function startPhoneCodeCooldown(seconds = 60) {
+  if (!sendPhoneCodeBtn) return;
+
+  clearInterval(phoneCodeCooldownTimer);
+
+  let remaining = seconds;
+  sendPhoneCodeBtn.disabled = true;
+  sendPhoneCodeBtn.textContent = `إعادة الإرسال خلال ${remaining}`;
+
+  phoneCodeCooldownTimer = setInterval(() => {
+    remaining -= 1;
+
+    if (remaining <= 0) {
+      clearInterval(phoneCodeCooldownTimer);
+      sendPhoneCodeBtn.disabled = false;
+      sendPhoneCodeBtn.textContent = "إرسال الرمز";
+      return;
+    }
+
+    sendPhoneCodeBtn.textContent = `إعادة الإرسال خلال ${remaining}`;
+  }, 1000);
+}
+
+function getFirebasePhoneErrorMessage(error) {
+  const code = error && error.code ? error.code : "";
+
+  if (code === "auth/invalid-phone-number") {
+    return "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
+  }
+
+  if (code === "auth/too-many-requests") {
+    return "تم إرسال محاولات كثيرة. حاول لاحقًا.";
+  }
+
+  if (code === "auth/invalid-verification-code") {
+    return "رمز التحقق غير صحيح.";
+  }
+
+  if (code === "auth/code-expired") {
+    return "انتهت صلاحية رمز التحقق. أرسل رمزًا جديدًا.";
+  }
+
+  if (code === "auth/captcha-check-failed") {
+    return "فشل التحقق الأمني. حدّث الصفحة وحاول مرة أخرى.";
+  }
+
+  return error.message || "حدث خطأ أثناء التحقق من رقم الجوال.";
+}
+
+function initRecaptchaVerifier() {
+  if (recaptchaVerifier) {
+    return recaptchaVerifier;
+  }
+
+  recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "invisible",
+    callback: () => {},
+    "expired-callback": () => {
+      if (recaptchaVerifier) {
+        recaptchaVerifier.clear();
+        recaptchaVerifier = null;
+      }
+    }
+  });
+
+  return recaptchaVerifier;
+}
+
+function syncPhoneVerificationFromCurrentUser() {
+  if (!phoneInput || !auth.currentUser || !auth.currentUser.phoneNumber) return;
+
+  const phone = normalizePhoneInput(phoneInput.value);
+  const phoneE164 = toSaudiE164(phone);
+
+  if (phoneE164 && phoneE164 === auth.currentUser.phoneNumber) {
+    phoneVerificationState = {
+      codeSent: true,
+      verified: true,
+      phone,
+      phoneE164,
+      uid: auth.currentUser.uid
+    };
+
+    setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+  }
 }
 
 function updateDomainMode(option) {
@@ -333,6 +512,116 @@ async function checkDomainAvailability() {
   }
 }
 
+async function sendPhoneCode() {
+  const phone = normalizePhoneInput(phoneInput.value);
+  const phoneE164 = toSaudiE164(phone);
+
+  resetPhoneVerificationState(false);
+
+  if (!phoneE164) {
+    setPhoneVerifyResult("error", "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx");
+    return;
+  }
+
+  if (auth.currentUser && auth.currentUser.phoneNumber === phoneE164) {
+    phoneVerificationState = {
+      codeSent: true,
+      verified: true,
+      phone,
+      phoneE164,
+      uid: auth.currentUser.uid
+    };
+
+    setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+    return;
+  }
+
+  setPhoneButtonsLoading(true);
+  setPhoneVerifyResult("loading", "جاري إرسال رمز التحقق...");
+
+  try {
+    await authPersistenceReady;
+
+    const appVerifier = initRecaptchaVerifier();
+
+    confirmationResult = await signInWithPhoneNumber(auth, phoneE164, appVerifier);
+
+    phoneVerificationState = {
+      codeSent: true,
+      verified: false,
+      phone,
+      phoneE164,
+      uid: ""
+    };
+
+    setPhoneVerifyResult("success", "تم إرسال رمز التحقق. أدخل الرمز لإكمال التحقق.");
+    startPhoneCodeCooldown(60);
+
+  } catch (error) {
+    if (recaptchaVerifier) {
+      recaptchaVerifier.clear();
+      recaptchaVerifier = null;
+    }
+
+    setPhoneVerifyResult("error", getFirebasePhoneErrorMessage(error));
+  } finally {
+    if (sendPhoneCodeBtn && !phoneCodeCooldownTimer) {
+      sendPhoneCodeBtn.disabled = false;
+      sendPhoneCodeBtn.textContent = "إرسال الرمز";
+    }
+
+    if (verifyPhoneCodeBtn) {
+      verifyPhoneCodeBtn.disabled = false;
+    }
+  }
+}
+
+async function verifyPhoneCode() {
+  const code = String(phoneCodeInput.value || "").trim();
+
+  if (!confirmationResult) {
+    setPhoneVerifyResult("error", "أرسل رمز التحقق أولًا.");
+    return;
+  }
+
+  if (!/^\d{4,8}$/.test(code)) {
+    setPhoneVerifyResult("error", "اكتب رمز التحقق بشكل صحيح.");
+    return;
+  }
+
+  if (verifyPhoneCodeBtn) {
+    verifyPhoneCodeBtn.disabled = true;
+    verifyPhoneCodeBtn.textContent = "جاري التحقق...";
+  }
+
+  setPhoneVerifyResult("loading", "جاري التحقق من الرمز...");
+
+  try {
+    await authPersistenceReady;
+
+    const credential = await confirmationResult.confirm(code);
+    const user = credential.user;
+
+    phoneVerificationState = {
+      codeSent: true,
+      verified: true,
+      phone: normalizePhoneInput(phoneInput.value),
+      phoneE164: user.phoneNumber,
+      uid: user.uid
+    };
+
+    setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+
+  } catch (error) {
+    setPhoneVerifyResult("error", getFirebasePhoneErrorMessage(error));
+  } finally {
+    if (verifyPhoneCodeBtn) {
+      verifyPhoneCodeBtn.disabled = false;
+      verifyPhoneCodeBtn.textContent = "تحقق";
+    }
+  }
+}
+
 function validateDomainStep() {
   if (selectedDomainOption === "later") {
     return {
@@ -390,12 +679,6 @@ if (activityTypeEl && customTypeEl) {
   };
 }
 
-if (togglePasswordBtn && passwordEl) {
-  togglePasswordBtn.addEventListener("click", () => {
-    passwordEl.type = passwordEl.type === "password" ? "text" : "password";
-  });
-}
-
 if (packageEl) {
   packageEl.addEventListener("change", updatePlanNote);
 }
@@ -447,6 +730,31 @@ if (domainInput) {
     if (selectedDomainOption === "new_domain") {
       resetDomainCheckState(true);
     }
+  });
+}
+
+if (sendPhoneCodeBtn) {
+  sendPhoneCodeBtn.addEventListener("click", sendPhoneCode);
+}
+
+if (verifyPhoneCodeBtn) {
+  verifyPhoneCodeBtn.addEventListener("click", verifyPhoneCode);
+}
+
+if (phoneInput) {
+  phoneInput.addEventListener("input", () => {
+    const phone = normalizePhoneInput(phoneInput.value);
+    const phoneE164 = toSaudiE164(phone);
+
+    if (
+      phoneVerificationState.verified &&
+      phoneVerificationState.phoneE164 &&
+      phoneVerificationState.phoneE164 !== phoneE164
+    ) {
+      resetPhoneVerificationState(true);
+    }
+
+    syncPhoneVerificationFromCurrentUser();
   });
 }
 
@@ -522,9 +830,9 @@ if (submitBtn) {
       const selectedPackage = packageEl.value;
       const cycle = cycleEl.value;
       const template = templateEl.value;
-      const phoneRaw = document.getElementById("phone").value.trim();
+      const phoneRaw = phoneInput.value.trim();
       const phone = normalizePhoneInput(phoneRaw);
-      const password = passwordEl.value;
+      const phoneE164 = toSaudiE164(phone);
 
       if (activityType === "أخرى") {
         activityType = customTypeVal;
@@ -537,26 +845,23 @@ if (submitBtn) {
       if (!cycle) throw "اختر نوع الاشتراك";
       if (!template) throw "اختر النموذج";
 
-      if (!/^05\d{8}$/.test(phone)) {
+      if (!phoneE164) {
         throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
       }
 
-      if (password.length < 6) throw "كلمة المرور ضعيفة";
+      syncPhoneVerificationFromCurrentUser();
 
-      const email = phone + "@user.com";
+      if (
+        !phoneVerificationState.verified ||
+        phoneVerificationState.phoneE164 !== phoneE164
+      ) {
+        throw "تحقق من رقم الجوال قبل إتمام الطلب";
+      }
 
-      let user;
+      const user = auth.currentUser;
 
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        user = cred.user;
-      } catch (err) {
-        if (err.code === "auth/email-already-in-use") {
-          const cred = await signInWithEmailAndPassword(auth, email, password);
-          user = cred.user;
-        } else {
-          throw err;
-        }
+      if (!user || !user.uid) {
+        throw "لم يتم تسجيل الدخول برقم الجوال. أعد التحقق من الرقم.";
       }
 
       const orderRef = doc(db, "orders", user.uid);
@@ -570,6 +875,9 @@ if (submitBtn) {
         billingCycle: cycle,
         template,
         phone,
+        phoneE164,
+        phoneVerified: true,
+        phoneVerifiedAt: serverTimestamp(),
         status: "تم تقديم الطلب",
         userId: user.uid,
         orderId: "ORD-" + Date.now(),
@@ -600,6 +908,8 @@ if (submitBtn) {
         await setDoc(userRef, {
           name,
           phone,
+          phoneE164,
+          phoneVerified: true,
           role: "client",
           createdAt: serverTimestamp()
         });
@@ -607,6 +917,8 @@ if (submitBtn) {
         await setDoc(userRef, {
           name,
           phone,
+          phoneE164,
+          phoneVerified: true,
           updatedAt: serverTimestamp()
         }, { merge: true });
       }
@@ -618,6 +930,8 @@ if (submitBtn) {
         userId: user.uid,
         name,
         phone,
+        phoneE164,
+        phoneVerified: true,
         status: "جاري التفعيل",
         plan: selectedPackage,
         billingCycle: cycle,
@@ -647,7 +961,7 @@ if (submitBtn) {
 
       const msg = document.createElement("div");
       msg.className = "request-success-toast";
-      msg.innerText = "✅ تم إرسال الطلب بنجاح\nجاري تحويلك...";
+      msg.innerText = "✓ تم إرسال الطلب بنجاح\nجاري تحويلك...";
       document.body.appendChild(msg);
 
       setTimeout(() => {
