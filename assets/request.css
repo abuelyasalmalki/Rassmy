@@ -45,7 +45,7 @@
 
 .request-progress-fill{
   display:block;
-  width:50%;
+  width:33.33%;
   height:100%;
   border-radius:999px;
   background:linear-gradient(90deg,var(--text),#3b4556);
@@ -233,6 +233,90 @@
   white-space:pre-line;
 }
 
+.request-step-label{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:max-content;
+  min-height:30px;
+  padding:0 12px;
+  border-radius:999px;
+  background:#f8fafc;
+  border:1px solid #e8edf5;
+  color:#667085;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:4px;
+}
+
+.domain-simple-card{
+  display:grid;
+  gap:16px;
+  padding:20px;
+  border-radius:24px;
+  background:#f8fbff;
+  border:1px solid #e8edf5;
+}
+
+.domain-simple-card h2{
+  margin:0;
+  font-size:clamp(24px,4vw,36px);
+  line-height:1.25;
+  color:var(--text);
+}
+
+.domain-simple-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+}
+
+.domain-main-field{
+  margin-top:4px;
+}
+
+.domain-choice-buttons{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+
+.domain-choice-btn{
+  min-height:48px;
+  padding:0 12px;
+  border-radius:16px;
+  border:1px solid #d8e0eb;
+  background:#fff;
+  color:#334155;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.domain-choice-btn:hover{
+  transform:translateY(-1px);
+  border-color:#cbd5e1;
+}
+
+.domain-choice-btn.is-selected{
+  background:var(--text);
+  color:#fff;
+  border-color:var(--text);
+  box-shadow:0 12px 24px rgba(17,24,39,.14);
+}
+
+.domain-note{
+  padding:12px 14px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #edf1f5;
+  color:#667085;
+  font-size:13px;
+  line-height:1.8;
+}
+
 @media (max-width:860px){
   .request-form-row{
     grid-template-columns:1fr;
@@ -275,6 +359,19 @@
     align-self:flex-start;
     padding:0;
     margin-bottom:4px;
+  }
+
+  .domain-simple-card{
+    padding:16px;
+    border-radius:20px;
+  }
+
+  .domain-choice-buttons{
+    grid-template-columns:1fr;
+  }
+
+  .domain-choice-btn{
+    min-height:46px;
   }
 }
 
