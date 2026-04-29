@@ -204,21 +204,34 @@
               <div class="request-form-row">
                 <div class="request-field">
                   <label for="phone">رقم الجوال</label>
-                  <input id="phone" placeholder="05xxxxxxxx">
-                  <div class="request-small-text">سيتم استخدامه لتسجيل الدخول</div>
+                  <input id="phone" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx">
+                  <div class="request-small-text">
+                    سيتم إرسال رمز تحقق لهذا الرقم، وسيُستخدم للدخول إلى حسابك لاحقًا.
+                  </div>
                 </div>
 
-                <div class="request-field">
-                  <label for="password">كلمة المرور</label>
-                  <div class="request-password-wrap">
-                    <input id="password" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)">
-                    <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                      </svg>
+                <div class="request-field phone-verification-field">
+                  <label for="phoneCode">رمز التحقق</label>
+
+                  <div class="phone-verification-actions">
+                    <input id="phoneCode" inputmode="numeric" autocomplete="one-time-code" placeholder="اكتب الرمز">
+
+                    <button id="sendPhoneCodeBtn" class="phone-code-btn" type="button">
+                      إرسال الرمز
+                    </button>
+
+                    <button id="verifyPhoneCodeBtn" class="phone-code-btn" type="button">
+                      تحقق
                     </button>
                   </div>
+
+                  <div class="request-small-text" id="phoneVerifyHelp">
+                    أثناء التطوير استخدم رقم الاختبار والكود الذي أضفته في Firebase.
+                  </div>
+
+                  <div class="phone-verify-result" id="phoneVerifyResult" hidden></div>
+
+                  <div id="recaptcha-container"></div>
                 </div>
               </div>
 
