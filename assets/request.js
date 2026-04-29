@@ -45,10 +45,19 @@ const submitBtn = document.getElementById("submitBtn");
 const planNoteEl = document.getElementById("planNote");
 
 const nextStepBtn = document.getElementById("nextStepBtn");
+const domainPrevBtn = document.getElementById("domainPrevBtn");
+const domainNextBtn = document.getElementById("domainNextBtn");
 const prevStepBtn = document.getElementById("prevStepBtn");
-const stageOneEl = document.querySelector('[data-stage="1"]');
-const stageTwoEl = document.querySelector('[data-stage="2"]');
+
 const requestProgressFill = document.getElementById("requestProgressFill");
+const stageEls = document.querySelectorAll(".request-stage");
+
+const domainInput = document.getElementById("domainInput");
+const domainHelpText = document.getElementById("domainHelpText");
+const domainNote = document.getElementById("domainNote");
+const domainChoiceBtns = document.querySelectorAll(".domain-choice-btn");
+
+let selectedDomainOption = "new_domain";
 
 /* =========================
    Helpers
@@ -113,24 +122,20 @@ function updatePlanNote() {
 }
 
 function showStage(stageNumber) {
-  const showFirst = stageNumber === 1;
-
-  if (showFirst) {
-    stageOneEl.hidden = false;
-    stageOneEl.classList.add("is-active");
-
-    stageTwoEl.hidden = true;
-    stageTwoEl.classList.remove("is-active");
-  } else {
-    stageOneEl.hidden = true;
-    stageOneEl.classList.remove("is-active");
-
-    stageTwoEl.hidden = false;
-    stageTwoEl.classList.add("is-active");
-  }
+  stageEls.forEach((stage) => {
+    const isTarget = Number(stage.dataset.stage) === stageNumber;
+    stage.hidden = !isTarget;
+    stage.classList.toggle("is-active", isTarget);
+  });
 
   if (requestProgressFill) {
-    requestProgressFill.style.width = showFirst ? "50%" : "100%";
+    const widths = {
+      1: "33.33%",
+      2: "66.66%",
+      3: "100%"
+    };
+
+    requestProgressFill.style.width = widths[stageNumber] || "33.33%";
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -140,6 +145,81 @@ function validateStepOne() {
   if (!packageEl.value) throw "اختر الباقة";
   if (!cycleEl.value) throw "اختر نوع الاشتراك";
   if (!templateEl.value) throw "اختر النموذج";
+}
+
+function normalizeDomainInput(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .split("/")[0];
+}
+
+function updateDomainMode(option) {
+  selectedDomainOption = option;
+
+  domainChoiceBtns.forEach((btn) => {
+    btn.classList.toggle("is-selected", btn.dataset.domainOption === option);
+  });
+
+  if (option === "new_domain") {
+    domainInput.disabled = false;
+    domainInput.placeholder = "example.com";
+    domainHelpText.textContent = "اكتب الدومين المطلوب مثل: lamasatalanood.com";
+    domainNote.textContent = "ظهور الدومين كمتاح لاحقًا لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.";
+    return;
+  }
+
+  if (option === "client_has_domain") {
+    domainInput.disabled = false;
+    domainInput.placeholder = "example.com";
+    domainHelpText.textContent = "اكتب الدومين الحالي الذي تملكه، وسنراجع طريقة ربطه بالموقع.";
+    domainNote.textContent = "قد نحتاج منك لاحقًا تعديل إعدادات DNS أو تزويدنا بطريقة الدخول لمزود الدومين.";
+    return;
+  }
+
+  if (option === "later") {
+    domainInput.value = "";
+    domainInput.disabled = true;
+    domainInput.placeholder = "سيتم اختياره لاحقًا";
+    domainHelpText.textContent = "لا مشكلة، يمكنك إكمال الطلب الآن واختيار الدومين لاحقًا.";
+    domainNote.textContent = "سيظهر في حسابك أن الدومين بانتظار الاختيار.";
+  }
+}
+
+function validateDomainStep() {
+  if (selectedDomainOption === "later") {
+    return {
+      domainOption: "later",
+      domain: null,
+      domainStatus: "domain_later"
+    };
+  }
+
+  const domain = normalizeDomainInput(domainInput.value);
+
+  if (!domain) {
+    throw "اكتب الدومين";
+  }
+
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) {
+    throw "اكتب الدومين بصيغة صحيحة مثل example.com";
+  }
+
+  if (selectedDomainOption === "client_has_domain") {
+    return {
+      domainOption: "client_has_domain",
+      domain,
+      domainStatus: "needs_review"
+    };
+  }
+
+  return {
+    domainOption: "new_domain",
+    domain,
+    domainStatus: "pending_purchase"
+  };
 }
 
 /* =========================
@@ -171,11 +251,34 @@ if (nextStepBtn) {
   });
 }
 
-if (prevStepBtn) {
-  prevStepBtn.addEventListener("click", () => {
+if (domainPrevBtn) {
+  domainPrevBtn.addEventListener("click", () => {
     showStage(1);
   });
 }
+
+if (domainNextBtn) {
+  domainNextBtn.addEventListener("click", () => {
+    try {
+      validateDomainStep();
+      showStage(3);
+    } catch (error) {
+      alert(error.message || error);
+    }
+  });
+}
+
+if (prevStepBtn) {
+  prevStepBtn.addEventListener("click", () => {
+    showStage(2);
+  });
+}
+
+domainChoiceBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    updateDomainMode(btn.dataset.domainOption);
+  });
+});
 
 /* =========================
    Query params
@@ -215,6 +318,7 @@ if (prevStepBtn) {
   }
 
   updatePlanNote();
+  updateDomainMode("new_domain");
   showStage(1);
 })();
 
@@ -227,6 +331,8 @@ if (submitBtn) {
     submitBtn.disabled = true;
 
     try {
+      const domainInfo = validateDomainStep();
+
       const name = document.getElementById("name").value.trim();
       const activityName = document.getElementById("activityName").value.trim();
       let activityType = activityTypeEl.value;
@@ -280,11 +386,17 @@ if (submitBtn) {
         status: "تم تقديم الطلب",
         userId: user.uid,
         orderId: "ORD-" + Date.now(),
-        createdAt: serverTimestamp()
+
+        domainOption: domainInfo.domainOption,
+        domain: domainInfo.domain,
+        domainStatus: domainInfo.domainStatus
       };
 
       if (!orderSnap.exists()) {
-        await setDoc(orderRef, orderData);
+        await setDoc(orderRef, {
+          ...orderData,
+          createdAt: serverTimestamp()
+        });
       } else {
         await setDoc(orderRef, {
           ...orderData,
@@ -324,6 +436,11 @@ if (submitBtn) {
         siteUrl: "",
         hostingDate: "",
         domainDate: "",
+
+        domainOption: domainInfo.domainOption,
+        domain: domainInfo.domain,
+        domainStatus: domainInfo.domainStatus,
+
         updatedAt: serverTimestamp()
       };
 
