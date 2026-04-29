@@ -317,6 +317,57 @@
   line-height:1.8;
 }
 
+.domain-check-btn{
+  width:max-content;
+  min-height:42px;
+  padding:0 16px;
+  border-radius:14px;
+  border:1px solid #d8e0eb;
+  background:#fff;
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.domain-check-btn:hover{
+  transform:translateY(-1px);
+  border-color:#cbd5e1;
+}
+
+.domain-check-btn:disabled{
+  cursor:not-allowed;
+  opacity:.65;
+  transform:none;
+}
+
+.domain-check-result{
+  padding:12px 14px;
+  border-radius:16px;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.8;
+}
+
+.domain-check-result.is-available{
+  background:#ecfdf3;
+  color:#027a48;
+  border:1px solid #abefc6;
+}
+
+.domain-check-result.is-unavailable{
+  background:#fff1f3;
+  color:#b42318;
+  border:1px solid #fecdd6;
+}
+
+.domain-check-result.is-error{
+  background:#fffbeb;
+  color:#92400e;
+  border:1px solid #fde68a;
+}
+
 @media (max-width:860px){
   .request-form-row{
     grid-template-columns:1fr;
@@ -372,6 +423,10 @@
 
   .domain-choice-btn{
     min-height:46px;
+  }
+
+  .domain-check-btn{
+    width:100%;
   }
 }
 
