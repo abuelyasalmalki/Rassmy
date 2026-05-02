@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/request.css">
+  <link rel="stylesheet" href="assets/request.css?v=phone-step-1">
 </head>
 <body>
 
@@ -68,7 +68,7 @@
           <form class="request-form" id="requestForm">
 
             <div class="request-stage is-active" data-stage="1">
-              <div class="request-step-label">الخطوة 1 من 3</div>
+              <div class="request-step-label">الخطوة 1 من 4</div>
 
               <div class="request-form-row">
                 <div class="request-field">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="request-stage" data-stage="2" hidden>
-              <div class="request-step-label">الخطوة 2 من 3</div>
+              <div class="request-step-label">الخطوة 2 من 4</div>
 
               <div class="domain-simple-card">
                 <h2>الرابط الخاص لموقعك يعزز الثقة</h2>
@@ -165,7 +165,7 @@
             </div>
 
             <div class="request-stage" data-stage="3" hidden>
-              <div class="request-step-label">الخطوة 3 من 3</div>
+              <div class="request-step-label">الخطوة 3 من 4</div>
 
               <div class="request-form-row">
                 <div class="request-field">
@@ -201,14 +201,32 @@
                 </div>
               </div>
 
-              <div class="request-form-row">
+              <div class="request-form-row request-form-row-single">
                 <div class="request-field">
                   <label for="phone">رقم الجوال</label>
                   <input id="phone" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx">
                   <div class="request-small-text">
-                    سيتم إرسال رمز تحقق لهذا الرقم، وسيُستخدم للدخول إلى حسابك لاحقًا.
+                    سنرسل رمز تحقق لهذا الرقم لتأكيد الطلب والدخول إلى حسابك لاحقًا.
                   </div>
                 </div>
+              </div>
+
+              <div class="request-stage-actions request-stage-actions-split">
+                <button id="prevStepBtn" class="request-back-btn" type="button">السابق</button>
+                <button id="submitBtn" class="request-submit-btn" type="button">ابدأ موقعك الآن</button>
+              </div>
+            </div>
+
+            <div class="request-stage" data-stage="4" hidden>
+              <div class="request-step-label">الخطوة 4 من 4</div>
+
+              <div class="domain-simple-card">
+                <h2>تأكيد رقم الجوال</h2>
+
+                <p>
+                  أرسلنا رمز التحقق إلى:
+                  <strong id="phoneVerifyTarget">—</strong>
+                </p>
 
                 <div class="request-field phone-verification-field">
                   <label for="phoneCode">رمز التحقق</label>
@@ -217,16 +235,16 @@
                     <input id="phoneCode" inputmode="numeric" autocomplete="one-time-code" placeholder="اكتب الرمز">
 
                     <button id="sendPhoneCodeBtn" class="phone-code-btn" type="button">
-                      إرسال الرمز
+                      إعادة إرسال الرمز
                     </button>
 
-                    <button id="verifyPhoneCodeBtn" class="phone-code-btn" type="button">
+                    <button id="verifyPhoneCodeBtn" class="phone-code-btn" type="button" hidden>
                       تحقق
                     </button>
                   </div>
 
                   <div class="request-small-text" id="phoneVerifyHelp">
-                    أثناء التطوير استخدم رقم الاختبار والكود الذي أضفته في Firebase.
+                    بمجرد إدخال الرمز سيتم إرسال طلبك تلقائيًا. قد تصلك رسالة التحقق من cloudOTP.
                   </div>
 
                   <div class="phone-verify-result" id="phoneVerifyResult" hidden></div>
@@ -236,8 +254,7 @@
               </div>
 
               <div class="request-stage-actions request-stage-actions-split">
-                <button id="prevStepBtn" class="request-back-btn" type="button">السابق</button>
-                <button id="submitBtn" class="request-submit-btn" type="button">إتمام طلب الموقع</button>
+                <button id="verifyPrevBtn" class="request-back-btn" type="button">السابق</button>
               </div>
             </div>
 
@@ -257,6 +274,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/request.js"></script>
+  <script type="module" src="assets/request.js?v=phone-step-1"></script>
 </body>
 </html>
