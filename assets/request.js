@@ -91,6 +91,9 @@ const verifyPhoneCodeBtn = document.getElementById("verifyPhoneCodeBtn");
 const phoneVerifyResult = document.getElementById("phoneVerifyResult");
 const phoneVerifyTarget = document.getElementById("phoneVerifyTarget");
 
+const requestFinalLoading = document.getElementById("requestFinalLoading");
+const requestFinalLoadingText = document.getElementById("requestFinalLoadingText");
+
 let selectedDomainOption = "new_domain";
 
 let domainAvailabilityState = {
@@ -300,6 +303,8 @@ function resetPhoneVerificationState(clearMessage = true) {
     phoneVerifyResult.textContent = "";
     phoneVerifyResult.classList.remove("is-success", "is-error", "is-loading");
   }
+
+  setFinalLoading(false);
 }
 
 function setPhoneVerifyResult(type, message) {
@@ -315,6 +320,16 @@ function setPhoneVerifyResult(type, message) {
     phoneVerifyResult.classList.add("is-loading");
   } else {
     phoneVerifyResult.classList.add("is-error");
+  }
+}
+
+function setFinalLoading(show, message = "جاري تسجيل طلبك...") {
+  if (!requestFinalLoading) return;
+
+  requestFinalLoading.hidden = !show;
+
+  if (requestFinalLoadingText) {
+    requestFinalLoadingText.textContent = message;
   }
 }
 
@@ -432,6 +447,16 @@ function updateDomainMode(option) {
   selectedDomainOption = option;
   resetDomainCheckState(true);
 
+  if (domainHelpText) {
+    domainHelpText.textContent = "";
+    domainHelpText.hidden = true;
+  }
+
+  if (domainNote) {
+    domainNote.textContent = "";
+    domainNote.hidden = true;
+  }
+
   domainChoiceBtns.forEach((btn) => {
     btn.classList.toggle("is-selected", btn.dataset.domainOption === option);
   });
@@ -439,8 +464,6 @@ function updateDomainMode(option) {
   if (option === "new_domain") {
     domainInput.disabled = false;
     domainInput.placeholder = "example.com";
-    domainHelpText.textContent = "اكتب الدومين المطلوب مثل: lamasatalanood.com";
-    domainNote.textContent = "ظهور الدومين كمتاح لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.";
 
     if (domainCheckBtn) {
       domainCheckBtn.hidden = false;
@@ -452,8 +475,6 @@ function updateDomainMode(option) {
   if (option === "client_has_domain") {
     domainInput.disabled = false;
     domainInput.placeholder = "example.com";
-    domainHelpText.textContent = "اكتب الدومين الحالي الذي تملكه، وسنراجع طريقة ربطه بالموقع.";
-    domainNote.textContent = "قد نحتاج منك لاحقًا تعديل إعدادات DNS أو تزويدنا بطريقة الدخول لمزود الدومين.";
 
     if (domainCheckBtn) {
       domainCheckBtn.hidden = true;
@@ -466,8 +487,6 @@ function updateDomainMode(option) {
     domainInput.value = "";
     domainInput.disabled = true;
     domainInput.placeholder = "سيتم اختياره لاحقًا";
-    domainHelpText.textContent = "لا مشكلة، يمكنك إكمال الطلب الآن واختيار الدومين لاحقًا.";
-    domainNote.textContent = "سيظهر في حسابك أن الدومين بانتظار الاختيار.";
 
     if (domainCheckBtn) {
       domainCheckBtn.hidden = true;
@@ -668,7 +687,8 @@ async function verifyPhoneCodeAndSubmit() {
     const verified = await verifyPhoneCode();
 
     if (verified) {
-      setPhoneVerifyResult("loading", "تم التحقق من رقم الجوال، جاري إتمام الطلب...");
+      setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+      setFinalLoading(true, "جاري تسجيل طلبك...");
       await submitRequest();
     }
   } finally {
@@ -788,7 +808,8 @@ async function startPhoneVerificationStep() {
       auth.currentUser &&
       auth.currentUser.uid
     ) {
-      setPhoneVerifyResult("loading", "تم التحقق من رقم الجوال، جاري إتمام الطلب...");
+      setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+      setFinalLoading(true, "جاري تسجيل طلبك...");
       await submitRequest();
       return;
     }
@@ -853,6 +874,7 @@ if (prevStepBtn) {
 
 if (verifyPrevBtn) {
   verifyPrevBtn.addEventListener("click", () => {
+    setFinalLoading(false);
     showStage(3);
   });
 }
@@ -1086,6 +1108,8 @@ async function submitRequest() {
       await setDoc(subRef, subscriptionData, { merge: true });
     }
 
+    setFinalLoading(true, "تم تسجيل طلبك بنجاح، جاري تحويلك...");
+
     const msg = document.createElement("div");
     msg.className = "request-success-toast";
     msg.innerText = "✓ تم إرسال الطلب بنجاح\nجاري تحويلك...";
@@ -1096,6 +1120,7 @@ async function submitRequest() {
     }, 1200);
 
   } catch (e) {
+    setFinalLoading(false);
     alert(e.message || e);
   } finally {
     isSubmittingRequest = false;
