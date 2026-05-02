@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/request.css?v=phone-step-1">
+  <link rel="stylesheet" href="assets/request.css?v=phone-step-2">
 </head>
 <body>
 
@@ -128,9 +128,7 @@
 
                   <input id="domainInput" inputmode="url" placeholder="example.com">
 
-                  <div class="request-small-text" id="domainHelpText">
-                    اكتب الدومين المطلوب مثل: lamasatalanood.com
-                  </div>
+                  <div class="request-small-text" id="domainHelpText" hidden></div>
 
                   <button type="button" class="domain-check-btn" id="domainCheckBtn">
                     تحقق من التوفر
@@ -153,9 +151,7 @@
                   </button>
                 </div>
 
-                <div class="domain-note" id="domainNote">
-                  ظهور الدومين كمتاح لا يعني حجزه نهائيًا إلا بعد إتمام الحجز من طرفنا.
-                </div>
+                <div class="domain-note" id="domainNote" hidden></div>
               </div>
 
               <div class="request-stage-actions request-stage-actions-split">
@@ -249,6 +245,11 @@
 
                   <div class="phone-verify-result" id="phoneVerifyResult" hidden></div>
 
+                  <div class="request-final-loading" id="requestFinalLoading" hidden>
+                    <span class="request-loading-spinner" aria-hidden="true"></span>
+                    <span id="requestFinalLoadingText">جاري تسجيل طلبك...</span>
+                  </div>
+
                   <div id="recaptcha-container"></div>
                 </div>
               </div>
@@ -274,6 +275,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/request.js?v=phone-step-1"></script>
+  <script type="module" src="assets/request.js?v=phone-step-2"></script>
 </body>
 </html>
