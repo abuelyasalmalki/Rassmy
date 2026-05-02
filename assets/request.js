@@ -94,6 +94,11 @@ const phoneVerifyTarget = document.getElementById("phoneVerifyTarget");
 const requestFinalLoading = document.getElementById("requestFinalLoading");
 const requestFinalLoadingText = document.getElementById("requestFinalLoadingText");
 
+/*
+  new_domain = العميل يريد اختيار دومين جديد
+  client_has_domain = العميل عنده دومين حالي
+  later = نخليها بعدين
+*/
 let selectedDomainOption = "new_domain";
 
 let domainAvailabilityState = {
@@ -248,6 +253,12 @@ function toSaudiE164(phone) {
 
 function isValidDomain(domain) {
   return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain);
+}
+
+function clearDomainModeSelection() {
+  domainChoiceBtns.forEach((btn) => {
+    btn.classList.remove("is-selected");
+  });
 }
 
 function resetDomainCheckState(clearMessage = true) {
@@ -443,6 +454,9 @@ function updatePhoneVerifyTarget() {
   phoneVerifyTarget.textContent = phone || "رقم جوالك";
 }
 
+/* =========================
+   Domain mode
+========================= */
 function updateDomainMode(option) {
   selectedDomainOption = option;
   resetDomainCheckState(true);
@@ -469,6 +483,7 @@ function updateDomainMode(option) {
       domainCheckBtn.hidden = false;
     }
 
+    clearDomainModeSelection();
     return;
   }
 
@@ -495,6 +510,9 @@ function updateDomainMode(option) {
 }
 
 async function checkDomainAvailability() {
+  selectedDomainOption = "new_domain";
+  clearDomainModeSelection();
+
   const domain = normalizeDomainInput(domainInput.value);
 
   resetDomainCheckState(false);
@@ -534,7 +552,7 @@ async function checkDomainAvailability() {
     };
 
     if (domainAvailabilityState.available) {
-      setDomainCheckResult("available", "✓ ممتاز. الدومين متاح تقدر تكمل");
+      setDomainCheckResult("available", `✓ ${domainAvailabilityState.domain}`);
     } else {
       setDomainCheckResult("unavailable", "× الدومين غير متاح جرب اسم ثاني");
     }
@@ -550,6 +568,9 @@ async function checkDomainAvailability() {
   }
 }
 
+/* =========================
+   Phone auth
+========================= */
 async function sendPhoneCode() {
   if (isSendingPhoneCode) return false;
 
@@ -696,6 +717,9 @@ async function verifyPhoneCodeAndSubmit() {
   }
 }
 
+/* =========================
+   Validation
+========================= */
 function validateDomainStep() {
   if (selectedDomainOption === "later") {
     return {
@@ -885,9 +909,20 @@ if (domainCheckBtn) {
 
 if (domainInput) {
   domainInput.addEventListener("input", () => {
-    if (selectedDomainOption === "new_domain") {
-      resetDomainCheckState(true);
+    if (selectedDomainOption !== "new_domain") {
+      selectedDomainOption = "new_domain";
+      clearDomainModeSelection();
+
+      if (domainInput) {
+        domainInput.disabled = false;
+      }
+
+      if (domainCheckBtn) {
+        domainCheckBtn.hidden = false;
+      }
     }
+
+    resetDomainCheckState(true);
   });
 }
 
@@ -931,12 +966,7 @@ if (phoneCodeInput) {
 domainChoiceBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     const option = btn.dataset.domainOption;
-
     updateDomainMode(option);
-
-    if (option === "later") {
-      showStage(3);
-    }
   });
 });
 
