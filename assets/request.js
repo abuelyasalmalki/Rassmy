@@ -72,6 +72,7 @@ const nextStepBtn = document.getElementById("nextStepBtn");
 const domainPrevBtn = document.getElementById("domainPrevBtn");
 const domainNextBtn = document.getElementById("domainNextBtn");
 const prevStepBtn = document.getElementById("prevStepBtn");
+const verifyPrevBtn = document.getElementById("verifyPrevBtn");
 
 const requestProgressFill = document.getElementById("requestProgressFill");
 const stageEls = document.querySelectorAll(".request-stage");
@@ -88,6 +89,7 @@ const phoneCodeInput = document.getElementById("phoneCode");
 const sendPhoneCodeBtn = document.getElementById("sendPhoneCodeBtn");
 const verifyPhoneCodeBtn = document.getElementById("verifyPhoneCodeBtn");
 const phoneVerifyResult = document.getElementById("phoneVerifyResult");
+const phoneVerifyTarget = document.getElementById("phoneVerifyTarget");
 
 let selectedDomainOption = "new_domain";
 
@@ -100,6 +102,10 @@ let domainAvailabilityState = {
 let recaptchaVerifier = null;
 let confirmationResult = null;
 let phoneCodeCooldownTimer = null;
+
+let isSendingPhoneCode = false;
+let isVerifyingPhoneCode = false;
+let isSubmittingRequest = false;
 
 let phoneVerificationState = {
   codeSent: false,
@@ -182,12 +188,13 @@ function showStage(stageNumber) {
 
   if (requestProgressFill) {
     const widths = {
-      1: "33.33%",
-      2: "66.66%",
-      3: "100%"
+      1: "25%",
+      2: "50%",
+      3: "75%",
+      4: "100%"
     };
 
-    requestProgressFill.style.width = widths[stageNumber] || "33.33%";
+    requestProgressFill.style.width = widths[stageNumber] || "25%";
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -314,7 +321,7 @@ function setPhoneVerifyResult(type, message) {
 function setPhoneButtonsLoading(isLoading) {
   if (sendPhoneCodeBtn) {
     sendPhoneCodeBtn.disabled = isLoading;
-    sendPhoneCodeBtn.textContent = isLoading ? "جاري الإرسال..." : "إرسال الرمز";
+    sendPhoneCodeBtn.textContent = isLoading ? "جاري الإرسال..." : "إعادة إرسال الرمز";
   }
 
   if (verifyPhoneCodeBtn) {
@@ -336,8 +343,9 @@ function startPhoneCodeCooldown(seconds = 60) {
 
     if (remaining <= 0) {
       clearInterval(phoneCodeCooldownTimer);
+      phoneCodeCooldownTimer = null;
       sendPhoneCodeBtn.disabled = false;
-      sendPhoneCodeBtn.textContent = "إرسال الرمز";
+      sendPhoneCodeBtn.textContent = "إعادة إرسال الرمز";
       return;
     }
 
@@ -368,7 +376,11 @@ function getFirebasePhoneErrorMessage(error) {
     return "فشل التحقق الأمني. حدّث الصفحة وحاول مرة أخرى.";
   }
 
-  return error.message || "حدث خطأ أثناء التحقق من رقم الجوال.";
+  if (code === "auth/billing-not-enabled") {
+    return "خدمة التحقق غير مفعلة حاليًا. حاول لاحقًا.";
+  }
+
+  return "تعذر إتمام التحقق حاليًا. حاول مرة أخرى.";
 }
 
 function initRecaptchaVerifier() {
@@ -407,6 +419,13 @@ function syncPhoneVerificationFromCurrentUser() {
 
     setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
   }
+}
+
+function updatePhoneVerifyTarget() {
+  if (!phoneVerifyTarget || !phoneInput) return;
+
+  const phone = normalizePhoneInput(phoneInput.value);
+  phoneVerifyTarget.textContent = phone || "رقم جوالك";
 }
 
 function updateDomainMode(option) {
@@ -513,6 +532,8 @@ async function checkDomainAvailability() {
 }
 
 async function sendPhoneCode() {
+  if (isSendingPhoneCode) return false;
+
   const phone = normalizePhoneInput(phoneInput.value);
   const phoneE164 = toSaudiE164(phone);
 
@@ -520,7 +541,7 @@ async function sendPhoneCode() {
 
   if (!phoneE164) {
     setPhoneVerifyResult("error", "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx");
-    return;
+    return false;
   }
 
   if (auth.currentUser && auth.currentUser.phoneNumber === phoneE164) {
@@ -533,9 +554,10 @@ async function sendPhoneCode() {
     };
 
     setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
-    return;
+    return true;
   }
 
+  isSendingPhoneCode = true;
   setPhoneButtonsLoading(true);
   setPhoneVerifyResult("loading", "جاري إرسال رمز التحقق...");
 
@@ -554,8 +576,10 @@ async function sendPhoneCode() {
       uid: ""
     };
 
-    setPhoneVerifyResult("success", "تم إرسال رمز التحقق. أدخل الرمز لإكمال التحقق.");
+    setPhoneVerifyResult("success", "تم إرسال رمز التحقق. أدخل الرمز لإتمام الطلب.");
     startPhoneCodeCooldown(60);
+
+    return true;
 
   } catch (error) {
     if (recaptchaVerifier) {
@@ -564,10 +588,14 @@ async function sendPhoneCode() {
     }
 
     setPhoneVerifyResult("error", getFirebasePhoneErrorMessage(error));
+    return false;
+
   } finally {
+    isSendingPhoneCode = false;
+
     if (sendPhoneCodeBtn && !phoneCodeCooldownTimer) {
       sendPhoneCodeBtn.disabled = false;
-      sendPhoneCodeBtn.textContent = "إرسال الرمز";
+      sendPhoneCodeBtn.textContent = "إعادة إرسال الرمز";
     }
 
     if (verifyPhoneCodeBtn) {
@@ -581,12 +609,12 @@ async function verifyPhoneCode() {
 
   if (!confirmationResult) {
     setPhoneVerifyResult("error", "أرسل رمز التحقق أولًا.");
-    return;
+    return false;
   }
 
-  if (!/^\d{4,8}$/.test(code)) {
-    setPhoneVerifyResult("error", "اكتب رمز التحقق بشكل صحيح.");
-    return;
+  if (!/^\d{6}$/.test(code)) {
+    setPhoneVerifyResult("error", "اكتب رمز التحقق المكوّن من 6 أرقام.");
+    return false;
   }
 
   if (verifyPhoneCodeBtn) {
@@ -611,14 +639,40 @@ async function verifyPhoneCode() {
     };
 
     setPhoneVerifyResult("success", "✓ تم التحقق من رقم الجوال");
+    return true;
 
   } catch (error) {
     setPhoneVerifyResult("error", getFirebasePhoneErrorMessage(error));
+    return false;
+
   } finally {
     if (verifyPhoneCodeBtn) {
       verifyPhoneCodeBtn.disabled = false;
       verifyPhoneCodeBtn.textContent = "تحقق";
     }
+  }
+}
+
+async function verifyPhoneCodeAndSubmit() {
+  if (isVerifyingPhoneCode || isSubmittingRequest) return;
+
+  const code = String(phoneCodeInput.value || "").trim();
+
+  if (!/^\d{6}$/.test(code)) {
+    return;
+  }
+
+  isVerifyingPhoneCode = true;
+
+  try {
+    const verified = await verifyPhoneCode();
+
+    if (verified) {
+      setPhoneVerifyResult("loading", "تم التحقق من رقم الجوال، جاري إتمام الطلب...");
+      await submitRequest();
+    }
+  } finally {
+    isVerifyingPhoneCode = false;
   }
 }
 
@@ -668,6 +722,82 @@ function validateDomainStep() {
     domainAvailabilityChecked: true,
     domainAvailable: true
   };
+}
+
+function validateFinalData() {
+  const domainInfo = validateDomainStep();
+
+  const name = document.getElementById("name").value.trim();
+  const activityName = document.getElementById("activityName").value.trim();
+  let activityType = activityTypeEl.value;
+  const customTypeVal = customTypeEl.value.trim();
+  const selectedPackage = packageEl.value;
+  const cycle = cycleEl.value;
+  const template = templateEl.value;
+  const phoneRaw = phoneInput.value.trim();
+  const phone = normalizePhoneInput(phoneRaw);
+  const phoneE164 = toSaudiE164(phone);
+
+  if (activityType === "أخرى") {
+    activityType = customTypeVal;
+  }
+
+  if (name.length < 3) throw "اكتب اسم التاجر";
+  if (activityName.length < 2) throw "اكتب اسم النشاط";
+  if (!activityType) throw "اختر نوع النشاط";
+  if (!selectedPackage) throw "اختر الباقة";
+  if (!cycle) throw "اختر نوع الاشتراك";
+  if (!template) throw "اختر النموذج";
+
+  if (!phoneE164) {
+    throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
+  }
+
+  return {
+    domainInfo,
+    name,
+    activityName,
+    activityType,
+    selectedPackage,
+    cycle,
+    template,
+    phone,
+    phoneE164
+  };
+}
+
+async function startPhoneVerificationStep() {
+  if (isSendingPhoneCode || isSubmittingRequest) return;
+
+  try {
+    const data = validateFinalData();
+
+    updatePhoneVerifyTarget();
+    showStage(4);
+
+    if (phoneCodeInput) {
+      phoneCodeInput.value = "";
+      setTimeout(() => phoneCodeInput.focus(), 250);
+    }
+
+    syncPhoneVerificationFromCurrentUser();
+
+    if (
+      phoneVerificationState.verified &&
+      phoneVerificationState.phoneE164 === data.phoneE164 &&
+      auth.currentUser &&
+      auth.currentUser.uid
+    ) {
+      setPhoneVerifyResult("loading", "تم التحقق من رقم الجوال، جاري إتمام الطلب...");
+      await submitRequest();
+      return;
+    }
+
+    await sendPhoneCode();
+
+  } catch (error) {
+    alert(error.message || error);
+  }
 }
 
 /* =========================
@@ -721,6 +851,12 @@ if (prevStepBtn) {
   });
 }
 
+if (verifyPrevBtn) {
+  verifyPrevBtn.addEventListener("click", () => {
+    showStage(3);
+  });
+}
+
 if (domainCheckBtn) {
   domainCheckBtn.addEventListener("click", checkDomainAvailability);
 }
@@ -738,7 +874,7 @@ if (sendPhoneCodeBtn) {
 }
 
 if (verifyPhoneCodeBtn) {
-  verifyPhoneCodeBtn.addEventListener("click", verifyPhoneCode);
+  verifyPhoneCodeBtn.addEventListener("click", verifyPhoneCodeAndSubmit);
 }
 
 if (phoneInput) {
@@ -755,6 +891,18 @@ if (phoneInput) {
     }
 
     syncPhoneVerificationFromCurrentUser();
+  });
+}
+
+if (phoneCodeInput) {
+  phoneCodeInput.addEventListener("input", () => {
+    phoneCodeInput.value = String(phoneCodeInput.value || "")
+      .replace(/\D/g, "")
+      .slice(0, 6);
+
+    if (phoneCodeInput.value.length === 6) {
+      verifyPhoneCodeAndSubmit();
+    }
   });
 }
 
@@ -815,164 +963,150 @@ domainChoiceBtns.forEach((btn) => {
 /* =========================
    Submit request
 ========================= */
-if (submitBtn) {
-  submitBtn.onclick = async () => {
+async function submitRequest() {
+  if (isSubmittingRequest) return;
+
+  isSubmittingRequest = true;
+
+  if (submitBtn) {
     submitBtn.innerText = "جاري الإرسال...";
     submitBtn.disabled = true;
+  }
 
-    try {
-      const domainInfo = validateDomainStep();
+  try {
+    const data = validateFinalData();
 
-      const name = document.getElementById("name").value.trim();
-      const activityName = document.getElementById("activityName").value.trim();
-      let activityType = activityTypeEl.value;
-      const customTypeVal = customTypeEl.value.trim();
-      const selectedPackage = packageEl.value;
-      const cycle = cycleEl.value;
-      const template = templateEl.value;
-      const phoneRaw = phoneInput.value.trim();
-      const phone = normalizePhoneInput(phoneRaw);
-      const phoneE164 = toSaudiE164(phone);
+    syncPhoneVerificationFromCurrentUser();
 
-      if (activityType === "أخرى") {
-        activityType = customTypeVal;
-      }
+    if (
+      !phoneVerificationState.verified ||
+      phoneVerificationState.phoneE164 !== data.phoneE164
+    ) {
+      throw "تحقق من رقم الجوال قبل إتمام الطلب";
+    }
 
-      if (name.length < 3) throw "اكتب اسم التاجر";
-      if (activityName.length < 2) throw "اكتب اسم النشاط";
-      if (!activityType) throw "اختر نوع النشاط";
-      if (!selectedPackage) throw "اختر الباقة";
-      if (!cycle) throw "اختر نوع الاشتراك";
-      if (!template) throw "اختر النموذج";
+    const user = auth.currentUser;
 
-      if (!phoneE164) {
-        throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
-      }
+    if (!user || !user.uid) {
+      throw "لم يتم تسجيل الدخول برقم الجوال. أعد التحقق من الرقم.";
+    }
 
-      syncPhoneVerificationFromCurrentUser();
+    const orderRef = doc(db, "orders", user.uid);
+    const orderSnap = await getDoc(orderRef);
 
-      if (
-        !phoneVerificationState.verified ||
-        phoneVerificationState.phoneE164 !== phoneE164
-      ) {
-        throw "تحقق من رقم الجوال قبل إتمام الطلب";
-      }
+    const orderData = {
+      name: data.name,
+      activityName: data.activityName,
+      activityType: data.activityType,
+      package: data.selectedPackage,
+      billingCycle: data.cycle,
+      template: data.template,
+      phone: data.phone,
+      phoneE164: data.phoneE164,
+      phoneVerified: true,
+      phoneVerifiedAt: serverTimestamp(),
+      status: "تم تقديم الطلب",
+      userId: user.uid,
+      orderId: "ORD-" + Date.now(),
 
-      const user = auth.currentUser;
+      domainOption: data.domainInfo.domainOption,
+      domain: data.domainInfo.domain,
+      domainStatus: data.domainInfo.domainStatus,
+      domainAvailabilityChecked: data.domainInfo.domainAvailabilityChecked,
+      domainAvailable: data.domainInfo.domainAvailable
+    };
 
-      if (!user || !user.uid) {
-        throw "لم يتم تسجيل الدخول برقم الجوال. أعد التحقق من الرقم.";
-      }
-
-      const orderRef = doc(db, "orders", user.uid);
-      const orderSnap = await getDoc(orderRef);
-
-      const orderData = {
-        name,
-        activityName,
-        activityType,
-        package: selectedPackage,
-        billingCycle: cycle,
-        template,
-        phone,
-        phoneE164,
-        phoneVerified: true,
-        phoneVerifiedAt: serverTimestamp(),
-        status: "تم تقديم الطلب",
-        userId: user.uid,
-        orderId: "ORD-" + Date.now(),
-
-        domainOption: domainInfo.domainOption,
-        domain: domainInfo.domain,
-        domainStatus: domainInfo.domainStatus,
-        domainAvailabilityChecked: domainInfo.domainAvailabilityChecked,
-        domainAvailable: domainInfo.domainAvailable
-      };
-
-      if (!orderSnap.exists()) {
-        await setDoc(orderRef, {
-          ...orderData,
-          createdAt: serverTimestamp()
-        });
-      } else {
-        await setDoc(orderRef, {
-          ...orderData,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-      }
-
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          name,
-          phone,
-          phoneE164,
-          phoneVerified: true,
-          role: "client",
-          createdAt: serverTimestamp()
-        });
-      } else {
-        await setDoc(userRef, {
-          name,
-          phone,
-          phoneE164,
-          phoneVerified: true,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-      }
-
-      const subRef = doc(db, "subscriptions", user.uid);
-      const subSnap = await getDoc(subRef);
-
-      const subscriptionData = {
-        userId: user.uid,
-        name,
-        phone,
-        phoneE164,
-        phoneVerified: true,
-        status: "جاري التفعيل",
-        plan: selectedPackage,
-        billingCycle: cycle,
-        template,
-        siteUrl: "",
-        hostingDate: "",
-        domainDate: "",
-
-        domainOption: domainInfo.domainOption,
-        domain: domainInfo.domain,
-        domainStatus: domainInfo.domainStatus,
-        domainAvailabilityChecked: domainInfo.domainAvailabilityChecked,
-        domainAvailable: domainInfo.domainAvailable,
-
+    if (!orderSnap.exists()) {
+      await setDoc(orderRef, {
+        ...orderData,
+        createdAt: serverTimestamp()
+      });
+    } else {
+      await setDoc(orderRef, {
+        ...orderData,
         updatedAt: serverTimestamp()
-      };
+      }, { merge: true });
+    }
 
-      if (!subSnap.exists()) {
-        await setDoc(subRef, {
-          subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
-          ...subscriptionData,
-          createdAt: serverTimestamp()
-        });
-      } else {
-        await setDoc(subRef, subscriptionData, { merge: true });
-      }
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-      const msg = document.createElement("div");
-      msg.className = "request-success-toast";
-      msg.innerText = "✓ تم إرسال الطلب بنجاح\nجاري تحويلك...";
-      document.body.appendChild(msg);
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        name: data.name,
+        phone: data.phone,
+        phoneE164: data.phoneE164,
+        phoneVerified: true,
+        role: "client",
+        createdAt: serverTimestamp()
+      });
+    } else {
+      await setDoc(userRef, {
+        name: data.name,
+        phone: data.phone,
+        phoneE164: data.phoneE164,
+        phoneVerified: true,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    }
 
-      setTimeout(() => {
-        window.location.href = "account.html";
-      }, 1200);
+    const subRef = doc(db, "subscriptions", user.uid);
+    const subSnap = await getDoc(subRef);
 
-    } catch (e) {
-      alert(e.message || e);
-    } finally {
-      submitBtn.innerText = "إتمام طلب الموقع";
+    const subscriptionData = {
+      userId: user.uid,
+      name: data.name,
+      phone: data.phone,
+      phoneE164: data.phoneE164,
+      phoneVerified: true,
+      status: "جاري التفعيل",
+      plan: data.selectedPackage,
+      billingCycle: data.cycle,
+      template: data.template,
+      siteUrl: "",
+      hostingDate: "",
+      domainDate: "",
+
+      domainOption: data.domainInfo.domainOption,
+      domain: data.domainInfo.domain,
+      domainStatus: data.domainInfo.domainStatus,
+      domainAvailabilityChecked: data.domainInfo.domainAvailabilityChecked,
+      domainAvailable: data.domainInfo.domainAvailable,
+
+      updatedAt: serverTimestamp()
+    };
+
+    if (!subSnap.exists()) {
+      await setDoc(subRef, {
+        subId: "SUB-" + Math.floor(100000 + Math.random() * 900000),
+        ...subscriptionData,
+        createdAt: serverTimestamp()
+      });
+    } else {
+      await setDoc(subRef, subscriptionData, { merge: true });
+    }
+
+    const msg = document.createElement("div");
+    msg.className = "request-success-toast";
+    msg.innerText = "✓ تم إرسال الطلب بنجاح\nجاري تحويلك...";
+    document.body.appendChild(msg);
+
+    setTimeout(() => {
+      window.location.href = "account.html";
+    }, 1200);
+
+  } catch (e) {
+    alert(e.message || e);
+  } finally {
+    isSubmittingRequest = false;
+
+    if (submitBtn) {
+      submitBtn.innerText = "ابدأ موقعك الآن";
       submitBtn.disabled = false;
     }
-  };
+  }
+}
+
+if (submitBtn) {
+  submitBtn.onclick = startPhoneVerificationStep;
 }
