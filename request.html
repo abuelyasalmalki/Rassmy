@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/request.css?v=domain-flow-1">
+  <link rel="stylesheet" href="assets/request.css?v=domain-flow-2">
 </head>
 <body>
 
@@ -224,7 +224,15 @@
                   <label for="phoneCode">رمز التحقق</label>
 
                   <div class="phone-verification-actions">
-                    <input id="phoneCode" inputmode="numeric" autocomplete="one-time-code" placeholder="اكتب الرمز">
+                    <input
+                      id="phoneCode"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="one-time-code"
+                      maxlength="6"
+                      dir="ltr"
+                      placeholder="اكتب الرمز"
+                    >
 
                     <button id="sendPhoneCodeBtn" class="phone-code-btn" type="button">
                       إعادة إرسال الرمز
@@ -271,6 +279,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/request.js?v=domain-flow-1"></script>
+  <script type="module" src="assets/request.js?v=domain-flow-2"></script>
 </body>
 </html>
