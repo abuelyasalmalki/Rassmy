@@ -251,6 +251,14 @@ function toSaudiE164(phone) {
   return "+966" + normalized.slice(1);
 }
 
+function normalizeVerificationCode(value) {
+  return String(value || "")
+    .replace(/[٠-٩]/g, (d) => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)])
+    .replace(/[۰-۹]/g, (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)])
+    .replace(/\D/g, "")
+    .slice(0, 6);
+}
+
 function isValidDomain(domain) {
   return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain);
 }
@@ -552,7 +560,7 @@ async function checkDomainAvailability() {
     };
 
     if (domainAvailabilityState.available) {
-      setDomainCheckResult("available", `✓ ${domainAvailabilityState.domain}`);
+      setDomainCheckResult("available", `✓ ${domainAvailabilityState.domain} متوفر`);
     } else {
       setDomainCheckResult("unavailable", "× الدومين غير متاح جرب اسم ثاني");
     }
@@ -645,7 +653,7 @@ async function sendPhoneCode() {
 }
 
 async function verifyPhoneCode() {
-  const code = String(phoneCodeInput.value || "").trim();
+  const code = normalizeVerificationCode(phoneCodeInput.value);
 
   if (!confirmationResult) {
     setPhoneVerifyResult("error", "أرسل رمز التحقق أولًا.");
@@ -696,7 +704,7 @@ async function verifyPhoneCode() {
 async function verifyPhoneCodeAndSubmit() {
   if (isVerifyingPhoneCode || isSubmittingRequest) return;
 
-  const code = String(phoneCodeInput.value || "").trim();
+  const code = normalizeVerificationCode(phoneCodeInput.value);
 
   if (!/^\d{6}$/.test(code)) {
     return;
@@ -953,13 +961,16 @@ if (phoneInput) {
 
 if (phoneCodeInput) {
   phoneCodeInput.addEventListener("input", () => {
-    phoneCodeInput.value = String(phoneCodeInput.value || "")
-      .replace(/\D/g, "")
-      .slice(0, 6);
+    const normalizedCode = normalizeVerificationCode(phoneCodeInput.value);
 
-    if (phoneCodeInput.value.length === 6) {
+    if (normalizedCode.length === 6) {
+      phoneCodeInput.value = normalizedCode;
       verifyPhoneCodeAndSubmit();
     }
+  });
+
+  phoneCodeInput.addEventListener("blur", () => {
+    phoneCodeInput.value = normalizeVerificationCode(phoneCodeInput.value);
   });
 }
 
