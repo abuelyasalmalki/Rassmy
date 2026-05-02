@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/request.css?v=phone-step-2">
+  <link rel="stylesheet" href="assets/request.css?v=domain-flow-1">
 </head>
 <body>
 
@@ -120,11 +120,11 @@
               <div class="domain-simple-card">
                 <h2>الرابط الخاص لموقعك يعزز الثقة</h2>
                 <p>
-                  اختر الدومين الذي ترغب به، أو أخبرنا أن لديك دومينًا حاليًا، أو أكمل الطلب الآن ونرتب الدومين لاحقًا.
+                  اكتب الدومين الذي ترغب به وتحقق من توفره، أو اختر أن لديك دومينًا حاليًا، أو أكمل الطلب ونرتب الدومين لاحقًا.
                 </p>
 
                 <div class="request-field domain-main-field">
-                  <label for="domainInput">الدومين:</label>
+                  <label for="domainInput">الدومين</label>
 
                   <input id="domainInput" inputmode="url" placeholder="example.com">
 
@@ -137,11 +137,7 @@
                   <div class="domain-check-result" id="domainCheckResult" hidden></div>
                 </div>
 
-                <div class="domain-choice-buttons" aria-label="اختيار طريقة الدومين">
-                  <button type="button" class="domain-choice-btn is-selected" data-domain-option="new_domain">
-                    اختيار
-                  </button>
-
+                <div class="domain-choice-buttons domain-choice-buttons-two" aria-label="اختيار طريقة الدومين">
                   <button type="button" class="domain-choice-btn" data-domain-option="client_has_domain">
                     عندي دومين حالي
                   </button>
@@ -156,7 +152,7 @@
 
               <div class="request-stage-actions request-stage-actions-split">
                 <button id="domainPrevBtn" class="request-back-btn" type="button">السابق</button>
-                <button id="domainNextBtn" class="request-submit-btn" type="button">التالي</button>
+                <button id="domainNextBtn" class="request-submit-btn" type="button">اختيار وإكمال</button>
               </div>
             </div>
 
@@ -275,6 +271,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/request.js?v=phone-step-2"></script>
+  <script type="module" src="assets/request.js?v=domain-flow-1"></script>
 </body>
 </html>
