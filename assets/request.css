@@ -45,7 +45,7 @@
 
 .request-progress-fill{
   display:block;
-  width:33.33%;
+  width:25%;
   height:100%;
   border-radius:999px;
   background:linear-gradient(90deg,var(--text),#3b4556);
@@ -288,6 +288,10 @@
   gap:10px;
 }
 
+.domain-choice-buttons-two{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
 .domain-choice-btn{
   min-height:48px;
   padding:0 12px;
@@ -307,10 +311,10 @@
 }
 
 .domain-choice-btn.is-selected{
-  background:var(--text);
-  color:#fff;
+  background:#fff;
+  color:var(--text);
   border-color:var(--text);
-  box-shadow:0 12px 24px rgba(17,24,39,.14);
+  box-shadow:none;
 }
 
 .domain-note{
@@ -325,21 +329,22 @@
 
 .domain-check-btn{
   width:max-content;
-  min-height:42px;
-  padding:0 16px;
+  min-height:46px;
+  padding:0 18px;
   border-radius:14px;
-  border:1px solid #d8e0eb;
-  background:#fff;
-  color:var(--text);
+  border:1px solid var(--text);
+  background:var(--text);
+  color:#fff;
   font-size:13px;
   font-weight:800;
   cursor:pointer;
   transition:.2s ease;
+  box-shadow:0 12px 24px rgba(17,24,39,.14);
 }
 
 .domain-check-btn:hover{
   transform:translateY(-1px);
-  border-color:#cbd5e1;
+  opacity:.94;
 }
 
 .domain-check-btn:disabled{
@@ -349,6 +354,9 @@
 }
 
 .domain-check-result{
+  display:flex;
+  align-items:center;
+  gap:8px;
   padding:12px 14px;
   border-radius:16px;
   font-size:13px;
@@ -548,7 +556,8 @@
     border-radius:20px;
   }
 
-  .domain-choice-buttons{
+  .domain-choice-buttons,
+  .domain-choice-buttons-two{
     grid-template-columns:1fr;
   }
 
