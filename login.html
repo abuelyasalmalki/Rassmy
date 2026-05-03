@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/login.css?v=phone-login-1">
+  <link rel="stylesheet" href="assets/login.css?v=phone-login-2">
 </head>
 
 <body>
@@ -110,8 +110,11 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
-  doc,
-  getDoc
+  collection,
+  query,
+  where,
+  limit,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const app = initializeApp({
@@ -144,6 +147,7 @@ let confirmationResult = null;
 let resendCooldownTimer = null;
 let isSendingCode = false;
 let isVerifyingCode = false;
+let checkedPhoneE164 = "";
 
 function normalizePhoneInput(value) {
   let digits = String(value || "")
@@ -241,6 +245,16 @@ function getPhoneErrorMessage(error) {
   return "تعذر إتمام التحقق حاليًا. حاول مرة أخرى.";
 }
 
+function getDatabaseErrorMessage(error) {
+  const code = error && error.code ? error.code : "";
+
+  if (code === "permission-denied") {
+    return "تعذر فحص الطلب حاليًا. راجع إعدادات قاعدة البيانات.";
+  }
+
+  return "تعذر فحص الطلب حاليًا. حاول مرة أخرى.";
+}
+
 function initRecaptchaVerifier() {
   if (recaptchaVerifier) {
     return recaptchaVerifier;
@@ -284,6 +298,27 @@ function startResendCooldown(seconds = 60) {
   }, 1000);
 }
 
+async function hasExistingRequestByPhone(phoneE164) {
+  const ordersQuery = query(
+    collection(db, "orders"),
+    where("phoneE164", "==", phoneE164),
+    limit(1)
+  );
+
+  const subscriptionsQuery = query(
+    collection(db, "subscriptions"),
+    where("phoneE164", "==", phoneE164),
+    limit(1)
+  );
+
+  const [ordersSnap, subscriptionsSnap] = await Promise.all([
+    getDocs(ordersQuery),
+    getDocs(subscriptionsQuery)
+  ]);
+
+  return !ordersSnap.empty || !subscriptionsSnap.empty;
+}
+
 async function sendLoginCode() {
   if (isSendingCode) return;
 
@@ -300,10 +335,26 @@ async function sendLoginCode() {
 
   isSendingCode = true;
   sendCodeBtn.disabled = true;
-  sendCodeBtn.textContent = "جاري الإرسال...";
-  setLoading(true, "جاري إرسال رمز التحقق...");
+  sendCodeBtn.textContent = "جاري الفحص...";
+  setLoading(true, "جاري فحص الطلب المرتبط بالرقم...");
 
   try {
+    const hasRequest = await hasExistingRequestByPhone(phoneE164);
+
+    if (!hasRequest) {
+      setLoading(false);
+      setResult(
+        "error",
+        "لا يوجد طلب مرتبط بهذا الرقم. يرجى تسجيل طلب أولًا لتتمكن من الدخول."
+      );
+      return;
+    }
+
+    checkedPhoneE164 = phoneE164;
+
+    sendCodeBtn.textContent = "جاري الإرسال...";
+    setLoading(true, "جاري إرسال رمز التحقق...");
+
     await authPersistenceReady;
 
     const appVerifier = initRecaptchaVerifier();
@@ -327,7 +378,12 @@ async function sendLoginCode() {
     }
 
     setLoading(false);
-    setResult("error", getPhoneErrorMessage(error));
+
+    if (error && error.code && String(error.code).startsWith("auth/")) {
+      setResult("error", getPhoneErrorMessage(error));
+    } else {
+      setResult("error", getDatabaseErrorMessage(error));
+    }
 
   } finally {
     isSendingCode = false;
@@ -336,25 +392,21 @@ async function sendLoginCode() {
   }
 }
 
-async function hasExistingRequest(uid) {
-  const orderRef = doc(db, "orders", uid);
-  const subRef = doc(db, "subscriptions", uid);
-
-  const [orderSnap, subSnap] = await Promise.all([
-    getDoc(orderRef),
-    getDoc(subRef)
-  ]);
-
-  return orderSnap.exists() || subSnap.exists();
-}
-
 async function verifyLoginCode() {
   if (isVerifyingCode) return;
 
+  const currentPhoneE164 = toSaudiE164(phoneInput.value);
   const code = normalizeVerificationCode(phoneCodeInput.value);
 
   if (!confirmationResult) {
     setResult("error", "أرسل رمز التحقق أولًا.");
+    return;
+  }
+
+  if (currentPhoneE164 !== checkedPhoneE164) {
+    setResult("error", "تم تغيير رقم الجوال. أرسل رمز تحقق جديد.");
+    confirmationResult = null;
+    otpPanel.hidden = true;
     return;
   }
 
@@ -364,29 +416,16 @@ async function verifyLoginCode() {
 
   isVerifyingCode = true;
   setResult("loading", "جاري التحقق من الرمز...");
-  setLoading(true, "جاري التحقق من حسابك...");
+  setLoading(true, "جاري الدخول إلى حسابك...");
 
   try {
     await authPersistenceReady;
 
-    const credential = await confirmationResult.confirm(code);
-    const user = credential.user;
+    await confirmationResult.confirm(code);
 
     setResult("success", "✓ تم التحقق من رقم الجوال");
-    setLoading(true, "جاري فحص طلبك...");
+    setLoading(true, "تم التحقق، جاري تحويلك...");
 
-    const hasRequest = await hasExistingRequest(user.uid);
-
-    if (!hasRequest) {
-      setLoading(false);
-      setResult(
-        "error",
-        "لا يوجد طلب مرتبط بهذا الرقم. يرجى تسجيل طلب أولًا لتتمكن من الدخول."
-      );
-      return;
-    }
-
-    setLoading(true, "تم العثور على طلبك، جاري تحويلك...");
     window.location.href = "account.html";
 
   } catch (error) {
@@ -414,6 +453,21 @@ if (phoneInput) {
   phoneInput.addEventListener("input", () => {
     clearResult();
     setLoading(false);
+
+    const currentPhoneE164 = toSaudiE164(phoneInput.value);
+
+    if (checkedPhoneE164 && currentPhoneE164 !== checkedPhoneE164) {
+      confirmationResult = null;
+      checkedPhoneE164 = "";
+
+      if (otpPanel) {
+        otpPanel.hidden = true;
+      }
+
+      if (phoneCodeInput) {
+        phoneCodeInput.value = "";
+      }
+    }
   });
 }
 
