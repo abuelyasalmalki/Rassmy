@@ -9,9 +9,6 @@ import {
   browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* =========================
-   Firebase
-========================= */
 const app = initializeApp({
   apiKey: "AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
   authDomain: "site-orders-415e4.firebaseapp.com",
@@ -27,17 +24,9 @@ const authPersistenceReady = setPersistence(auth, browserLocalPersistence).catch
   console.error("Persistence error:", error);
 });
 
-/* =========================
-   Domain checker
-========================= */
 const DOMAIN_CHECK_ENDPOINT = "https://api.rasmi.app/domain-check";
 
-/* =========================
-   Header account button
-========================= */
 const accountBtn = document.getElementById("accountBtn");
-
-let currentUserPhoneE164 = "";
 
 if (accountBtn) {
   onAuthStateChanged(auth, (user) => {
@@ -46,20 +35,15 @@ if (accountBtn) {
       accountBtn.href = "account.html";
 
       if (user.phoneNumber) {
-        currentUserPhoneE164 = user.phoneNumber;
         syncPhoneVerificationFromCurrentUser();
       }
     } else {
       accountBtn.textContent = "دخول";
       accountBtn.href = "login.html";
-      currentUserPhoneE164 = "";
     }
   });
 }
 
-/* =========================
-   Form elements
-========================= */
 const activityTypeEl = document.getElementById("activityType");
 const customTypeEl = document.getElementById("customType");
 const packageEl = document.getElementById("package");
@@ -94,11 +78,6 @@ const phoneVerifyTarget = document.getElementById("phoneVerifyTarget");
 const requestFinalLoading = document.getElementById("requestFinalLoading");
 const requestFinalLoadingText = document.getElementById("requestFinalLoadingText");
 
-/*
-  new_domain = العميل يريد اختيار دومين جديد
-  client_has_domain = العميل عنده دومين حالي
-  later = نخليها بعدين
-*/
 let selectedDomainOption = "new_domain";
 
 let domainAvailabilityState = {
@@ -123,9 +102,6 @@ let phoneVerificationState = {
   uid: ""
 };
 
-/* =========================
-   Helpers
-========================= */
 function normalizePlanParam(value) {
   const map = {
     plus: "باقة بلس",
@@ -261,6 +237,19 @@ function normalizeVerificationCode(value) {
 
 function getLoginIndexId(phoneE164) {
   return String(phoneE164 || "").replace(/^\+/, "");
+}
+
+async function hasExistingRequestByPhone(phoneE164) {
+  const loginIndexId = getLoginIndexId(phoneE164);
+  const loginIndexRef = doc(db, "loginIndex", loginIndexId);
+  const loginIndexSnap = await getDoc(loginIndexRef);
+
+  if (!loginIndexSnap.exists()) {
+    return false;
+  }
+
+  const data = loginIndexSnap.data() || {};
+  return data.hasRequest === true;
 }
 
 function isValidDomain(domain) {
@@ -466,9 +455,6 @@ function updatePhoneVerifyTarget() {
   phoneVerifyTarget.textContent = phone || "رقم جوالك";
 }
 
-/* =========================
-   Domain mode
-========================= */
 function updateDomainMode(option) {
   selectedDomainOption = option;
   resetDomainCheckState(true);
@@ -580,9 +566,6 @@ async function checkDomainAvailability() {
   }
 }
 
-/* =========================
-   Phone auth
-========================= */
 async function sendPhoneCode() {
   if (isSendingPhoneCode) return false;
 
@@ -729,9 +712,6 @@ async function verifyPhoneCodeAndSubmit() {
   }
 }
 
-/* =========================
-   Validation
-========================= */
 function validateDomainStep() {
   if (selectedDomainOption === "later") {
     return {
@@ -745,13 +725,8 @@ function validateDomainStep() {
 
   const domain = normalizeDomainInput(domainInput.value);
 
-  if (!domain) {
-    throw "اكتب الدومين";
-  }
-
-  if (!isValidDomain(domain)) {
-    throw "اكتب الدومين بصيغة صحيحة مثل example.com";
-  }
+  if (!domain) throw "اكتب الدومين";
+  if (!isValidDomain(domain)) throw "اكتب الدومين بصيغة صحيحة مثل example.com";
 
   if (selectedDomainOption === "client_has_domain") {
     return {
@@ -790,8 +765,7 @@ function validateFinalData() {
   const selectedPackage = packageEl.value;
   const cycle = cycleEl.value;
   const template = templateEl.value;
-  const phoneRaw = phoneInput.value.trim();
-  const phone = normalizePhoneInput(phoneRaw);
+  const phone = normalizePhoneInput(phoneInput.value.trim());
   const phoneE164 = toSaudiE164(phone);
 
   if (activityType === "أخرى") {
@@ -804,10 +778,7 @@ function validateFinalData() {
   if (!selectedPackage) throw "اختر الباقة";
   if (!cycle) throw "اختر نوع الاشتراك";
   if (!template) throw "اختر النموذج";
-
-  if (!phoneE164) {
-    throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
-  }
+  if (!phoneE164) throw "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
 
   return {
     domainInfo,
@@ -827,6 +798,19 @@ async function startPhoneVerificationStep() {
 
   try {
     const data = validateFinalData();
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "جاري الفحص...";
+    }
+
+    const hasPreviousRequest = await hasExistingRequestByPhone(data.phoneE164);
+
+    if (hasPreviousRequest) {
+      alert("لديك طلب سابق برقم الجوال هذا، يرجى تسجيل الدخول لمتابعة طلبك.");
+      window.location.href = "login.html";
+      return;
+    }
 
     updatePhoneVerifyTarget();
     showStage(4);
@@ -854,25 +838,22 @@ async function startPhoneVerificationStep() {
 
   } catch (error) {
     alert(error.message || error);
+  } finally {
+    if (submitBtn && !isSubmittingRequest) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "ابدأ موقعك الآن";
+    }
   }
 }
 
-/* =========================
-   UI events
-========================= */
 if (activityTypeEl && customTypeEl) {
   activityTypeEl.onchange = () => {
     customTypeEl.style.display = activityTypeEl.value === "أخرى" ? "block" : "none";
   };
 }
 
-if (packageEl) {
-  packageEl.addEventListener("change", updatePlanNote);
-}
-
-if (cycleEl) {
-  cycleEl.addEventListener("change", updatePlanNote);
-}
+if (packageEl) packageEl.addEventListener("change", updatePlanNote);
+if (cycleEl) cycleEl.addEventListener("change", updatePlanNote);
 
 if (nextStepBtn) {
   nextStepBtn.addEventListener("click", () => {
@@ -886,9 +867,7 @@ if (nextStepBtn) {
 }
 
 if (domainPrevBtn) {
-  domainPrevBtn.addEventListener("click", () => {
-    showStage(1);
-  });
+  domainPrevBtn.addEventListener("click", () => showStage(1));
 }
 
 if (domainNextBtn) {
@@ -903,9 +882,7 @@ if (domainNextBtn) {
 }
 
 if (prevStepBtn) {
-  prevStepBtn.addEventListener("click", () => {
-    showStage(2);
-  });
+  prevStepBtn.addEventListener("click", () => showStage(2));
 }
 
 if (verifyPrevBtn) {
@@ -925,9 +902,7 @@ if (domainInput) {
       selectedDomainOption = "new_domain";
       clearDomainModeSelection();
 
-      if (domainInput) {
-        domainInput.disabled = false;
-      }
+      domainInput.disabled = false;
 
       if (domainCheckBtn) {
         domainCheckBtn.hidden = false;
@@ -980,14 +955,10 @@ if (phoneCodeInput) {
 
 domainChoiceBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    const option = btn.dataset.domainOption;
-    updateDomainMode(option);
+    updateDomainMode(btn.dataset.domainOption);
   });
 });
 
-/* =========================
-   Query params
-========================= */
 (function applyQueryParams() {
   const params = new URLSearchParams(window.location.search);
 
@@ -1027,9 +998,6 @@ domainChoiceBtns.forEach((btn) => {
   showStage(1);
 })();
 
-/* =========================
-   Submit request
-========================= */
 async function submitRequest() {
   if (isSubmittingRequest) return;
 
