@@ -1,119 +1,436 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل الدخول</title>
-<link rel="stylesheet" href="assets/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رسمي | تسجيل الدخول</title>
+  <meta
+    name="description"
+    content="سجّل دخولك إلى حساب رسمي باستخدام رقم الجوال ورمز التحقق."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/login.css?v=phone-login-1">
 </head>
 
 <body>
 
 <div class="login-container">
   <div class="login-layout">
+
     <div class="login-card login-side-card">
       <div class="login-logo">
-        <a href="index.html">
+        <a href="index.html" aria-label="رسمي">
           <img src="logo-full.png" alt="رسمي">
         </a>
       </div>
 
       <span class="login-badge">الدخول إلى حسابك</span>
+
+      <div class="login-side-copy">
+        <h1>تابع طلب موقعك بسهولة</h1>
+        <p>ادخل برقم الجوال المستخدم في الطلب لمتابعة حالة موقعك واشتراكك.</p>
+      </div>
     </div>
 
     <div class="login-card login-form-card">
       <h2>تسجيل الدخول</h2>
-      <p>ادخل رقم الجوال وكلمة المرور للوصول إلى حسابك</p>
+      <p>أدخل رقم جوالك، وسيصلك رمز تحقق للدخول إلى حسابك.</p>
 
       <div class="login-form">
         <div class="login-field">
           <label for="phone">رقم الجوال</label>
-          <input id="phone" placeholder="05xxxxxxxx">
+          <input id="phone" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx">
         </div>
 
-        <div class="login-field">
-          <label for="password">كلمة المرور</label>
-          <div class="login-password-wrap">
-            <input id="password" type="password" placeholder="اكتب كلمة المرور">
-            <button type="button" id="togglePasswordBtn" aria-label="إظهار أو إخفاء كلمة المرور">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
+        <button id="sendCodeBtn" class="login-submit-btn" type="button">
+          إرسال رمز التحقق
+        </button>
+
+        <div class="login-otp-panel" id="otpPanel" hidden>
+          <div class="login-field">
+            <label for="phoneCode">رمز التحقق</label>
+            <input
+              id="phoneCode"
+              type="text"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="6"
+              dir="ltr"
+              placeholder="اكتب الرمز"
+            >
           </div>
+
+          <div class="login-helper-box">
+            أدخل رمز التحقق المرسل إلى جوالك. قد تصلك رسالة التحقق من cloudOTP.
+          </div>
+
+          <button id="verifyCodeBtn" class="login-submit-btn login-secondary-btn" type="button" hidden>
+            تحقق
+          </button>
+
+          <button id="resendCodeBtn" class="login-resend-btn" type="button">
+            إعادة إرسال الرمز
+          </button>
         </div>
 
-        <div class="login-helper-box">
-          استخدم نفس رقم الجوال الذي سجلت به الطلب.
+        <div class="login-result" id="loginResult" hidden></div>
+
+        <div class="login-loading" id="loginLoading" hidden>
+          <span class="login-loading-spinner" aria-hidden="true"></span>
+          <span id="loginLoadingText">جاري التحقق...</span>
         </div>
 
-        <button id="loginBtn" class="login-submit-btn" type="button">دخول</button>
+        <div id="recaptcha-container"></div>
       </div>
 
       <div class="login-link">
-        ليس لديك حساب؟ <a href="request.html">إنشاء حساب</a>
+        ليس لديك طلب؟ <a href="request.html">ابدأ طلبًا جديدًا</a>
       </div>
 
       <div class="login-quick-links">
         <a href="index.html">العودة للرئيسية</a>
-        <a href="request.html">ابدأ طلبًا جديدًا</a>
+        <a href="request.html">تسجيل طلب جديد</a>
       </div>
     </div>
+
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getAuth,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const app = initializeApp({
-  apiKey:"AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
-  authDomain:"site-orders-415e4.firebaseapp.com",
-  projectId:"site-orders-415e4"
+  apiKey: "AIzaSyAxshsDZ4yWv6TuinFTx1qMComAJYhqUZI",
+  authDomain: "site-orders-415e4.firebaseapp.com",
+  projectId: "site-orders-415e4"
 });
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-const loginBtn = document.getElementById("loginBtn");
-const phoneInput = document.getElementById("phone");
-const passwordInput = document.getElementById("password");
-const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+auth.languageCode = "ar";
 
-togglePasswordBtn.addEventListener("click", ()=>{
-  passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+const authPersistenceReady = setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Persistence error:", error);
 });
 
-loginBtn.onclick = async ()=>{
+const phoneInput = document.getElementById("phone");
+const phoneCodeInput = document.getElementById("phoneCode");
+const sendCodeBtn = document.getElementById("sendCodeBtn");
+const resendCodeBtn = document.getElementById("resendCodeBtn");
+const verifyCodeBtn = document.getElementById("verifyCodeBtn");
+const otpPanel = document.getElementById("otpPanel");
+const loginResult = document.getElementById("loginResult");
+const loginLoading = document.getElementById("loginLoading");
+const loginLoadingText = document.getElementById("loginLoadingText");
 
-  loginBtn.innerText = "جاري الدخول...";
-  loginBtn.disabled = true;
+let recaptchaVerifier = null;
+let confirmationResult = null;
+let resendCooldownTimer = null;
+let isSendingCode = false;
+let isVerifyingCode = false;
 
-  try{
-    const phone = phoneInput.value.trim();
-    const password = passwordInput.value;
+function normalizePhoneInput(value) {
+  let digits = String(value || "")
+    .trim()
+    .replace(/[٠-٩]/g, (d) => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)])
+    .replace(/[۰-۹]/g, (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)])
+    .replace(/\D/g, "");
 
-    if(!/^\d{10}$/.test(phone)){
-      throw "رقم الجوال غير صحيح";
+  if (digits.startsWith("009665")) {
+    digits = "0" + digits.slice(5);
+  } else if (digits.startsWith("9665")) {
+    digits = "0" + digits.slice(3);
+  } else if (digits.startsWith("5") && digits.length === 9) {
+    digits = "0" + digits;
+  }
+
+  return digits;
+}
+
+function toSaudiE164(phone) {
+  const normalized = normalizePhoneInput(phone);
+
+  if (!/^05\d{8}$/.test(normalized)) {
+    return "";
+  }
+
+  return "+966" + normalized.slice(1);
+}
+
+function normalizeVerificationCode(value) {
+  return String(value || "")
+    .replace(/[٠-٩]/g, (d) => "0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)])
+    .replace(/[۰-۹]/g, (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)])
+    .replace(/\D/g, "")
+    .slice(0, 6);
+}
+
+function setResult(type, message) {
+  if (!loginResult) return;
+
+  loginResult.hidden = false;
+  loginResult.textContent = message;
+  loginResult.classList.remove("is-success", "is-error", "is-loading");
+
+  if (type === "success") {
+    loginResult.classList.add("is-success");
+  } else if (type === "loading") {
+    loginResult.classList.add("is-loading");
+  } else {
+    loginResult.classList.add("is-error");
+  }
+}
+
+function clearResult() {
+  if (!loginResult) return;
+
+  loginResult.hidden = true;
+  loginResult.textContent = "";
+  loginResult.classList.remove("is-success", "is-error", "is-loading");
+}
+
+function setLoading(show, message = "جاري التحقق...") {
+  if (!loginLoading) return;
+
+  loginLoading.hidden = !show;
+
+  if (loginLoadingText) {
+    loginLoadingText.textContent = message;
+  }
+}
+
+function getPhoneErrorMessage(error) {
+  const code = error && error.code ? error.code : "";
+
+  if (code === "auth/invalid-phone-number") {
+    return "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx";
+  }
+
+  if (code === "auth/too-many-requests") {
+    return "تم إرسال محاولات كثيرة. حاول لاحقًا.";
+  }
+
+  if (code === "auth/invalid-verification-code") {
+    return "رمز التحقق غير صحيح.";
+  }
+
+  if (code === "auth/code-expired") {
+    return "انتهت صلاحية رمز التحقق. أرسل رمزًا جديدًا.";
+  }
+
+  if (code === "auth/captcha-check-failed") {
+    return "فشل التحقق الأمني. حدّث الصفحة وحاول مرة أخرى.";
+  }
+
+  return "تعذر إتمام التحقق حاليًا. حاول مرة أخرى.";
+}
+
+function initRecaptchaVerifier() {
+  if (recaptchaVerifier) {
+    return recaptchaVerifier;
+  }
+
+  recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "invisible",
+    callback: () => {},
+    "expired-callback": () => {
+      if (recaptchaVerifier) {
+        recaptchaVerifier.clear();
+        recaptchaVerifier = null;
+      }
+    }
+  });
+
+  return recaptchaVerifier;
+}
+
+function startResendCooldown(seconds = 60) {
+  if (!resendCodeBtn) return;
+
+  clearInterval(resendCooldownTimer);
+
+  let remaining = seconds;
+  resendCodeBtn.disabled = true;
+  resendCodeBtn.textContent = `إعادة الإرسال خلال ${remaining}`;
+
+  resendCooldownTimer = setInterval(() => {
+    remaining -= 1;
+
+    if (remaining <= 0) {
+      clearInterval(resendCooldownTimer);
+      resendCooldownTimer = null;
+      resendCodeBtn.disabled = false;
+      resendCodeBtn.textContent = "إعادة إرسال الرمز";
+      return;
     }
 
-    if(password.length < 6){
-      throw "كلمة المرور غير صحيحة";
+    resendCodeBtn.textContent = `إعادة الإرسال خلال ${remaining}`;
+  }, 1000);
+}
+
+async function sendLoginCode() {
+  if (isSendingCode) return;
+
+  const phone = normalizePhoneInput(phoneInput.value);
+  const phoneE164 = toSaudiE164(phone);
+
+  clearResult();
+  setLoading(false);
+
+  if (!phoneE164) {
+    setResult("error", "رقم الجوال غير صحيح. اكتب الرقم بصيغة 05xxxxxxxx");
+    return;
+  }
+
+  isSendingCode = true;
+  sendCodeBtn.disabled = true;
+  sendCodeBtn.textContent = "جاري الإرسال...";
+  setLoading(true, "جاري إرسال رمز التحقق...");
+
+  try {
+    await authPersistenceReady;
+
+    const appVerifier = initRecaptchaVerifier();
+    confirmationResult = await signInWithPhoneNumber(auth, phoneE164, appVerifier);
+
+    otpPanel.hidden = false;
+    setResult("success", "تم إرسال رمز التحقق. أدخل الرمز للدخول.");
+    setLoading(false);
+
+    if (phoneCodeInput) {
+      phoneCodeInput.value = "";
+      setTimeout(() => phoneCodeInput.focus(), 250);
     }
 
-    const email = phone + "@user.com";
+    startResendCooldown(60);
 
-    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    if (recaptchaVerifier) {
+      recaptchaVerifier.clear();
+      recaptchaVerifier = null;
+    }
 
+    setLoading(false);
+    setResult("error", getPhoneErrorMessage(error));
+
+  } finally {
+    isSendingCode = false;
+    sendCodeBtn.disabled = false;
+    sendCodeBtn.textContent = "إرسال رمز التحقق";
+  }
+}
+
+async function hasExistingRequest(uid) {
+  const orderRef = doc(db, "orders", uid);
+  const subRef = doc(db, "subscriptions", uid);
+
+  const [orderSnap, subSnap] = await Promise.all([
+    getDoc(orderRef),
+    getDoc(subRef)
+  ]);
+
+  return orderSnap.exists() || subSnap.exists();
+}
+
+async function verifyLoginCode() {
+  if (isVerifyingCode) return;
+
+  const code = normalizeVerificationCode(phoneCodeInput.value);
+
+  if (!confirmationResult) {
+    setResult("error", "أرسل رمز التحقق أولًا.");
+    return;
+  }
+
+  if (!/^\d{6}$/.test(code)) {
+    return;
+  }
+
+  isVerifyingCode = true;
+  setResult("loading", "جاري التحقق من الرمز...");
+  setLoading(true, "جاري التحقق من حسابك...");
+
+  try {
+    await authPersistenceReady;
+
+    const credential = await confirmationResult.confirm(code);
+    const user = credential.user;
+
+    setResult("success", "✓ تم التحقق من رقم الجوال");
+    setLoading(true, "جاري فحص طلبك...");
+
+    const hasRequest = await hasExistingRequest(user.uid);
+
+    if (!hasRequest) {
+      setLoading(false);
+      setResult(
+        "error",
+        "لا يوجد طلب مرتبط بهذا الرقم. يرجى تسجيل طلب أولًا لتتمكن من الدخول."
+      );
+      return;
+    }
+
+    setLoading(true, "تم العثور على طلبك، جاري تحويلك...");
     window.location.href = "account.html";
 
-  }catch(e){
-    alert(e.message || e);
-  }finally{
-    loginBtn.innerText = "دخول";
-    loginBtn.disabled = false;
+  } catch (error) {
+    setLoading(false);
+    setResult("error", getPhoneErrorMessage(error));
+
+  } finally {
+    isVerifyingCode = false;
   }
-};
+}
+
+if (sendCodeBtn) {
+  sendCodeBtn.addEventListener("click", sendLoginCode);
+}
+
+if (resendCodeBtn) {
+  resendCodeBtn.addEventListener("click", sendLoginCode);
+}
+
+if (verifyCodeBtn) {
+  verifyCodeBtn.addEventListener("click", verifyLoginCode);
+}
+
+if (phoneInput) {
+  phoneInput.addEventListener("input", () => {
+    clearResult();
+    setLoading(false);
+  });
+}
+
+if (phoneCodeInput) {
+  phoneCodeInput.addEventListener("input", () => {
+    const normalizedCode = normalizeVerificationCode(phoneCodeInput.value);
+
+    if (normalizedCode.length === 6) {
+      phoneCodeInput.value = normalizedCode;
+      verifyLoginCode();
+    }
+  });
+
+  phoneCodeInput.addEventListener("blur", () => {
+    phoneCodeInput.value = normalizeVerificationCode(phoneCodeInput.value);
+  });
+}
 </script>
 
 </body>
