@@ -259,6 +259,10 @@ function normalizeVerificationCode(value) {
     .slice(0, 6);
 }
 
+function getLoginIndexId(phoneE164) {
+  return String(phoneE164 || "").replace(/^\+/, "");
+}
+
 function isValidDomain(domain) {
   return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain);
 }
@@ -1057,6 +1061,10 @@ async function submitRequest() {
     const orderRef = doc(db, "orders", user.uid);
     const orderSnap = await getDoc(orderRef);
 
+    if (orderSnap.exists()) {
+      throw "لديك طلب سابق برقم الجوال هذا، يرجى تسجيل الدخول لمتابعة طلبك.";
+    }
+
     const orderData = {
       name: data.name,
       activityName: data.activityName,
@@ -1079,17 +1087,10 @@ async function submitRequest() {
       domainAvailable: data.domainInfo.domainAvailable
     };
 
-    if (!orderSnap.exists()) {
-      await setDoc(orderRef, {
-        ...orderData,
-        createdAt: serverTimestamp()
-      });
-    } else {
-      await setDoc(orderRef, {
-        ...orderData,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-    }
+    await setDoc(orderRef, {
+      ...orderData,
+      createdAt: serverTimestamp()
+    });
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
@@ -1148,6 +1149,17 @@ async function submitRequest() {
     } else {
       await setDoc(subRef, subscriptionData, { merge: true });
     }
+
+    const loginIndexRef = doc(db, "loginIndex", getLoginIndexId(data.phoneE164));
+
+    await setDoc(loginIndexRef, {
+      hasRequest: true,
+      userId: user.uid,
+      phone: data.phone,
+      phoneE164: data.phoneE164,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    }, { merge: true });
 
     setFinalLoading(true, "تم تسجيل طلبك بنجاح، جاري تحويلك...");
 
