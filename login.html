@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/login.css?v=phone-login-2">
+  <link rel="stylesheet" href="assets/login.css?v=phone-login-3">
 </head>
 
 <body>
@@ -110,11 +110,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
-  collection,
-  query,
-  where,
-  limit,
-  getDocs
+  doc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const app = initializeApp({
@@ -175,6 +172,10 @@ function toSaudiE164(phone) {
   }
 
   return "+966" + normalized.slice(1);
+}
+
+function getLoginIndexId(phoneE164) {
+  return String(phoneE164 || "").replace(/^\+/, "");
 }
 
 function normalizeVerificationCode(value) {
@@ -299,24 +300,16 @@ function startResendCooldown(seconds = 60) {
 }
 
 async function hasExistingRequestByPhone(phoneE164) {
-  const ordersQuery = query(
-    collection(db, "orders"),
-    where("phoneE164", "==", phoneE164),
-    limit(1)
-  );
+  const loginIndexId = getLoginIndexId(phoneE164);
+  const loginIndexRef = doc(db, "loginIndex", loginIndexId);
+  const loginIndexSnap = await getDoc(loginIndexRef);
 
-  const subscriptionsQuery = query(
-    collection(db, "subscriptions"),
-    where("phoneE164", "==", phoneE164),
-    limit(1)
-  );
+  if (!loginIndexSnap.exists()) {
+    return false;
+  }
 
-  const [ordersSnap, subscriptionsSnap] = await Promise.all([
-    getDocs(ordersQuery),
-    getDocs(subscriptionsQuery)
-  ]);
-
-  return !ordersSnap.empty || !subscriptionsSnap.empty;
+  const data = loginIndexSnap.data() || {};
+  return data.hasRequest === true;
 }
 
 async function sendLoginCode() {
